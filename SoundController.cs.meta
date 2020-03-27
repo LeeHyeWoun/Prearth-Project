@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 713b15427cc477d49a838807a432f393
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - s_bgm: {instanceID: 0}
+  - s_effect: {instanceID: 0}
+  - bgm_game: {fileID: 8300000, guid: 97ff7eaa34e62854aba26c32b5c0ac32, type: 3}
+  - bgm_main: {fileID: 8300000, guid: 3e84189387202574bb6bff206aca430b, type: 3}
+  - effect_no: {fileID: 8300000, guid: 7f3388a3d00e5944f9de739ae2944e72, type: 3}
+  - effect_ok: {fileID: 8300000, guid: e13490ccb2573ed44b0b18279ff36624, type: 3}
+  - effect_select: {fileID: 8300000, guid: 89fce93c174088446a1a4e24b22f9c0e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

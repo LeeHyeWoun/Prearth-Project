@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bc6957a36ea7b0e40ab71e4cb553b944
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Player_BGM: {instanceID: 0}
+  - Player_effect: {instanceID: 0}
+  - Soundfile_no: {fileID: 8300000, guid: 7f3388a3d00e5944f9de739ae2944e72, type: 3}
+  - Soundfile_ok: {fileID: 8300000, guid: e13490ccb2573ed44b0b18279ff36624, type: 3}
+  - Soundfile_select: {fileID: 8300000, guid: 89fce93c174088446a1a4e24b22f9c0e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

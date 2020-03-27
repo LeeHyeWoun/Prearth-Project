@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 2797afc5bf4cb04419b76d7508c37319
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - order_effect: {instanceID: 0}
+  - order_RI: {instanceID: 0}
+  - order_T: {instanceID: 0}
+  - Blur: {instanceID: 0}
+  - Dialog: {instanceID: 0}
+  - ChatTxt: {instanceID: 0}
+  - character_img: {instanceID: 0}
+  - character_name: {instanceID: 0}
+  - img_jullian: {fileID: 2800000, guid: 93f6249a6539c44458877115ac171534, type: 3}
+  - img_alien: {fileID: 2800000, guid: 521b3ace8e38b304797b12296b896b45, type: 3}
+  - name_j: {fileID: 2800000, guid: 3578ffa81681a604e883a6ff2ffd5d51, type: 3}
+  - name_a: {fileID: 2800000, guid: c4afd478dc6e591469ea717bef16cf24, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
