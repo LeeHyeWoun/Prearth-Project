@@ -175,7 +175,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     }
 
     //쓰레기통 선택 이벤트...드래그
-    public void Select_Trash() {
+    //I_DragManager.cs의 OnEndDrag 위치에서 사용
+    public void Select_Trash(string ui) {
         string str_target="";
 
         if(target != null)
@@ -187,43 +188,65 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             str_target = target.name;
             if (str_target != str_preTarget) {
                 int num = -1;
-                Button clueBox;
                 switch (str_target)
                 {
                     case "trash1_2":
-                        if (angle_trash[0] > 0) {
-                        }
-                        num = 0;
+                        if (angle_trash[0] > 0)
+                            num = 0;
                         break;
                     case "trash2_2":
                         if (angle_trash[1] > 0)
-                        {
-                        }
-                        num = 1;
+                            num = 1;
                         break;
                     case "trash3_2":
                         if (angle_trash[2] > 0)
-                        {
-                        }
-                        num = 2;
+                            num = 2;
                         break;
                     case "trash4_2":
                         if (angle_trash[3] > 0)
-                        {
-                        }
-                        num = 3;
+                            num = 3;
                         break;
 
                     default:
                         SC.Play_effect(2);  //적절하지 않다는 효과음 내기
                         break;
                 }
-                //이벤트 적용
-                if (num > -1 && ) {
-                    SC.Play_effect(1);  //적절하다는 효과음 내기
-                    print(num + "성공");
+                print(str_target+" / "+num);
+
+                //이벤트
+                bool success = false;
+                switch (ui)
+                {
+
+                    case "B_Clue_1":
+                        if (num == 0)
+                            success = true;
+                        break;
+
+                    case "B_Clue_2":
+                        if (num == 0)
+                            success = true;
+                        break;
+
+                    case "B_Clue_3":
+                        if (num == 0)
+                            success = true;
+                        break;
+
+                    case "B_Clue_4":
+                        if (num == 0)
+                            success = true;
+                        break;
+
                 }
-                //이벤트 미적용
+
+                //이벤트 적용 안내
+                if (success)
+                {
+                    SC.Play_effect(1);  //적절하다는 효과음 내기
+                    RI_blank.SetActive(true);
+                }
+                //이벤트 미적용 안내
                 else
                     SC.Play_effect(2);  //적절하지 않다는 효과음 내기
 

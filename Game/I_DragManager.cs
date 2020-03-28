@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /**
  * Date     : 2019.12.08
@@ -22,7 +22,8 @@ public class I_DragManager : RaycastManager,
     //변수
     Vector3 defaultposition;
     readonly WaitForEndOfFrame wait = new WaitForEndOfFrame();
-    
+    bool isInteractable = false;
+
     //상수
     const float plane_distance=12f;
 
@@ -46,7 +47,8 @@ public class I_DragManager : RaycastManager,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (GetPlay())
+        isInteractable = GetComponent<Button>().interactable;
+        if (GetPlay()&& isInteractable)
         {
             SetPlays(false);
             transform.localScale = transform.localScale * 1.2f;
@@ -60,7 +62,7 @@ public class I_DragManager : RaycastManager,
      */
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (GetPlay())
+        if (GetPlay()&& isInteractable)
         {
             defaultposition = transform.position;
         }
@@ -68,7 +70,7 @@ public class I_DragManager : RaycastManager,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (GetPlay())
+        if (GetPlay()&& isInteractable)
         {
             var screenPoint = new Vector3(eventData.position.x, eventData.position.y, plane_distance);
             transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
@@ -77,11 +79,11 @@ public class I_DragManager : RaycastManager,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (GetPlay())
+        if (GetPlay()&& isInteractable)
         {
-            OM.Select_Trash();
-
-            //OM.Pick_Trash();
+            string name = gameObject.name;
+            if (name.Substring(2, 4) == "Clue")
+                OM.Select_Trash(name);
 
             //놓는 위치에서 움찔 효과를 주기 위해 살짝 커지게 하기
             transform.localScale = transform.localScale * 1.1f;
@@ -105,7 +107,7 @@ public class I_DragManager : RaycastManager,
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (GetPlay())
+        if (GetPlay()&& isInteractable)
         {
             transform.localScale = transform.localScale / 1.2f;
         }
