@@ -51,4 +51,13 @@ public class RaycastManager : MonoBehaviour {
         return target;
 
     }
+
+    //클릭한 UI 이름 반환
+    protected string GetClickUI() {
+        Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Ray2D ray = new Ray2D(touchPosition, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        return hit.collider.name;
+    }
 }
