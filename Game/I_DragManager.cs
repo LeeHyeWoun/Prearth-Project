@@ -81,13 +81,18 @@ public class I_DragManager : RaycastManager,
     {
         if (GetPlay()&& isInteractable)
         {
-            string name = gameObject.name;
-            if (name.Substring(2, 4) == "Clue")
-                OM.Select_Trash(name);
-
             //놓는 위치에서 움찔 효과를 주기 위해 살짝 커지게 하기
             transform.localScale = transform.localScale * 1.1f;
             StartCoroutine(ItemReturn());
+
+            string name = gameObject.name;
+            if (name.Length > 5 && name.Substring(2, 4) == "Clue")
+                OM.Select_Trash(name);
+            else if (name.Equals("B_Vinyl") || name.Equals("B_Pet"))
+                OM.DragDrop_Clue(name);
+            else if (name.Equals("B_item2"))
+                OM.Item_knife();
+
         }
     }
 
