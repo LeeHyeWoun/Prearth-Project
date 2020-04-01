@@ -43,6 +43,7 @@ public class ClearManager : MonoBehaviour {
 
     void ending() {
         //게임 마무리 대사
-        gamedirector.GetComponent<DialogManager>().Dialog_Start("11_clear", null);
+        gamedirector.GetComponent<DialogManager>().Dialog_Start("11_clear", "end");
     }
+
 }
