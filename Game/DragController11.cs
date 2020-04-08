@@ -13,7 +13,7 @@ using UnityEngine.UI;
  *  Applied Location :
  *  -> item1,item2,item3, clue1, clue2, clue3
  */
-public class I_DragManager : RaycastManager, 
+public class DragController11 : RaycastManager, 
     IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler
 {
     //할당 받을 객체들
