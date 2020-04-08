@@ -47,7 +47,11 @@ public class DvpToolController : MonoBehaviour {
     //적용하기
     public void Apply()
     {
-        PlayerPrefs.SetInt(tmp_Stage, int.Parse(input1.text));
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (input1.text.Equals("100"))
+            GetComponent<SceneController>().Go(0);
+        else {
+            PlayerPrefs.SetInt(tmp_Stage, int.Parse(input1.text));
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

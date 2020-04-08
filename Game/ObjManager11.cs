@@ -17,27 +17,28 @@ using System.Linq;
 public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManager을 상속할 것
 {
     public GameObject
-        RI_blank,
+        blank, blank_RI, B_Pet, B_Vinyl,
         clue1, clue2, clue3,                                //단서
         fridge_L, fridge_R,                                 //냉장고 문
         trash1_body, trash2_body, trash3_body, trash4_body, //쓰레기 통
         trash1_lid, trash2_lid, trash3_lid, trash4_lid;     //쓰레기 뚜껑
     public ParticleSystem eff_clue1, eff_clue2, eff_clue3;  //단서버튼의 이펙트 효과
     public Button clueBox1, clueBox2, clueBox3;             //clue 박스
-    public Sprite clue_full;
+    public Sprite clue_full, clue_clear;
+    public Texture blank_pat, blank_icepack;
 
     //변수
     int[] angle_fridge = new int[2] { 0, 0 };               //냉장고 문 열림 정도
     int[] angle_trash = new int[4] { 0, 0, 0, 0 };          //쓰레기통 뚜껑 문 열림 정도
+    bool[] clear_clue = new bool[3] { false, false, false };//단서 클리어 정도
     GameObject[] trash_lids = new GameObject[4];
     Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
-    string str_preTarget = "";
-
+    IEnumerator trash_corotine;
 
     //커스텀 클래스 인스턴스
     SoundController SC;
     DialogManager DM;
-    ClearManager CM;
+    //ClearManager CM;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Start()
@@ -49,7 +50,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
 
         SC = GetComponent<SoundController>();
         DM = GetComponent<DialogManager>();
-        CM = GetComponent<ClearManager>();
+        //CM = GetComponent<ClearManager>();
     }
     void Update()
     {
@@ -145,10 +146,10 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         //모든 단서를 찾았다면
         if (clueBox1.interactable && clueBox2.interactable && clueBox3.interactable)
         {
-            //쓰레기통 뚜껑 모두 열기
+            //쓰레기통 뚜껑 모두 닫기
             for (int i = 0; i < 4; i++)
             {
-                StartCoroutine(Open_Trash(i));
+                StartCoroutine(Close_Trash(i));
             }
             //다음 명령 내리기
             Invoke("Success", 3f);
@@ -169,110 +170,178 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     void Motion_Trash(int num)
     {
         if (angle_trash[num] <= 0)          //열기
-            StartCoroutine(Open_Trash(num));
+        {
+            trash_corotine = Open_Trash(num);
+            StartCoroutine(trash_corotine);
+        }
         else if (angle_trash[num] >= 100)   //닫기
             StartCoroutine(Close_Trash(num));
     }
 
     //쓰레기통 선택 이벤트...드래그
     //I_DragManager.cs의 OnEndDrag 위치에서 사용
-    public void Select_Trash(string ui) {
-        string str_target="";
-
-        if(target != null)
-            str_preTarget = target.name;
+    public void Select_Trash(string clue_name) {
 
         target = GetClickedObject();
         if (target != null)
         {
-            str_target = target.name;
-            if (str_target != str_preTarget) {
-                int num = -1;
-                switch (str_target)
-                {
-                    case "trash1_2":
-                        if (angle_trash[0] > 0)
-                            num = 0;
-                        break;
-                    case "trash2_2":
-                        if (angle_trash[1] > 0)
-                            num = 1;
-                        break;
-                    case "trash3_2":
-                        if (angle_trash[2] > 0)
-                            num = 2;
-                        break;
-                    case "trash4_2":
-                        if (angle_trash[3] > 0)
-                            num = 3;
-                        break;
+            int num = -1;
+            SetTrash_Number(target.name, ref num);
+            //print(target.name + " / " + num);
 
-                    default:
-                        SC.Play_effect(2);  //적절하지 않다는 효과음 내기
-                        break;
-                }
-                print(str_target+" / "+num);
-
-                //이벤트
-                bool success = false;
-                switch (ui)
-                {
-
-                    case "B_Clue_1":
-                        if (num == 0)
-                            success = true;
-                        break;
-
-                    case "B_Clue_2":
-                        if (num == 0)
-                            success = true;
-                        break;
-
-                    case "B_Clue_3":
-                        if (num == 0)
-                            success = true;
-                        break;
-
-                    case "B_Clue_4":
-                        if (num == 0)
-                            success = true;
-                        break;
-
-                }
-
-                //이벤트 적용 안내
-                if (success)
-                {
-                    SC.Play_effect(1);  //적절하다는 효과음 내기
-                    RI_blank.SetActive(true);
-                }
-                //이벤트 미적용 안내
-                else
-                    SC.Play_effect(2);  //적절하지 않다는 효과음 내기
-
+            if (Match_Clue_to_Trash(clue_name, num))
+            {
+                SC.Play_effect(1);  //적절하다는 효과음 내기
             }
+            else
+                SC.Play_effect(2);  //적절하지 않다는 효과음 내기
         }
     }
 
-    //쓰레기통 선택 이벤트...드래그
-    public void Pick_Trash() {
+    //쓰레기통 번호 매기기
+    void SetTrash_Number(string target_name, ref int num) {
+        switch (target_name)
+        {
+            case "trash1_2":
+                if (angle_trash[0] > 0)
+                    num = 0;
+                break;
+            case "trash2_2":
+                if (angle_trash[1] > 0)
+                    num = 1;
+                break;
+            case "trash3_2":
+                if (angle_trash[2] > 0)
+                    num = 2;
+                break;
+            case "trash4_2":
+                if (angle_trash[3] > 0)
+                    num = 3;
+                break;
+
+            default:
+                SC.Play_effect(2);  //적절하지 않다는 효과음 내기
+                break;
+        }
+    }
+
+    //적절한 단서와 쓰레기통이 매치되었는지 확인
+    bool Match_Clue_to_Trash(string clue_name, int trash_num)
+    {
+        bool success = false;
+        switch (clue_name)
+        {
+
+            case "B_Clue_1":    //페트병
+                //재활용 쓰레기통
+                if (trash_num == 0)
+                {   
+                    success = true;
+                    clueBox1.GetComponent<Image>().sprite = clue_full;
+
+                    blank_RI.GetComponent<RawImage>().texture = blank_pat;
+                    blank.SetActive(true);
+                    DM.Dialog_Start("11_Play2_1", "비닐과 플라스틱을 분리해주세요.");
+                }
+                break;
+
+            case "B_Clue_2":    //닭뼈
+                //일반 쓰레기통
+                if (trash_num == 1)
+                {
+                    success = true;
+                    Clear_clue(2);
+                }
+                //음식물 쓰레기통
+                else if (trash_num == 3)
+                    DM.Dialog_Start("11_Play2_2", null);
+
+                break;
+
+            case "B_Clue_3":    //아이스팩
+                //비닐 쓰레기통
+                if (trash_num == 2)
+                {
+                    success = true;
+                    clueBox3.GetComponent<Image>().sprite = clue_full;
+                    blank_RI.GetComponent<RawImage>().texture = blank_icepack;
+                    blank.SetActive(true);
+                    DM.Dialog_Start("11_Play2_3", "내용물과 비닐을 분리해주세요.");
+                }
+                break;
+
+        }
+        return success;
+    }
+
+    public void DragDrop_Clue(string name) {
+        target = GetClickedObject();
         if (target != null)
         {
-            if (target.Equals(trash1_body) && gameObject.name.Equals("B_Clue_1"))
-            {
-                gameObject.GetComponent<Image>().sprite = clue_full;
-                RI_blank.SetActive(true);
-                //적절하다는 효과음 내기
-                SC.Play_effect(1);
+            string target_name = target.name;
+            bool success = false;
+            switch (name) {
+                case "B_Pet":       //페트병 - 재활용 쓰레기통
+                    if (target_name.Equals("trash1_2")) {
+                        success = true;
+                        B_Pet.SetActive(false);
+                    }
+                    break;
+
+                case "B_Vinyl":     //비닐 - 비닐 쓰레기통
+                    if (target_name.Equals("trash3_2")){
+                        success = true;
+                        B_Vinyl.SetActive(false);
+                    }
+                    break;
             }
+            if(success)
+                SC.Play_effect(1);
             else
-                //적절하지 않다는 효과음 내기
                 SC.Play_effect(2);
         }
         else
-            //적절하지 않다는 효과음 내기
             SC.Play_effect(2);
     }
+    public void Item_knife() {
+        string name = GetClickUI();
+        if (name != null && name.Equals("RI_Blank"))
+        {
+            blank.SetActive(false);
+            B_Vinyl.SetActive(true);
+            B_Pet.SetActive(true);
+            GetComponent<SettingController_game>().ItemBox();
+        }
+    }
+
+    public void Clear_clue(int num) {
+        Button clueBox = null;
+        switch (num) {
+            case 1:
+                clueBox = clueBox1;
+                break;
+            case 2:
+                clueBox = clueBox2;
+                break;
+            case 3:
+                clueBox = clueBox3;
+                break;
+        }
+        if (clueBox != null) {
+            clear_clue[num - 1] = true;
+            clueBox.GetComponent<Image>().sprite = clue_clear;
+        }
+
+        if (clear_clue[0] && clear_clue[1] && clear_clue[2])
+            Invoke("Ending", 3f);
+    }
+
+    void Ending()
+    {
+        //게임 마무리 대사
+        DM.Dialog_Start("11_clear", "end");
+    }
+
 
     //루틴+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //냉장고 열기
@@ -319,6 +388,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     }
                     //나머지 뚜껑은 닫기
                     else if (angle_trash[i] > 0) {
+                        StopCoroutine(trash_corotine);
                         trash_lids[i].transform.Rotate(vec, -4);
                         angle_trash[i] -= 4;
                     }

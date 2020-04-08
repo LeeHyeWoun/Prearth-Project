@@ -22,7 +22,6 @@ public class SoundController : MonoBehaviour
     private GameObject GO;
     private float value_effect = 1f;
     private float value_bgm = 1f;
-    private bool start = false;
 
     //초기화
     void Start()
@@ -48,7 +47,7 @@ public class SoundController : MonoBehaviour
             effect.volume = value_effect;
         }
         else
-            print("SoundManager 없음\n소리 설정을 원한다면 '01_Main'으로 가주세요.");
+            print("SoundManager 없음\n소리 설정을 원한다면 '00_Tutorial'로 가주세요.");
     }
 
     //배경음악 설정

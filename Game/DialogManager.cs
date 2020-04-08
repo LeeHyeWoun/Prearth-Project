@@ -47,7 +47,6 @@ public class DialogManager : MonoBehaviour {
     readonly WaitForSeconds LongTerm = new WaitForSeconds(0.8f);
     readonly WaitForSeconds speakingTerm = new WaitForSeconds(0.1f);
     readonly WaitForSeconds orderTerm = new WaitForSeconds(3f);
-    readonly WaitForSeconds fadeTerm = new WaitForSeconds(0.02f);
 
     void Start()
     {
@@ -69,12 +68,18 @@ public class DialogManager : MonoBehaviour {
     public void Dialog_Start(string file, string order) {
         print("Dialog <" + file + ">");
         current = routine_Dialog(file);
-        if (order != null)
-            next = routine_Order(order);
-        else {
-            next = routine_ending();
-            isEnd = true;
+        if (order != null) {
+            if (order.Equals("end"))
+            {
+                next = routine_ending();
+                isEnd = true;
+            }
+            else
+                next = routine_Order(order);
         }
+        else
+            next = null;
+
         StartCoroutine(current);
     }
 
@@ -232,8 +237,10 @@ public class DialogManager : MonoBehaviour {
         SetPlays(true);
 
         current = next;
-        StartCoroutine(current);
-        order_effect.Play();
+        if (next != null) {
+            StartCoroutine(current);
+            order_effect.Play();
+        }
     }
 
     IEnumerator routine_ending() {
