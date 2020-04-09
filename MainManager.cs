@@ -22,6 +22,8 @@ public class MainManager : MonoBehaviour
 
     //변수
     private int stage_num;
+    Vector2 bigSize = new Vector2(960f, 960f);
+
 
     void Start()
     {
@@ -30,15 +32,20 @@ public class MainManager : MonoBehaviour
         stage_num /= 3;
         if (stage_num >= 0)
         {
-            btn_soil.interactable = true;          // 토양행성 활성화
-
+            //토양행성은 기본적으로 활성화되어 있음
+            
+            //조건에 따라 나머지 행성들도 활성화
             if (stage_num >= 1)
             {
-                btn_water.interactable = true;      // 수질행성 활성화
+                // 수질행성 활성화
+                btn_water.interactable = true;      
+                btn_water.GetComponent<RectTransform>().sizeDelta = bigSize;
                 t_water.color = Color.white;
 
                 if (stage_num >= 2) {
-                    btn_air.interactable = true;  // 대기행성 활성화
+                    // 대기행성 활성화
+                    btn_air.interactable = true;  
+                    btn_air.GetComponent<RectTransform>().sizeDelta = bigSize;
                     t_air.color = Color.white;
                 }
             }
