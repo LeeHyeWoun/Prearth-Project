@@ -3,20 +3,19 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour {
 
-    public Sprite tutorial1, tutorial2, tutorial3, tutorial4;
-    public Image P_tutorial;
+    public Texture tutorial1, tutorial2, tutorial3, tutorial4;
+    public RawImage RI_tutorial;
     public GameObject arrow_pre, arrow_next;
 
     int count = 1;
 
     SceneController SC;
 
-    void Start() {
+    void Awake() {
         SC = GetComponent<SceneController>();
 
-        if (PlayerPrefs.GetInt("tmp_Stage") > 0)
-            Skip();
-
+        if (PlayerPrefs.GetInt("tmp_Stage", -1) > -1)
+            SC.Go(1);
     }
 
     public void Next() {
@@ -46,6 +45,7 @@ public class TutorialManager : MonoBehaviour {
 
     public void Skip()
     {
+        PlayerPrefs.SetInt("tmp_Stage", 0);
         SC.Go(1);
     }
 
@@ -53,19 +53,19 @@ public class TutorialManager : MonoBehaviour {
         switch (count)
         {
             case 1:
-                P_tutorial.sprite = tutorial1;
+                RI_tutorial.texture = tutorial1;
                 break;
 
             case 2:
-                P_tutorial.sprite = tutorial2;
+                RI_tutorial.texture = tutorial2;
                 break;
 
             case 3:
-                P_tutorial.sprite = tutorial3;
+                RI_tutorial.texture = tutorial3;
                 break;
 
             case 4:
-                P_tutorial.sprite = tutorial4;
+                RI_tutorial.texture = tutorial4;
                 break;
         }
     }
