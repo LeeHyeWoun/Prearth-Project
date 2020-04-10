@@ -14,8 +14,11 @@ using UnityEngine.UI;
 public class SoundManager : MonoBehaviour {
 
     // Audio players components.
-    public AudioSource Player_BGM;
-    public AudioSource Player_effect;
+    public AudioSource Player_BGM, Player_effect;
+    public AudioClip
+    bgm_game, bgm_main,
+    effect_no, effect_ok, effect_select;
+
 
     // Singleton instance.
     public static SoundManager Instance = null;
@@ -28,5 +31,11 @@ public class SoundManager : MonoBehaviour {
         else if (Instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
+    }
+
+    //소리값 초기화
+    void Start() {
+        Player_BGM.volume = PlayerPrefs.GetFloat("bgm", 0.5f);
+        Player_effect.volume = PlayerPrefs.GetFloat("effect", 1f);
     }
 }

@@ -13,13 +13,15 @@ using UnityEngine.UI;
  */
 public class SoundController : MonoBehaviour
 {
+    //객체 할당
     public Slider s_bgm, s_effect;
-    public AudioClip
-        bgm_game, bgm_main, 
-        effect_no, effect_ok, effect_select;
 
     private AudioSource bgm, effect;
+    private AudioClip
+        effect_no, effect_ok, effect_select;
     private GameObject GO;
+
+    //변수
     private float value_effect = 1f;
     private float value_bgm = 1f;
 
@@ -33,25 +35,22 @@ public class SoundController : MonoBehaviour
 
             bgm = soundManager.Player_BGM;
             effect = soundManager.Player_effect;
+            effect_no = soundManager.effect_no;
+            effect_ok = soundManager.effect_ok;
+            effect_select = soundManager.effect_select;
 
-            //저장된 값 불러오기
-            value_bgm = PlayerPrefs.GetFloat("bgm", 1f);
-            value_effect = PlayerPrefs.GetFloat("effect", 1f);
-
-            //저장된 값으로 슬라이더 설정
-            s_bgm.value = value_bgm;
-            s_effect.value = value_effect;
-
-            //환경 설정 초기화
-            bgm.volume = value_bgm;
-            effect.volume = value_effect;
+            //슬라이더 초기화
+            if (s_bgm != null || s_effect != null) {
+                s_bgm.value = bgm.volume;
+                s_effect.value = effect.volume;
+            }
         }
         else
             print("SoundManager 없음\n소리 설정을 원한다면 '00_Tutorial'로 가주세요.");
     }
 
     //배경음악 설정
-    public void setBGM()
+    public void SetBGM()
     {
         if (GO)
         {
@@ -66,7 +65,7 @@ public class SoundController : MonoBehaviour
     }
 
     //효과음 설정
-    public void setEffect()
+    public void SetEffect()
     {
         if (GO)
         {
@@ -77,18 +76,6 @@ public class SoundController : MonoBehaviour
         else {
             s_effect.value = 0;
             print("'SoundManager'가 없어 소리 설정이 불가능합니다. ");
-        }
-    }
-
-    //BGM 변경해서 Play
-    public void Play_BGM(bool gameBGM)
-    {
-        if (GO) {
-            if (gameBGM)
-                bgm.clip = bgm_game;
-            else
-                bgm.clip = bgm_main;
-            bgm.Play();
         }
     }
 
@@ -120,6 +107,27 @@ public class SoundController : MonoBehaviour
     public void SetBGM_Volum(float v) {
         bgm.volume = v;
     }
+
+    //Game 끝내고 소리 재설정
+    public void BGM_reset()
+    {
+        if (GO) {
+            BGM_chage(false);
+            bgm.volume = PlayerPrefs.GetFloat("bgm", 1f);
+        }
+    }
+
+    public void BGM_chage(bool isGame) {
+        if (GO) {
+            if (isGame)
+                bgm.clip = GO.GetComponent<SoundManager>().bgm_game;
+            else
+                bgm.clip = GO.GetComponent<SoundManager>().bgm_main;
+
+            bgm.Play();
+        }
+    }
+
 
     public bool IsSoundManager() {
         return GO;
