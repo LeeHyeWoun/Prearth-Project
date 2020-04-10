@@ -17,21 +17,23 @@ public class MainManager : MonoBehaviour
     public Button btn_soil, btn_water, btn_air;
     public Text t_water, t_air;
     public Sprite sprite_water, sprite_air;
+    public GameObject tutorial;
+
+    //커스텀 클래스 인스턴스
+    SceneController scenenCtrl;
+    SoundController SoundCtrl;
+
+    //변수
+    Vector2 bigSize = new Vector2(960f, 960f);
+    private int stage_num;
 
     //상수
     private const string tmp_Stage = "tmp_Stage";
 
-    //변수
-    private int stage_num;
-    Vector2 bigSize = new Vector2(960f, 960f);
-
-    SceneController scenenCtrl;
-    SoundController SoundCtrl;
-
 
     void Start()
     {
-        stage_num = PlayerPrefs.GetInt(tmp_Stage, 0);
+        stage_num = PlayerPrefs.GetInt(tmp_Stage);
         stage_num /= 3;
         if (stage_num >= 0)
         {
@@ -65,7 +67,11 @@ public class MainManager : MonoBehaviour
         {
             case 1:
                 SoundCtrl.Play_effect(0);
-                scenenCtrl.Go(2);
+                if (tutorial)
+                    tutorial.SetActive(true);
+                else
+                    scenenCtrl.Go(2);
+
                 break;
 
             case 2:

@@ -36,9 +36,6 @@ public class SceneController : MonoBehaviour {
     public void Go(int num) {
         string scene;
         switch (num) {
-            case 0: //08_Tutorial
-                scene = "00_Tutorial";
-                break;
             case 1: // 01_Main
                 scene = "01_Main";
                 break;

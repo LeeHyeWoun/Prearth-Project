@@ -3,54 +3,59 @@ using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour {
 
+    //할당 받을 객체
     public Texture tutorial1, tutorial2, tutorial3, tutorial4;
     public RawImage RI_tutorial;
-    public GameObject arrow_pre, arrow_next;
+    public GameObject arrow_pre, arrow_next, gameDirector;
 
-    int count = 1;
+    //커스텀 클래스 인스턴스
+    SoundController SC;
 
-    SceneController SC;
-
+    //변수
+    int page = 1;
+    int clear;
+    
     void Awake() {
-        SC = GetComponent<SceneController>();
+        clear = PlayerPrefs.GetInt("tmp_Stage", -1);
+        if (clear > -1)
+            Destroy(gameObject);
+    }
 
-        if (PlayerPrefs.GetInt("tmp_Stage", -1) > -1)
-            SC.Go(1);
+    void Start() {
+        SC = GameObject.Find("GameDirector").GetComponent<SoundController>();
     }
 
     public void Next() {
-        if (count < 4) {
-            count++;
-            ChageImage(count);
-
-            if (count == 4)
-                arrow_next.SetActive(false);
-            else if (count == 2)
-                arrow_pre.SetActive(true);
-
-        }
+        SC.Play_effect(0);
+        ChageImage(page++);
+        arrow_pre.SetActive(true);
+        arrow_next.SetActive(false);
     }
 
     public void Pre() {
-        if (count > 1) {
-            count--;
-            ChageImage(count);
-
-            if (count == 1)
-                arrow_pre.SetActive(false);
-            else if (count == 3)
-                arrow_next.SetActive(true);
-        }
+        SC.Play_effect(0);
+        ChageImage(page--);
+        arrow_pre.SetActive(false);
+        arrow_next.SetActive(true);
     }
 
     public void Skip()
     {
-        PlayerPrefs.SetInt("tmp_Stage", 0);
-        SC.Go(1);
+        SC.Play_effect(0);
+        if (page == 1)
+        {
+            page = 3;
+            gameObject.SetActive(false);
+            ChageImage(page);
+        }
+        else {
+            PlayerPrefs.SetInt("tmp_Stage", ++clear);
+            gameDirector.GetComponent<SceneController>().Go(2);
+        }
     }
 
-    void ChageImage(int count) {
-        switch (count)
+    void ChageImage(int page) {
+        switch (page)
         {
             case 1:
                 RI_tutorial.texture = tutorial1;

@@ -51,7 +51,7 @@ public class DvpToolController : MonoBehaviour {
         if (num > -1)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         else
-            GetComponent<SceneController>().Go(0);
+            GetComponent<SceneController>().Go(1);
 
     }
 }
