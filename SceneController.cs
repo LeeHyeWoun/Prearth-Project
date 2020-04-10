@@ -83,11 +83,17 @@ public class SceneController : MonoBehaviour {
                         scene += "_Air_";
                     scene += (num - 10).ToString();
 
+                    //아직 준비되지 않은 게임씬일 경우
                     if (!Application.CanStreamedLevelBeLoaded(scene)) {
                         string message = "'stage" + (num - 10).ToString() + "'는 아직 준비중입니다. (" + scene + ")";
-                        GameObject.Find("SoundManager").GetComponent<ToastManager>().ShowToast(message);
+                        GameObject GO = GameObject.Find("SoundManager");
+                        if (GO)
+                            GO.GetComponent<ToastManager>().ShowToast(message);
                         return;
                     }
+
+                    //게임용 BGM설정
+                    GetComponent<SoundController>().BGM_chage(true);
                 }
                 // 존재하지 않는 씬 에러처리
                 else {
@@ -124,6 +130,7 @@ public class SceneController : MonoBehaviour {
     }
 
     public void BackMap() {
+        StopAllCoroutines();
         int map = PlayerPrefs.GetInt("TheMapIs", 1) + 1;
         Go(map);
     }

@@ -45,7 +45,7 @@ public class DialogManager : MonoBehaviour {
     //미리 캐싱
     readonly WaitForSeconds ShortTerm = new WaitForSeconds(0.5f);
     readonly WaitForSeconds LongTerm = new WaitForSeconds(0.8f);
-    readonly WaitForSeconds speakingTerm = new WaitForSeconds(0.1f);
+    readonly WaitForSeconds speakingTerm = new WaitForSeconds(0.03f);
     readonly WaitForSeconds orderTerm = new WaitForSeconds(3f);
 
     void Start()
@@ -130,7 +130,7 @@ public class DialogManager : MonoBehaviour {
 
             yield return ShortTerm;
             yield return StartCoroutine(routine_Speaking(speak));
-            yield return ShortTerm;
+            yield return LongTerm;
 
             txt = sr.ReadLine();
         }

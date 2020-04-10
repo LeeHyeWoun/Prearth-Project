@@ -24,7 +24,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         trash1_lid, trash2_lid, trash3_lid, trash4_lid;     //쓰레기 뚜껑
     public ParticleSystem eff_clue1, eff_clue2, eff_clue3;  //단서버튼의 이펙트 효과
     public Button clueBox1, clueBox2, clueBox3;             //clue 박스
-    public Sprite clue_full, clue_clear;
+    public Sprite clue_empty, clue_clear;
     public Texture blank_pat, blank_icepack;
 
     //변수
@@ -237,7 +237,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 if (trash_num == 0)
                 {   
                     success = true;
-                    clueBox1.GetComponent<Image>().sprite = clue_full;
+                    clueBox1.GetComponent<Image>().sprite = clue_empty;
 
                     blank_RI.GetComponent<RawImage>().texture = blank_pat;
                     blank.SetActive(true);
@@ -263,7 +263,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 if (trash_num == 2)
                 {
                     success = true;
-                    clueBox3.GetComponent<Image>().sprite = clue_full;
+                    clueBox3.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_icepack;
                     blank.SetActive(true);
                     DM.Dialog_Start("11_Play2_3", "내용물과 비닐을 분리해주세요.");

@@ -4,7 +4,10 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - RI_blank: {instanceID: 0}
+  - blank: {instanceID: 0}
+  - blank_RI: {instanceID: 0}
+  - B_Pet: {instanceID: 0}
+  - B_Vinyl: {instanceID: 0}
   - clue1: {instanceID: 0}
   - clue2: {instanceID: 0}
   - clue3: {instanceID: 0}
@@ -17,14 +20,17 @@ MonoImporter:
   - trash1_lid: {instanceID: 0}
   - trash2_lid: {instanceID: 0}
   - trash3_lid: {instanceID: 0}
-  - Trash4_lid: {instanceID: 0}
+  - trash4_lid: {instanceID: 0}
   - eff_clue1: {instanceID: 0}
   - eff_clue2: {instanceID: 0}
   - eff_clue3: {instanceID: 0}
   - clueBox1: {instanceID: 0}
   - clueBox2: {instanceID: 0}
   - clueBox3: {instanceID: 0}
-  - clue_full: {fileID: 21300000, guid: 5d82f3b821c8f91458da3ce64ab61722, type: 3}
+  - clue_empty: {fileID: 21300000, guid: cf14e6e64b92453418e4b927d514d7c8, type: 3}
+  - clue_clear: {fileID: 21300000, guid: 0fba527c6361dd447b11640feef5a5d1, type: 3}
+  - blank_pat: {instanceID: 0}
+  - blank_icepack: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
