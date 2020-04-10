@@ -17,14 +17,14 @@ using UnityEngine.UI;
 public class DvpToolController : MonoBehaviour {
 
     public GameObject tool;
-    public InputField input1;
+    public Text txt_clear;
 
     private int count=0;
     private const string tmp_Stage = "tmp_Stage";
 
     private void Start()
     {
-        input1.text = PlayerPrefs.GetInt(tmp_Stage, 0).ToString();
+        txt_clear.text += PlayerPrefs.GetInt(tmp_Stage, 0).ToString();
     }
 
     //투명 버튼 3번 연속 터치시 tool 열기
@@ -45,13 +45,13 @@ public class DvpToolController : MonoBehaviour {
     void CountReset() { count = 0; }
 
     //적용하기
-    public void Apply()
+    public void Apply(int num)
     {
-        if (input1.text.Equals("100"))
-            GetComponent<SceneController>().Go(0);
-        else {
-            PlayerPrefs.SetInt(tmp_Stage, int.Parse(input1.text));
+        PlayerPrefs.SetInt(tmp_Stage, num);
+        if (num > -1)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
+        else
+            GetComponent<SceneController>().Go(0);
+
     }
 }
