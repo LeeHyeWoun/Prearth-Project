@@ -27,14 +27,14 @@ public class TutorialManager : MonoBehaviour {
 
     public void Next() {
         SC.Play_effect(0);
-        ChageImage(page++);
+        ChageImage(++page);
         arrow_pre.SetActive(true);
         arrow_next.SetActive(false);
     }
 
     public void Pre() {
         SC.Play_effect(0);
-        ChageImage(page--);
+        ChageImage(--page);
         arrow_pre.SetActive(false);
         arrow_next.SetActive(true);
     }
@@ -42,9 +42,11 @@ public class TutorialManager : MonoBehaviour {
     public void Skip()
     {
         SC.Play_effect(0);
-        if (page == 1)
+        if (page < 3)
         {
             page = 3;
+            arrow_pre.SetActive(false);
+            arrow_next.SetActive(true);
             gameObject.SetActive(false);
             ChageImage(page);
         }
