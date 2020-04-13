@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 /**
  * Date     : 2020.03.18
@@ -33,12 +32,12 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     bool[] clear_clue = new bool[3] { false, false, false };//단서 클리어 정도
     GameObject[] trash_lids = new GameObject[4];
     Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
-    IEnumerator trash_corotine;
+    IEnumerator coroutine_trash1, coroutine_trash2, coroutine_trash3, coroutine_trash4;
 
     //커스텀 클래스 인스턴스
     SoundController SC;
     DialogManager DM;
-    //ClearManager CM;
+    ClearManager CM;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Start()
@@ -50,7 +49,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
 
         SC = GetComponent<SoundController>();
         DM = GetComponent<DialogManager>();
-        //CM = GetComponent<ClearManager>();
+        CM = GetComponent<ClearManager>();
     }
     void Update()
     {
@@ -136,7 +135,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         SC.Play_effect(0);
         target.SetActive(false);
 
-        //단서 박스애 채우기 및 이펙트 효과
+        //단서 박스에 채우기 및 이펙트 효과
         clueBox.interactable = true;
         eff_clue.transform.localScale = effectScale * Camera.main.orthographicSize / 5;
         eff_clue.Play();
@@ -171,8 +170,22 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     {
         if (angle_trash[num] <= 0)          //열기
         {
-            trash_corotine = Open_Trash(num);
-            StartCoroutine(trash_corotine);
+            IEnumerator coroutine = Open_Trash(num);
+            switch (num) {  //다른 뚜껑 닫기 이벤트 시 구별을 위한 개별 코루틴 사용
+                case 0:
+                    coroutine_trash1 = coroutine;
+                    break;
+                case 1:
+                    coroutine_trash2 = coroutine;
+                    break;
+                case 2:
+                    coroutine_trash3 = coroutine;
+                    break;
+                case 3:
+                    coroutine_trash4 = coroutine;
+                    break;
+            }
+            StartCoroutine(coroutine);
         }
         else if (angle_trash[num] >= 100)   //닫기
             StartCoroutine(Close_Trash(num));
@@ -190,9 +203,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             //print(target.name + " / " + num);
 
             if (Match_Clue_to_Trash(clue_name, num))
-            {
                 SC.Play_effect(1);  //적절하다는 효과음 내기
-            }
             else
                 SC.Play_effect(2);  //적절하지 않다는 효과음 내기
         }
@@ -238,7 +249,6 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 {   
                     success = true;
                     clueBox1.GetComponent<Image>().sprite = clue_empty;
-
                     blank_RI.GetComponent<RawImage>().texture = blank_pat;
                     blank.SetActive(true);
                     DM.Dialog_Start("11_Play2_1", "비닐과 플라스틱을 분리해주세요.");
@@ -295,8 +305,12 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     }
                     break;
             }
-            if(success)
+            if (success) {
                 SC.Play_effect(1);
+                if (!B_Pet.activeSelf && !B_Vinyl.activeSelf) {
+                    CM.Clear_Clue(1);
+                }
+            }
             else
                 SC.Play_effect(2);
         }
@@ -388,7 +402,22 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     }
                     //나머지 뚜껑은 닫기
                     else if (angle_trash[i] > 0) {
-                        StopCoroutine(trash_corotine);
+                        switch (i)  //열리고 있는 뚜껑과 이벤트 충돌 방지
+                        {
+                            case 0:
+                                StopCoroutine(coroutine_trash1);
+                                break;
+                            case 1:
+                                StopCoroutine(coroutine_trash2);
+                                break;
+                            case 2:
+                                StopCoroutine(coroutine_trash3);
+                                break;
+                            case 3:
+                                StopCoroutine(coroutine_trash4);
+                                break;
+                        }
+
                         trash_lids[i].transform.Rotate(vec, -4);
                         angle_trash[i] -= 4;
                     }

@@ -27,11 +27,28 @@ public class ClearManager : MonoBehaviour {
             clue[i].GetComponent<Button>().interactable = true;
         }
         blank.SetActive(false);
-        Invoke("ending", 3f);
+        Invoke("Ending", 3f);
     }
 
-    //삭제바람
-    void ending() {
+    public void Clear_Clue(int num) {
+        GameObject clue;
+        switch (num) {
+            case 1:
+                clue = clue1;
+                break;
+            case 2:
+                clue = clue2;
+                break;
+            default:
+                clue = clue3;
+                break;
+        }
+        clue.GetComponent<Image>().sprite = clue_clear;
+        clue.GetComponent<Button>().interactable = true;
+
+    }
+
+    void Ending() {
         //게임 마무리 대사
         gamedirector.GetComponent<DialogManager>().Dialog_Start("11_clear", "end");
     }
