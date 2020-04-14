@@ -36,8 +36,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
 
     //커스텀 클래스 인스턴스
     SoundController SC;
-    DialogManager DM;
-    ClearManager CM;
+    OrderController OC;
+    GameButtonController GBC;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Start()
@@ -48,8 +48,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         trash_lids[3] = trash4_lid;
 
         SC = GetComponent<SoundController>();
-        DM = GetComponent<DialogManager>();
-        CM = GetComponent<ClearManager>();
+        OC = GetComponent<OrderController>();
+        GBC = GetComponent<GameButtonController>();
     }
     void Update()
     {
@@ -103,7 +103,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     //단서를 모두 찾았을 때의 이벤트 ... Collect에서 Invoke로 사용
     void Success()
     {
-        DM.Dialog_Start("11_play1", "PET 병을 올바르게 분리수거하세요.");
+        OC.Dialog_Start("11_play1");
     }
 
     //단서 발견 시 이벤트...클릭
@@ -140,7 +140,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         eff_clue.transform.localScale = effectScale * Camera.main.orthographicSize / 5;
         eff_clue.Play();
 
-        DM.Message(message);
+        OC.Order(message);
 
         //모든 단서를 찾았다면
         if (clueBox1.interactable && clueBox2.interactable && clueBox3.interactable)
@@ -251,7 +251,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     clueBox1.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_pat;
                     blank.SetActive(true);
-                    DM.Dialog_Start("11_Play2_1", "비닐과 플라스틱을 분리해주세요.");
+                    OC.Dialog_Start("11_Play2_1");
                 }
                 break;
 
@@ -264,7 +264,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 }
                 //음식물 쓰레기통
                 else if (trash_num == 3)
-                    DM.Dialog_Start("11_Play2_2", null);
+                    OC.Dialog_Start("11_Play2_2");
 
                 break;
 
@@ -276,7 +276,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     clueBox3.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_icepack;
                     blank.SetActive(true);
-                    DM.Dialog_Start("11_Play2_3", "내용물과 비닐을 분리해주세요.");
+                    OC.Dialog_Start("11_Play2_3");
                 }
                 break;
 
@@ -308,7 +308,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             if (success) {
                 SC.Play_effect(1);
                 if (!B_Pet.activeSelf && !B_Vinyl.activeSelf) {
-                    CM.Clear_Clue(1);
+                    GBC.Clear_Clue(1);
                 }
             }
             else
@@ -324,7 +324,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             blank.SetActive(false);
             B_Vinyl.SetActive(true);
             B_Pet.SetActive(true);
-            GetComponent<SettingController_game>().ItemBox();
+            GBC.ItemBox();
         }
     }
 
@@ -353,7 +353,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     void Ending()
     {
         //게임 마무리 대사
-        DM.Dialog_Start("11_clear", "end");
+        OC.Dialog_Start("11_clear");
     }
 
 
