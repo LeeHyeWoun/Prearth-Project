@@ -1,28 +1,31 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour {
 
     //할당 받을 객체
     public Texture tutorial1, tutorial2, tutorial3, tutorial4;
     public RawImage RI_tutorial;
-    public GameObject arrow_pre, arrow_next, gameDirector;
+    public GameObject arrow_pre, arrow_next;
 
     //커스텀 클래스 인스턴스
     SoundController SC;
 
     //변수
-    int page = 1;
-    int clear;
+    int page;
     
-    void Awake() {
-        clear = PlayerPrefs.GetInt("tmp_Stage", -1);
-        if (clear > -1)
-            Destroy(gameObject);
-    }
-
     void Start() {
-        SC = GameObject.Find("GameDirector").GetComponent<SoundController>();
+        GameObject GO = GameObject.Find("GameDirector");
+        if (GO)
+        {
+            SC = GO.GetComponent<SoundController>();
+            page = PlayerPrefs.GetInt("tutorial_page", 1);
+            ChageImage(page);
+            print("튜토리얼 모드 ************************************************************");
+        }
+        else
+            SceneManager.LoadScene(0);
     }
 
     public void Next() {
@@ -42,39 +45,44 @@ public class TutorialManager : MonoBehaviour {
     public void Skip()
     {
         SC.Play_effect(0);
+
         if (page < 3)
         {
-            page = 3;
-            arrow_pre.SetActive(false);
-            arrow_next.SetActive(true);
-            gameObject.SetActive(false);
-            ChageImage(page);
+            PlayerPrefs.SetInt("tutorial_page", 3);
+            SceneManager.UnloadSceneAsync("00_Tutorial");
         }
-        else {
-            PlayerPrefs.SetInt("tmp_Stage", ++clear);
-            gameDirector.GetComponent<SceneController>().Go(2);
+        else
+        {
+            PlayerPrefs.SetInt("tmp_Stage", 0);
+            PlayerPrefs.SetInt("TheMapIs", 1);
+
+            print("튜토리얼 종료 ************************************************************");
+            print("****************************** [" + SceneManager.GetActiveScene().name + "] --> [" + "02_Map" + "] ******************************");
+            SceneManager.LoadScene("02_Map");
         }
     }
 
     void ChageImage(int page) {
+        Texture texture;
         switch (page)
         {
-            case 1:
-                RI_tutorial.texture = tutorial1;
-                break;
-
             case 2:
-                RI_tutorial.texture = tutorial2;
+                texture = tutorial2;
                 break;
 
             case 3:
-                RI_tutorial.texture = tutorial3;
+                texture = tutorial3;
                 break;
 
             case 4:
-                RI_tutorial.texture = tutorial4;
+                texture = tutorial4;
+                break;
+
+            default:
+                texture = tutorial1;
                 break;
         }
+        RI_tutorial.texture = texture;
     }
 
 }

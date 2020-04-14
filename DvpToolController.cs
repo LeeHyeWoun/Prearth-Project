@@ -50,8 +50,10 @@ public class DvpToolController : MonoBehaviour {
         PlayerPrefs.SetInt(tmp_Stage, num);
         if (num > -1)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        else
+        else {
+            PlayerPrefs.SetInt("tutorial_page", 1);
             GetComponent<SceneController>().Go(1);
+        }
 
     }
 }

@@ -52,14 +52,15 @@ public class SceneController : MonoBehaviour {
                 PlayerPrefs.SetInt(MAP_NUMBER, 3);
                 break;
             case 5: // 05_Do_planet
-                scene = "05_Do_planet";
-                break;
+                Do_chage(1);
+                return;
             case 6: // 06_Do_item
-                scene = "06_Do_item";
-                break;
+                Do_chage(2);
+                return;
             case 7: // 07_Do_diary
-                scene = "07_Do_diary";
-                break;
+                Do_chage(3);
+                return;
+
             default:
                 // 게임 씬
                 /*
@@ -105,25 +106,43 @@ public class SceneController : MonoBehaviour {
 
     //조사일지 버튼에 적용
     public void Do_in() {
-        /*
-         * 조사일지에서 돌아올 때를 위해 
-         * 현재의 씬 이름을 저장하고 '05_Do_planet'으로 이동
-         */
-        PlayerPrefs.SetString(PRE_SCENE, current);
-        Go(5);
+        //기본 Scene은 일시 정지
+        Time.timeScale = 0;
+        print("조사일지에서 들어가기************************************************************");
+        SceneManager.LoadScene("05_Do_planet", LoadSceneMode.Additive);
     }
 
     //나가기(뒤로가기) 버튼에 적용
     public void Do_out() {
-        /*
-         * Do씬에 들어오기 전의 씬으로 돌아가기 위해
-         * 저장해둔 씬 이름을 불러와 그 이름의 씬으로 이동
-         */
-        string scene = PlayerPrefs.GetString(PRE_SCENE, "");
-        if (scene.Length > 0)
-            Go(scene);
-        else
-            Go(1);
+        //기본 Scene 다시 작동
+        Time.timeScale = 1;
+        print("조사일지에서 나가기**************************************************************");
+        for (int i = 1; i < SceneManager.sceneCount; ++i)
+        {
+            SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
+        }
+    }
+
+    void Do_chage(int num) {
+        string scene;
+        switch (num)
+        {
+            case 2:
+                scene = "06_Do_item";
+                break;
+            case 3:
+                scene = "07_Do_diary";
+                break;
+            default:
+                scene = "05_Do_planet";
+                break;
+        }
+        SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+        for (int i = 1; i < SceneManager.sceneCount - 1; ++i)
+        {
+            SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
+        }
+        print("change " + scene);
     }
 
     public void BackMap() {
