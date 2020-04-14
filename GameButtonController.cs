@@ -12,27 +12,31 @@ using UnityEngine.UI;
  *  -> 
  */
 
-public class ClearManager : MonoBehaviour {
+public class GameButtonController : MonoBehaviour
+{
 
-    public GameObject blank, gamedirector, clue1, clue2, clue3;
+    public GameObject clue1, clue2, clue3, itemBox;
     public Sprite clue_clear;
 
     //임시 종료 처리
-    public void Developer_Button() {
+    public void Developer_Button()
+    {
 
-        GameObject[] clue = { clue1, clue2, clue3};
+        GameObject[] clue = { clue1, clue2, clue3 };
         for (int i = 0; i < 3; i++)
         {
             clue[i].GetComponent<Image>().sprite = clue_clear;
             clue[i].GetComponent<Button>().interactable = true;
         }
-        blank.SetActive(false);
         Invoke("Ending", 3f);
     }
 
-    public void Clear_Clue(int num) {
+    //단서 해결 이벤트
+    public void Clear_Clue(int num)
+    {
         GameObject clue;
-        switch (num) {
+        switch (num)
+        {
             case 1:
                 clue = clue1;
                 break;
@@ -48,9 +52,19 @@ public class ClearManager : MonoBehaviour {
 
     }
 
-    void Ending() {
-        //게임 마무리 대사
-        gamedirector.GetComponent<DialogManager>().Dialog_Start("11_clear", "end");
+    //아이템박스 열고 닫기
+    //Apply to 'B_Item'
+    public void ItemBox()
+    {
+        if (itemBox.activeSelf)
+            itemBox.SetActive(false);
+        else
+            itemBox.SetActive(true);
     }
 
+    //게임 마무리 대사
+    void Ending()
+    {
+        GetComponent<OrderController>().Dialog_Start("11_clear");
+    }
 }

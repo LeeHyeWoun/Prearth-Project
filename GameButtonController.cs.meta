@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7083ec65d06ccf143ab03c3c7a93f5bc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - clue1: {instanceID: 0}
+  - clue2: {instanceID: 0}
+  - clue3: {instanceID: 0}
+  - itemBox: {instanceID: 0}
+  - clue_clear: {fileID: 21300000, guid: 0fba527c6361dd447b11640feef5a5d1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
