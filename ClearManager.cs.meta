@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: 6dac282e28788384294d8d103f422950
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - clearImage: {instanceID: 0}
+  - base1: {fileID: 21300000, guid: e4bc05a71211fe24c8f14529c937ec70, type: 3}
+  - base2: {fileID: 21300000, guid: f019dbad0a12dbd4fbca3d1390f2395c, type: 3}
+  - base3: {fileID: 21300000, guid: 4a00b1f42c924e944b40f56c96cac5a6, type: 3}
+  - gem1_1: {fileID: 2800000, guid: 240bbcaace46ba54bb32d036fe68817f, type: 3}
+  - gem1_2: {fileID: 2800000, guid: 7f7440fe43aa38f4ba74a5b1f4a9554d, type: 3}
+  - gem1_3: {fileID: 2800000, guid: b21bdd3e32663a040818f56c8f063964, type: 3}
+  - gem2_1: {fileID: 2800000, guid: 8028e1076ad29a04baaa1a8f8bd130c7, type: 3}
+  - gem2_2: {fileID: 2800000, guid: cd8c4004e0cacc944b1067477e4745ba, type: 3}
+  - gem2_3: {fileID: 2800000, guid: 2d0f7a068ad1b8a4eaf3ef07c0e7d5a8, type: 3}
+  - gem3_1: {fileID: 2800000, guid: 7476d37ea85b7f44aae3da02cd177988, type: 3}
+  - gem3_2: {fileID: 2800000, guid: 79aa76db85af3014c9e8a8e6fbcf76c0, type: 3}
+  - gem3_3: {fileID: 2800000, guid: f52ec90c3b491c34aab1627bd0cd8bc4, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
