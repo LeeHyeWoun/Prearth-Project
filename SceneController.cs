@@ -52,13 +52,13 @@ public class SceneController : MonoBehaviour {
                 PlayerPrefs.SetInt(MAP_NUMBER, 3);
                 break;
             case 5: // 05_Do_planet
-                Do_chage(1);
+                Change_Scene(5);
                 return;
             case 6: // 06_Do_item
-                Do_chage(2);
+                Change_Scene(6);
                 return;
             case 7: // 07_Do_diary
-                Do_chage(3);
+                Change_Scene(7);
                 return;
 
             default:
@@ -105,49 +105,89 @@ public class SceneController : MonoBehaviour {
     }
 
     //조사일지 버튼에 적용
-    public void Do_in() {
+    public void Add_Scene(int num) {
         //기본 Scene은 일시 정지
         Time.timeScale = 0;
-        print("조사일지에서 들어가기************************************************************");
-        SceneManager.LoadScene("05_Do_planet", LoadSceneMode.Additive);
+
+        string scene = "";
+        switch (num) {
+            case 5:
+                print("조사일지에서 들어가기************************************************************");
+                scene = "05_Do_planet";
+                break;
+            case 8:
+                print("세팅창 열기**********************************************************************");
+                scene = "08_Setting";
+                break;
+            case 9:
+                print("대화창 열기**********************************************************************");
+                scene = "09_Dialog";
+                break;
+            case 10:
+                print("클리어창 열기********************************************************************");
+                scene = "10_Clear";
+                break;
+        }
+        if (scene.Length > 0)
+            SceneManager.LoadSceneAsync(scene, LoadSceneMode.Additive);
     }
 
     //나가기(뒤로가기) 버튼에 적용
-    public void Do_out() {
+    public void Destroy_Scene() {
         //기본 Scene 다시 작동
         Time.timeScale = 1;
-        print("조사일지에서 나가기**************************************************************");
+        print("중첩씬 모두 삭제*****************************************************************");
         for (int i = 1; i < SceneManager.sceneCount; ++i)
         {
             SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
         }
     }
 
-    void Do_chage(int num) {
+    public void Change_Scene(int num) {
         string scene;
         switch (num)
         {
-            case 2:
-                scene = "06_Do_item";
-                break;
-            case 3:
-                scene = "07_Do_diary";
-                break;
-            default:
+            case 5:
                 scene = "05_Do_planet";
                 break;
+            case 6:
+                scene = "06_Do_item";
+                break;
+            case 7:
+                scene = "07_Do_diary";
+                break;
+            case 10:
+                scene = "10_Clear";
+                break;
+            default:
+                scene = "";
+                break;
         }
-        SceneManager.LoadScene(scene, LoadSceneMode.Additive);
-        for (int i = 1; i < SceneManager.sceneCount - 1; ++i)
-        {
-            SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
+        if (scene.Length > 0) {
+            SceneManager.LoadScene(scene, LoadSceneMode.Additive);
+            for (int i = 1; i < SceneManager.sceneCount - 1; ++i)
+            {
+                SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
+            }
+            print("change " + scene);
         }
-        print("change " + scene);
     }
 
-    public void BackMap() {
+    public void BackMap()
+    {
         StopAllCoroutines();
+        print("클리어 창 닫기*******************************************************************");
         int map = PlayerPrefs.GetInt("TheMapIs", 1) + 1;
         Go(map);
     }
+
+    public string GetActiveScene_name() {
+        return current;
+    }
+
+    public int GetActiveScene_num() {
+        return int.Parse(current.Substring(0, 2));
+    }
+
+
 }
