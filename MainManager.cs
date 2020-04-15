@@ -15,20 +15,24 @@ using UnityEngine.SceneManagement;
 public class MainManager : MonoBehaviour
 {
     //할당
-    public Button btn_soil, btn_water, btn_air;
+    public GameObject halo_water, halo_air;
     public Text t_water, t_air;
+    public Button btn_soil, btn_water, btn_air;
     public Sprite sprite_water, sprite_air;
+
+    //변수
+    int stage_num, planet;
+
+    //상수
+    const string tmp_Stage = "tmp_Stage";
+
+    //런타임 상수
+    readonly Vector2 bigSize = new Vector2(652f, 652f);
 
     //커스텀 클래스 인스턴스
     SceneController scenenCtrl;
     SoundController SoundCtrl;
 
-    //변수
-    Vector2 bigSize = new Vector2(960f, 960f);
-    private int stage_num, planet;
-
-    //상수
-    private const string tmp_Stage = "tmp_Stage";
 
     void Awake() {
         stage_num = PlayerPrefs.GetInt(tmp_Stage, -1);
@@ -48,6 +52,7 @@ public class MainManager : MonoBehaviour
         if (planet >= 1)
         {
             // 수질행성 활성화
+            halo_water.SetActive(true);
             btn_water.image.sprite = sprite_water;
             btn_water.GetComponent<RectTransform>().sizeDelta = bigSize;
             t_water.color = Color.white;
@@ -55,6 +60,7 @@ public class MainManager : MonoBehaviour
             if (planet >= 2)
             {
                 // 대기행성 활성화
+                halo_air.SetActive(true);
                 btn_air.image.sprite = sprite_air;
                 btn_air.GetComponent<RectTransform>().sizeDelta = bigSize;
                 t_air.color = Color.white;

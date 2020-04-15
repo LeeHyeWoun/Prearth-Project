@@ -50,6 +50,10 @@ public class StgManager : MonoBehaviour{
             if (angle < 0) angle += 360;
             angle %= 360;
 
+            //벽이 없더라도 StgManager 작동 가능
+            if (c1 == null || c2 == null || c3 == null || c4 == null)
+                return;
+
             //안쪽 벽만 보이게 하기
             if (angle > 45 && angle < 135)
                 Inside(c1, c2, c3, c4);
