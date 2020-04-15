@@ -4,23 +4,16 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - dialogBase: {instanceID: 0}
-  - character_img: {instanceID: 0}
-  - character_name: {instanceID: 0}
-  - chatTxt: {instanceID: 0}
-  - img_base1: {fileID: 2800000, guid: c315afce25945c24b86547bd04d99bc5, type: 3}
-  - img_base2: {fileID: 2800000, guid: e015db02383a4f748b8e3a0b1df272ab, type: 3}
-  - img_base3: {fileID: 2800000, guid: 3cd55d275aa455d47abbcad9151db975, type: 3}
+  - img_base: {instanceID: 0}
+  - btn_skip: {instanceID: 0}
+  - ri_character: {instanceID: 0}
+  - ri_name_box: {instanceID: 0}
+  - t_name: {instanceID: 0}
+  - t_dialog: {instanceID: 0}
   - img_jullian: {fileID: 2800000, guid: 93f6249a6539c44458877115ac171534, type: 3}
   - img_alien1: {fileID: 2800000, guid: 521b3ace8e38b304797b12296b896b45, type: 3}
-  - img_alien2: {fileID: 2800000, guid: 521b3ace8e38b304797b12296b896b45, type: 3}
-  - img_alien3: {fileID: 2800000, guid: 521b3ace8e38b304797b12296b896b45, type: 3}
-  - img_name_j1: {fileID: 2800000, guid: 3578ffa81681a604e883a6ff2ffd5d51, type: 3}
-  - img_name_j2: {fileID: 2800000, guid: 102ebac5a52d602499218274847bab18, type: 3}
-  - img_name_j3: {fileID: 2800000, guid: a65e1d50239ecbb409dbd3c588428db8, type: 3}
-  - img_name_a1: {fileID: 2800000, guid: 6f0c8cdd448761f459412e53e650d0f2, type: 3}
-  - img_name_a2: {fileID: 2800000, guid: e1659e14a911a884d96e82d459dd36af, type: 3}
-  - img_name_a3: {fileID: 2800000, guid: a65e1d50239ecbb409dbd3c588428db8, type: 3}
+  - img_alien2: {fileID: 2800000, guid: e2fc36d781b9b0f44b55734f3078cb44, type: 3}
+  - img_alien3: {fileID: 2800000, guid: a15998980bce607499fa90a55ca7e76d, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -5,42 +5,55 @@ using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 
-    public Image dialogBase;
-    public RawImage character_img, character_name;
-    public Text chatTxt;
+    public Image img_base, btn_skip;
+    public RawImage ri_character, ri_name_box;
+    public Text t_name, t_dialog;
     public Texture
-        img_jullian, img_alien1, img_alien2, img_alien3,
-        img_name_j1, img_name_j2, img_name_j3, 
-        img_name_a1, img_name_a2, img_name_a3;
+        img_jullian, img_alien1, img_alien2, img_alien3;
 
     //변수
     Texture img_alien, img_name_j, img_name_a;
     StringReader stringReader;
     string file_name, fileLine, previous_code;
+    string location = "dialog/";
     int lineCount = 0;
+    int map_num;
     bool fast = false;
     bool change_chracter = false;
+    Color color = Color.white;
 
-    //상수
-    const string LOCATION = "dialog/";
+    //런타임 상수 선언
+    readonly string[] names = { "줄리안", "꼬륵이", "뿌직이", "콜록이" };
+    readonly Color[] colors = {
+        new Color(203 / 255f, 112 / 255f, 143 / 255f),  // pink
+        new Color(11 / 255f, 146 / 255f, 214 / 255f),   // blue
+        new Color(221 / 255f, 159 / 255f, 60 / 255f) }; // yellow
 
-    readonly Color color_base1 = new Color(203/255f, 112/255f, 143/255f);
-    readonly Color color_base2 = new Color(11/255f, 146/255f, 214/255f);
-    readonly Color color_base3 = new Color(221/255f, 159/255f, 60/255f);
+    //커스텀 클래스 인스턴스
+    SceneController SC;
 
+
+    void Awake() {
+        map_num = PlayerPrefs.GetInt("TheMapIs", 1);
+        file_name = PlayerPrefs.GetString("DIALOG");
+
+        SC = GetComponent<SceneController>();
+    }
 
     private void Start () {
-    
         //전달 값 체크
-        file_name = PlayerPrefs.GetString("DIALOG");
         if (file_name.Length <= 0)
         {
             print("Error : 전달 받은 값이 없습니다. 대신 test.txt를 출력합니다.");
             file_name = "test";
         }
 
+        //경로 설정
+        if(!file_name.Equals("test"))
+            location += SC.GetActiveScene_num() + "/";
+
         //대사 파일 불러오기 및 파일 존재 여부 체크
-        TextAsset file = Resources.Load(LOCATION + file_name) as TextAsset;
+        TextAsset file = Resources.Load(location + file_name) as TextAsset;
         if (file == null)
         {
             print("Error : 파일명을 다시 체크해주세요.\n 'Resource/dialog/' 경로에서 파일<" + file_name + ".txt>를 찾을 수 없습니다.");
@@ -50,10 +63,10 @@ public class DialogManager : MonoBehaviour {
         stringReader = new StringReader(file.text);
 
         //행성에 따라 배경과 외계인 세팅
-        SettingScene(file_name.Equals("test") ? true : false);
+        SettingScene();
 
         //대화 코루틴
-        StartCoroutine(Routine_talking());
+        StartCoroutine("Routine_talking");
 
         //전달값 초기화
         PlayerPrefs.SetString("DIALOG", null);
@@ -65,13 +78,13 @@ public class DialogManager : MonoBehaviour {
         string[] split_Line = fileLine.Split(':');
 
         //파일 형식 오류 검사
-        if (split_Line.Length != 2)                                         // ':' 체크
-        {
+        if (split_Line.Length != 2)
+        {// ':' 체크
             print("Error : 파일<" + file_name + "> 파일 형식을 다시 체크해주세요.\n " + lineCount + "번째 줄에':'가 없거나 오용되었습니다.");
             return false;
         }
-        if (split_Line[0] != "0" && split_Line[0] != "1")                   //캐릭터 코드 체크
-        {
+        if (split_Line[0] != "0" && split_Line[0] != "1")
+        {//캐릭터 코드 체크
             print("Error : 파일<" + file_name + "> 파일 형식을 다시 체크해주세요.\n " + lineCount + "번째 줄 첫 글자로 '" + split_Line[0] + "가 들어왔습니다.");
             return false;
         }
@@ -101,39 +114,36 @@ public class DialogManager : MonoBehaviour {
         //줄리안 이미지로 변경
         if (previous_code.Equals("0"))
         {
-            character_img.texture = img_jullian;
-            character_name.texture = img_name_j;
+            t_name.text = names[0];
+            ri_character.texture = img_jullian;
         }
         //외계인 이미지로 변경
         else
         {
-            character_img.texture = img_alien;
-            character_name.texture = img_name_a;
+            t_name.text = names[map_num];
+            ri_character.texture = img_alien;
         }
     }
 
-    void SettingScene(bool test = false)
+    //기본 이미지 및 색상 등을 설정
+    void SettingScene()
     {
-        int mapNum = test ? 3 : PlayerPrefs.GetInt("TheMapIs");
-        switch (mapNum)
+
+        t_name.color = colors[map_num-1];
+        btn_skip.color = colors[map_num - 1];
+        img_base.color = colors[map_num - 1];
+        switch (map_num)
         {
             case 2:
-                dialogBase.color = color_base2;
                 img_alien = img_alien2;
-                img_name_j = img_name_j2;
-                img_name_a = img_name_a2;
                 break;
+
             case 3:
-                dialogBase.color = color_base3;
                 img_alien = img_alien3;
-                img_name_j = img_name_j3;
-                img_name_a = img_name_a3;
                 break;
+
             default:
-                dialogBase.color = color_base1;
                 img_alien = img_alien1;
-                img_name_j = img_name_j1;
-                img_name_a = img_name_a1;
                 break;
         }
     }
@@ -146,12 +156,10 @@ public class DialogManager : MonoBehaviour {
     //버튼 이벤트 >> 넘어가기
     public void Skip()
     {
-        if (file_name.Substring(3).Equals("clear"))
-            GetComponent<SceneController>().Change_Scene(10);
+        StopCoroutine("Routine_talking");
 
-        else
-            GetComponent<SceneController>().Destroy_Scene();
-
+        //창 사라지기
+        StartCoroutine(Routine_disappear());
     }
 
     //코루틴 >> 한 음절씩 출력
@@ -160,37 +168,21 @@ public class DialogManager : MonoBehaviour {
         fast = false;
 
         string sentence = "";
-        float current;
         for (int i = 0; i < fileLine.Length; i++)
         {
             if (fast)
             {
                 fast = false;
-                chatTxt.text = fileLine;
+                t_dialog.text = fileLine;
                 break;
             }
             sentence += fileLine[i];
-            chatTxt.text = sentence;
+            t_dialog.text = sentence;
 
-            current = 0f;
-            while (current < 0.05f)
-            {
-                yield return null;
-                current += Time.unscaledDeltaTime;
-            }
-
-            yield return null;
+            yield return StartCoroutine(WaitForUnscaledSeconds(0.05f));
         }
 
-        current = 0f;
-        while (current < 1.5f)
-        {
-            yield return null;
-            current += Time.unscaledDeltaTime;
-        }
-
-        yield return null;
-
+        yield return StartCoroutine(WaitForUnscaledSeconds(1.5f));
     }
 
     //코루틴 >> 팝업
@@ -202,16 +194,33 @@ public class DialogManager : MonoBehaviour {
         fileLine = stringReader.ReadLine();
 
         //대사 초기화 및 화자 설정
-        chatTxt.text = "";
+        t_dialog.text = "";
         ChangeCharacter();
-        
+
+        //투명화
+        color.a = 0;
+        ri_character.color = color;
+        ri_name_box.color = color;
+        btn_skip.gameObject.SetActive(false);
+
         //아래에서 위로 올라오기
-        dialogBase.transform.Translate(new Vector3(0, -500f, 0));
-        for (int i = 0; i < 50; i++)
+        img_base.transform.Translate(Vector3.down * 500f);
+        for (int i = 0; i < 25; i++)
         {
-            dialogBase.transform.Translate(new Vector3(0, 10f, 0));
+            img_base.transform.Translate(Vector3.up * 20);
             yield return null;
         }
+
+        //캐릭터 등장
+        for (int i = 0; i < 5; i++)
+        {
+            color.a += 0.2f;
+            ri_character.color = color;
+            ri_name_box.color = color;
+            yield return null;
+        }
+        btn_skip.gameObject.SetActive(true);
+        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
 
         //한 음절씩 출력
         yield return StartCoroutine(Routine_wording());
@@ -219,17 +228,32 @@ public class DialogManager : MonoBehaviour {
 
     }
     IEnumerator Routine_disappear() {
-        //아래로 내리기
-        for (int i = 0; i < 50; i++)
+
+        //캐릭터 퇴장
+        btn_skip.gameObject.SetActive(false);
+        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
+        for (int i = 0; i < 5; i++)
         {
-            dialogBase.transform.Translate(new Vector3(0, -10f, 0));
+            color.a -= 0.2f;
+            ri_character.color = color;
+            ri_name_box.color = color;
+            t_dialog.color = color;
+            yield return null;
+        }
+        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
+
+        //아래로 내리기
+        for (int i = 0; i < 25; i++)
+        {
+            img_base.transform.Translate(Vector3.down * 20);
             yield return null;
         }
         if(file_name.Substring(3).Equals("clear"))
-            GetComponent<SceneController>().Change_Scene(10);
+            SC.Change_Scene(10);
 
-        if (!file_name.Equals("test"))
-            GetComponent<SceneController>().Destroy_Scene();
+        else if (!file_name.Equals("test"))
+            SC.Destroy_Scene();
+
     }
 
     //코루틴 >> 한 문장씩 출력
@@ -249,7 +273,7 @@ public class DialogManager : MonoBehaviour {
             if (fileLine != null)
             {
                 //대사 초기화 및 화자 설정
-                chatTxt.text = "";
+                t_dialog.text = "";
                 ChangeCharacter();
 
                 //한 음절씩 출력
