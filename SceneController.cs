@@ -21,7 +21,7 @@ public class SceneController : MonoBehaviour {
     //변수
     string current;
 
-    void Start()
+    void Awake()
     {
         current = SceneManager.GetActiveScene().name;
     }
@@ -186,7 +186,8 @@ public class SceneController : MonoBehaviour {
     }
 
     public int GetActiveScene_num() {
-        return int.Parse(current.Substring(0, 2));
+        string current_num = current.Substring(0, 2); 
+        return int.Parse(current_num);
     }
 
 

@@ -101,4 +101,12 @@ public class ClearManager : MonoBehaviour {
             yield return null;
         }
     }
+
+    public void Close() {
+        GetComponent<SoundController>().BGM_reset();
+        GetComponent<SceneController>().BackMap();
+
+        if (PlayerPrefs.GetInt("tmp_stage") < 1)
+            PlayerPrefs.SetInt("tmp_stage", 1);
+    }
 }

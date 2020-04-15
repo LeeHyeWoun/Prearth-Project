@@ -8,8 +8,11 @@ using UnityEngine.UI;
  * The function of this script :
  *  소리에 관한 다양한 이벤트를 다루는 스크립트
  *  
+ *  2020.04.15 수정 사항 : 
+ *  SoundManager와 같은 위치에 스크립트를 적용, MainManager, MapManager등 각 씬의 Manager가 씬이 로드될 때 최초로 한번만 SoundManager를 Find하여 사용
+ *  
  *  Applied Location :
- *  -> main, map, game씬의 GameDirector(빈 오브젝트)
+ *  -> SoundManager(빈 오브젝트)
  */
 public class SoundController : MonoBehaviour
 {
