@@ -28,7 +28,7 @@ public class GameButtonController : MonoBehaviour
             clue[i].GetComponent<Image>().sprite = clue_clear;
             clue[i].GetComponent<Button>().interactable = true;
         }
-        Invoke("Ending", 3f);
+        Invoke("Ending", 1f);
     }
 
     //단서 해결 이벤트

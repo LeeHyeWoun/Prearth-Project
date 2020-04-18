@@ -15,22 +15,18 @@ public class ClearManager : MonoBehaviour {
         gem2_1, gem2_2, gem2_3,
         gem3_1, gem3_2, gem3_3;
 
+    int game_num;
+
     void Start () {
-
-        //Fade In
-        StartCoroutine(routine_FadeIn());
-
-        //현재 씬의 넘버 불러오기
-        string scene = SceneManager.GetActiveScene().name.Substring(0, 2);
-        int sceneNum = int.Parse(scene);
+        game_num = GetComponent<SceneController>().GetActiveScene_num() - 10;
 
         //이미지 세팅
-        SettingScene(sceneNum);
+        SettingScene(game_num);
     }
 
     void SettingScene(int sceneNum) {
         //씬 넘버에 따라 배경 세팅
-        switch ((sceneNum - 11) / 3)
+        switch ((sceneNum - 1) / 3)
         {
             case 1:
                 clearbase.sprite = base2;   //14~16
@@ -45,7 +41,7 @@ public class ClearManager : MonoBehaviour {
 
         //씬 넘버에 따라 연료이미지 세팅
         Texture texture_gem;
-        switch (sceneNum - 10)
+        switch (sceneNum)
         {
             case 2:
                 texture_gem = gem1_2;       //12
@@ -78,7 +74,7 @@ public class ClearManager : MonoBehaviour {
         Gem.texture = texture_gem;
 
         //씬 넘버에 안내문 내용 세팅
-        int quotient = (sceneNum - 10) % 3;
+        int quotient = (sceneNum) % 3;
         switch (quotient)
         {
             case 0:
@@ -90,23 +86,16 @@ public class ClearManager : MonoBehaviour {
         }
     }
 
-    IEnumerator routine_FadeIn() {
-        Color color = clearbase.material.color;
-        int time = 0;
-        while (time < 10)
-        {
-            time++;
-            color.a = time * 0.1f;
-            clearbase.material.color = color;
-            yield return null;
-        }
-    }
-
     public void Close() {
-        GetComponent<SoundController>().BGM_reset();
+        //메인용 배경음악으로 초기화
+        SoundManager.Instance.BGM_reset();
+        
+        //클리어 값 설정
+        if (PlayerPrefs.GetInt("tmp_stage") < (game_num))
+            PlayerPrefs.SetInt("tmp_stage", game_num);
+
+        //02_Map으로 돌아가기
         GetComponent<SceneController>().BackMap();
 
-        if (PlayerPrefs.GetInt("tmp_stage") < 1)
-            PlayerPrefs.SetInt("tmp_stage", 1);
     }
 }

@@ -17,6 +17,9 @@ public class OrderController : MonoBehaviour {
     SceneController SceneC;
     DialogController DC;
 
+    //싱글톤의 SoundManager을 불러오기
+    readonly SoundManager SM = SoundManager.Instance;
+
     //미리 캐싱
     readonly WaitForSeconds orderTerm = new WaitForSeconds(3f);
 
@@ -109,7 +112,7 @@ public class OrderController : MonoBehaviour {
     IEnumerator Routine_ending()
     {
         //소리 조절
-        if (SoundC.IsSoundManager())
+        if (SM)
         {
             float bgm_value = PlayerPrefs.GetFloat("bgm", 1f);
             while (bgm_value > 0)

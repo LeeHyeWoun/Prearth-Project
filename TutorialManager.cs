@@ -10,33 +10,27 @@ public class TutorialManager : MonoBehaviour {
     public GameObject arrow_pre, arrow_next;
 
     //커스텀 클래스 인스턴스
-    SoundController SC;
+    SoundManager SM;
 
     //변수
     int page;
     
     void Start() {
-        GameObject GO = GameObject.Find("GameDirector");
-        if (GO)
-        {
-            SC = GO.GetComponent<SoundController>();
-            page = PlayerPrefs.GetInt("tutorial_page", 1);
-            ChageImage(page);
-            print("튜토리얼 모드 ************************************************************");
-        }
-        else
-            SceneManager.LoadScene(0);
+        SM = SoundManager.Instance;
+        page = PlayerPrefs.GetInt("tutorial_page", 1);
+        ChageImage(page);
+        print("튜토리얼 모드 ************************************************************");
     }
 
     public void Next() {
-        SC.Play_effect(0);
+        SM.Play_effect(0);
         ChageImage(++page);
         arrow_pre.SetActive(true);
         arrow_next.SetActive(false);
     }
 
     public void Pre() {
-        SC.Play_effect(0);
+        SM.Play_effect(0);
         ChageImage(--page);
         arrow_pre.SetActive(false);
         arrow_next.SetActive(true);
@@ -44,7 +38,7 @@ public class TutorialManager : MonoBehaviour {
 
     public void Skip()
     {
-        SC.Play_effect(0);
+        SM.Play_effect(0);
 
         if (page < 3)
         {

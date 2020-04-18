@@ -29,7 +29,7 @@ public class SceneController : MonoBehaviour {
     //씬 이동에 사용
     void Go(string scene) {
         print("****************************** [" + current + "] --> [" + scene + "] ******************************");
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
     //씬 이름 앞의 숫자를 통해 구분
@@ -91,7 +91,7 @@ public class SceneController : MonoBehaviour {
                     }
 
                     //게임용 BGM설정
-                    GetComponent<SoundController>().BGM_chage(true);
+                    SoundManager.Instance.BGM_chage(true);
                 }
                 // 존재하지 않는 씬 에러처리
                 else {
