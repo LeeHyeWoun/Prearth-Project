@@ -20,6 +20,7 @@ public class DialogManager : MonoBehaviour {
     int map_num;
     bool fast = false;
     bool change_chracter = false;
+    float origin;
     Color color = Color.white;
 
     //런타임 상수 선언
@@ -185,13 +186,13 @@ public class DialogManager : MonoBehaviour {
         img_base.transform.Translate(Vector3.down * 500f);
 
         Color color_bg = color_filter.color;
-        float origin = color_bg.a;
+        origin = color_bg.a;
         float time = 0;
         for (int i = 0; i < 50; i++)
         {
             //배경 어두워지기
-            time = i * 0.2f;
-            color_bg.a = origin * time * 0.1f;
+            time = i * 0.02f;
+            color_bg.a = origin * time;
             color_filter.color = color_bg;
 
             //아래에서 위로 올라오기
@@ -220,6 +221,7 @@ public class DialogManager : MonoBehaviour {
     //코루틴 >> 대화창 사라지기
     IEnumerator Routine_disappear()
     {
+        //캐릭터 및 대사 설정
         btn_skip.gameObject.SetActive(false);
         yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
 
@@ -233,26 +235,34 @@ public class DialogManager : MonoBehaviour {
         }
         yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
 
+        //배경과 대화창 설정
         Color color_bg = color_filter.color;
-        float origin = color_bg.a;
         float time = 0;
-        for (int i = 0; i < 50; i++)
+        if (file_name.Substring(3).Equals("clear"))
         {
-            //배경 밝아지기
-            time = i * 0.2f;
-            color_bg.a = origin * (1-time) * 0.1f;
-            color_filter.color = color_bg;
-
-            //위에서 아래로 내리기
-            img_base.transform.Translate(Vector3.down * 10);
-            yield return null;
-        }
-        if (file_name.Substring(3).Equals("clear")) {
+            for (int i = 0; i < 50; i++)
+            {
+                //위에서 아래로 내리기
+                img_base.transform.Translate(Vector3.down * 10);
+                yield return null;
+            }
             SC.Change_Scene(10);
         }
+        else {
+            for (int i = 0; i < 50; i++)
+            {
+                //배경 밝아지기
+                time = i * 0.02f;
+                color_bg.a = origin * (1 - time);
+                color_filter.color = color_bg;
 
-        else if (!file_name.Equals("test"))
-            SC.Destroy_Scene();
+                //위에서 아래로 내리기
+                img_base.transform.Translate(Vector3.down * 10);
+                yield return null;
+            }
+            if (!file_name.Equals("test"))
+                SC.Destroy_Scene();
+        }
 
     }
 
