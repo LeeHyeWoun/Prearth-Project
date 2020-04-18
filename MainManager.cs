@@ -30,8 +30,9 @@ public class MainManager : MonoBehaviour
     readonly Vector2 bigSize = new Vector2(652f, 652f);
 
     //커스텀 클래스 인스턴스
-    SceneController scenenCtrl;
-    SoundController SoundCtrl;
+    SceneController SC;
+    SoundManager SM;
+
 
 
     void Awake() {
@@ -46,6 +47,9 @@ public class MainManager : MonoBehaviour
 
     void Start()
     {
+        //싱글톤의 SoundManager을 불러오기...Main에서는 꼭 Start에서 할당받아야함
+        SM = SoundManager.Instance;
+
         planet = stage_num/3;
         //토양행성은 기본적으로 활성화되어 있음
         //조건에 따라 나머지 행성들도 활성화
@@ -67,8 +71,7 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        scenenCtrl = GetComponent<SceneController>();
-        SoundCtrl = GetComponent<SoundController>();
+        SC = GetComponent<SceneController>();
 
     }
 
@@ -76,32 +79,32 @@ public class MainManager : MonoBehaviour
         switch (num)
         {
             case 1:
-                SoundCtrl.Play_effect(0);
+                SM.Play_effect(0);
                 if (stage_num < 0) {
                     PlayerPrefs.SetInt("tutorial_page", 3);
                     SceneManager.LoadSceneAsync("00_Tutorial", LoadSceneMode.Additive);
                 }
                 else
-                    scenenCtrl.Go(2);
+                    SC.Go(2);
 
                 break;
 
             case 2:
                 if (planet >= 1) {
-                    SoundCtrl.Play_effect(0);
-                    scenenCtrl.Go(3);
+                    SM.Play_effect(0);
+                    SC.Go(3);
                 }
                 else
-                    SoundCtrl.Play_effect(2);
+                    SM.Play_effect(2);
                 break;
 
             case 3:
                 if (planet >= 2) {
-                    SoundCtrl.Play_effect(0);
-                    scenenCtrl.Go(4);
+                    SM.Play_effect(0);
+                    SC.Go(4);
                 }
                 else
-                    SoundCtrl.Play_effect(2);
+                    SM.Play_effect(2);
                 break;
         }
     }

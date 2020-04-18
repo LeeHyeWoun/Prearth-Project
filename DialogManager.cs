@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 
-    public Image img_base, btn_skip;
+    public Image color_filter, img_base, btn_skip;
     public RawImage ri_character, ri_name_box;
     public Text t_name, t_dialog;
     public Texture
@@ -25,9 +25,9 @@ public class DialogManager : MonoBehaviour {
     //런타임 상수 선언
     readonly string[] names = { "줄리안", "꼬륵이", "뿌직이", "콜록이" };
     readonly Color[] colors = {
-        new Color(203 / 255f, 112 / 255f, 143 / 255f),  // pink
-        new Color(11 / 255f, 146 / 255f, 214 / 255f),   // blue
-        new Color(221 / 255f, 159 / 255f, 60 / 255f) }; // yellow
+        new Color(203/255f,    112 /255f,  143/255f),               // pink
+        new Color(11 /255f,    146 /255f,  214/255f),               // blue
+        new Color(221/255f,    159 /255f,  60 /255f) };             // yellow
 
     //커스텀 클래스 인스턴스
     SceneController SC;
@@ -162,6 +162,100 @@ public class DialogManager : MonoBehaviour {
         StartCoroutine(Routine_disappear());
     }
 
+    //코루틴 >> 대화창 등장하기
+    IEnumerator Routine_appear()
+    {
+
+        lineCount++;
+
+        //첫 대사 입력
+        fileLine = stringReader.ReadLine();
+
+        //대사 초기화 및 화자 설정
+        t_dialog.text = "";
+        ChangeCharacter();
+
+        //투명화
+        color.a = 0;
+        ri_character.color = color;
+        ri_name_box.color = color;
+        btn_skip.gameObject.SetActive(false);
+
+        //아래에서 시작하기
+        img_base.transform.Translate(Vector3.down * 500f);
+
+        Color color_bg = color_filter.color;
+        float origin = color_bg.a;
+        float time = 0;
+        for (int i = 0; i < 50; i++)
+        {
+            //배경 어두워지기
+            time = i * 0.2f;
+            color_bg.a = origin * time * 0.1f;
+            color_filter.color = color_bg;
+
+            //아래에서 위로 올라오기
+            img_base.transform.Translate(Vector3.up * 10);
+
+            yield return null;
+        }
+
+        //캐릭터 등장
+        for (int i = 0; i < 5; i++)
+        {
+            color.a += 0.2f;
+            ri_character.color = color;
+            ri_name_box.color = color;
+            yield return null;
+        }
+        btn_skip.gameObject.SetActive(true);
+        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
+
+        //한 음절씩 출력
+        yield return StartCoroutine(Routine_wording());
+
+
+    }
+
+    //코루틴 >> 대화창 사라지기
+    IEnumerator Routine_disappear()
+    {
+        btn_skip.gameObject.SetActive(false);
+        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
+
+        for (int i = 0; i < 5; i++)
+        {
+            color.a -= 0.2f;
+            ri_character.color = color;
+            ri_name_box.color = color;
+            t_dialog.color = color;
+            yield return null;
+        }
+        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
+
+        Color color_bg = color_filter.color;
+        float origin = color_bg.a;
+        float time = 0;
+        for (int i = 0; i < 50; i++)
+        {
+            //배경 밝아지기
+            time = i * 0.2f;
+            color_bg.a = origin * (1-time) * 0.1f;
+            color_filter.color = color_bg;
+
+            //위에서 아래로 내리기
+            img_base.transform.Translate(Vector3.down * 10);
+            yield return null;
+        }
+        if (file_name.Substring(3).Equals("clear")) {
+            SC.Change_Scene(10);
+        }
+
+        else if (!file_name.Equals("test"))
+            SC.Destroy_Scene();
+
+    }
+
     //코루틴 >> 한 음절씩 출력
     IEnumerator Routine_wording() {
 
@@ -183,77 +277,6 @@ public class DialogManager : MonoBehaviour {
         }
 
         yield return StartCoroutine(WaitForUnscaledSeconds(1.5f));
-    }
-
-    //코루틴 >> 팝업
-    IEnumerator Routine_appear() {
-
-        lineCount++;
-
-        //첫 대사 입력
-        fileLine = stringReader.ReadLine();
-
-        //대사 초기화 및 화자 설정
-        t_dialog.text = "";
-        ChangeCharacter();
-
-        //투명화
-        color.a = 0;
-        ri_character.color = color;
-        ri_name_box.color = color;
-        btn_skip.gameObject.SetActive(false);
-
-        //아래에서 위로 올라오기
-        img_base.transform.Translate(Vector3.down * 500f);
-        for (int i = 0; i < 25; i++)
-        {
-            img_base.transform.Translate(Vector3.up * 20);
-            yield return null;
-        }
-
-        //캐릭터 등장
-        for (int i = 0; i < 5; i++)
-        {
-            color.a += 0.2f;
-            ri_character.color = color;
-            ri_name_box.color = color;
-            yield return null;
-        }
-        btn_skip.gameObject.SetActive(true);
-        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
-
-        //한 음절씩 출력
-        yield return StartCoroutine(Routine_wording());
-
-
-    }
-    IEnumerator Routine_disappear() {
-
-        //캐릭터 퇴장
-        btn_skip.gameObject.SetActive(false);
-        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
-        for (int i = 0; i < 5; i++)
-        {
-            color.a -= 0.2f;
-            ri_character.color = color;
-            ri_name_box.color = color;
-            t_dialog.color = color;
-            yield return null;
-        }
-        yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
-
-        //아래로 내리기
-        for (int i = 0; i < 25; i++)
-        {
-            img_base.transform.Translate(Vector3.down * 20);
-            yield return null;
-        }
-        if(file_name.Substring(3).Equals("clear"))
-            SC.Change_Scene(10);
-
-        else if (!file_name.Equals("test"))
-            SC.Destroy_Scene();
-
     }
 
     //코루틴 >> 한 문장씩 출력
@@ -289,6 +312,7 @@ public class DialogManager : MonoBehaviour {
 
     }
 
+    //코루틴 >> WaitforSecond를 대체
     IEnumerator WaitForUnscaledSeconds(float how)
     {
         float current = 0f;

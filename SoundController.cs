@@ -22,25 +22,25 @@ public class SoundController : MonoBehaviour
     private AudioSource bgm, effect;
     private AudioClip
         effect_no, effect_ok, effect_select;
-    private GameObject GO;
-
+    
     //변수
     private float value_effect = 1f;
     private float value_bgm = 1f;
 
+    //싱글톤의 SoundManager을 불러오기
+    readonly SoundManager SM = SoundManager.Instance;
+
+
     //초기화
     void Start()
     {
-        GO = GameObject.Find("SoundManager");
-        if (GO)
+        if (SM)
         {
-            SoundManager soundManager = GO.GetComponent<SoundManager>();
-
-            bgm = soundManager.Player_BGM;
-            effect = soundManager.Player_effect;
-            effect_no = soundManager.effect_no;
-            effect_ok = soundManager.effect_ok;
-            effect_select = soundManager.effect_select;
+            bgm = SM.Player_BGM;
+            effect = SM.Player_effect;
+            effect_no = SM.effect_no;
+            effect_ok = SM.effect_ok;
+            effect_select = SM.effect_select;
 
             //슬라이더 초기화
             if (s_bgm != null || s_effect != null) {
@@ -55,7 +55,7 @@ public class SoundController : MonoBehaviour
     //배경음악 설정
     public void SetBGM()
     {
-        if (GO)
+        if (SM)
         {
             value_bgm = s_bgm.value;
             bgm.volume = value_bgm;
@@ -70,7 +70,7 @@ public class SoundController : MonoBehaviour
     //효과음 설정
     public void SetEffect()
     {
-        if (GO)
+        if (SM)
         {
             value_effect = s_effect.value;
             effect.volume = value_effect;
@@ -85,25 +85,8 @@ public class SoundController : MonoBehaviour
     //Effect 선택 Play
     public void Play_effect(int num)
     {
-        if (GO)
-        {
-            AudioClip clip;
-            switch (num)
-            {
-                case 1:
-                    clip = effect_ok;
-                    break;
-
-                case 2:
-                    clip = effect_no;
-                    break;
-
-                default:
-                    clip = effect_select;
-                    break;
-            }
-            effect.PlayOneShot(clip);
-        }
+        if (SM)
+            SM.Play_effect(num);
     }
 
     //BGM 소리 크기 설정
@@ -111,28 +94,4 @@ public class SoundController : MonoBehaviour
         bgm.volume = v;
     }
 
-    //Game 끝내고 소리 재설정
-    public void BGM_reset()
-    {
-        if (GO) {
-            BGM_chage(false);
-            bgm.volume = PlayerPrefs.GetFloat("bgm", 1f);
-        }
-    }
-
-    public void BGM_chage(bool isGame) {
-        if (GO) {
-            if (isGame)
-                bgm.clip = GO.GetComponent<SoundManager>().bgm_game;
-            else
-                bgm.clip = GO.GetComponent<SoundManager>().bgm_main;
-
-            bgm.Play();
-        }
-    }
-
-
-    public bool IsSoundManager() {
-        return GO;
-    }
 }

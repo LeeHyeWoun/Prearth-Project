@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /**
  * Date     : 2020.01.23
@@ -38,4 +37,43 @@ public class SoundManager : MonoBehaviour {
         Player_BGM.volume = PlayerPrefs.GetFloat("bgm", 0.5f);
         Player_effect.volume = PlayerPrefs.GetFloat("effect", 1f);
     }
+
+    //Effect 선택 Play
+    public void Play_effect(int num)
+    {
+        AudioClip clip;
+        switch (num)
+        {
+            case 1:
+                clip = effect_ok;
+                break;
+
+            case 2:
+                clip = effect_no;
+                break;
+
+            default:
+                clip = effect_select;
+                break;
+        }
+        Player_effect.PlayOneShot(clip);
+    }
+
+    //Game 끝내고 소리 재설정
+    public void BGM_reset()
+    {
+        BGM_chage(false);
+        Player_BGM.volume = PlayerPrefs.GetFloat("bgm", 1f);
+    }
+
+    public void BGM_chage(bool isGame)
+    {
+        if (isGame)
+            Player_BGM.clip = bgm_game;
+        else
+            Player_BGM.clip = bgm_main;
+
+        Player_BGM.Play();
+    }
+
 }

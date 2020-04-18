@@ -32,17 +32,18 @@ public class MapManager : MonoBehaviour
     int stage_num;
     string str_origin = "";
 
-    //미리 캐싱
+    //런타임 상수
     readonly WaitForSeconds ShortTerm = new WaitForSeconds(1f);
 
-    //커스텀 클래스의 인스턴스
-    SceneController scenenCtrl;
-    SoundController SoundCtrl;
+    //커스텀 클래스의 인스턴스    
+    SceneController SC;
 
 
     //초기화
     void Start()
     {
+        SC = GetComponent<SceneController>();
+
         //데이터 불러오기
         stage_num = PlayerPrefs.GetInt("tmp_Stage", 0);
         int mapNum = PlayerPrefs.GetInt("TheMapIs", 1);
@@ -147,9 +148,6 @@ public class MapManager : MonoBehaviour
         }
 
         T_Status.text = str_origin;
-
-        scenenCtrl = GetComponent<SceneController>();
-        SoundCtrl = GetComponent<SoundController>();
     }
 
     public void Go_game(int num)
@@ -157,27 +155,27 @@ public class MapManager : MonoBehaviour
         switch (num)
         {
             case 1:
-                SoundCtrl.Play_effect(0);
-                scenenCtrl.Go(11);
+                SoundManager.Instance.Play_effect(0);
+                SC.Go(11);
                 break;
 
             case 2:
                 if (stage_num >= 1)
                 {
-                    SoundCtrl.Play_effect(0);
-                    scenenCtrl.Go(12);
+                    SoundManager.Instance.Play_effect(0);
+                    SC.Go(12);
                 }
                 else {
                     Advice("'Stage1'부터 입장해주세요!");
-                    SoundCtrl.Play_effect(2);
+                    SoundManager.Instance.Play_effect(2);
                 }
                 break;
 
             case 3:
                 if (stage_num >= 2)
                 {
-                    SoundCtrl.Play_effect(0);
-                    scenenCtrl.Go(13);
+                    SoundManager.Instance.Play_effect(0);
+                    SC.Go(13);
                 }
                 else
                 {
@@ -186,7 +184,7 @@ public class MapManager : MonoBehaviour
                     else
                         Advice("'Stage2'부터 입장해주세요!");
 
-                    SoundCtrl.Play_effect(2);
+                    SoundManager.Instance.Play_effect(2);
                 }
                 break;
         }
