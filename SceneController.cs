@@ -28,7 +28,6 @@ public class SceneController : MonoBehaviour {
 
     //씬 이동에 사용
     void Go(string scene) {
-        print("****************************** [" + current + "] --> [" + scene + "] ******************************");
         SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
@@ -112,19 +111,15 @@ public class SceneController : MonoBehaviour {
         string scene = "";
         switch (num) {
             case 5:
-                print("조사일지에서 들어가기************************************************************");
                 scene = "05_Do_planet";
                 break;
             case 8:
-                print("세팅창 열기**********************************************************************");
                 scene = "08_Setting";
                 break;
             case 9:
-                print("대화창 열기**********************************************************************");
                 scene = "09_Dialog";
                 break;
             case 10:
-                print("클리어창 열기********************************************************************");
                 scene = "10_Clear";
                 break;
         }
@@ -136,7 +131,6 @@ public class SceneController : MonoBehaviour {
     public void Destroy_Scene() {
         //기본 Scene 다시 작동
         Time.timeScale = 1;
-        print("중첩씬 모두 삭제*****************************************************************");
         for (int i = 1; i < SceneManager.sceneCount; ++i)
         {
             SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(i).name);
@@ -176,7 +170,6 @@ public class SceneController : MonoBehaviour {
     public void BackMap()
     {
         StopAllCoroutines();
-        print("클리어 창 닫기*******************************************************************");
         int map = PlayerPrefs.GetInt("TheMapIs", 1) + 1;
         Go(map);
     }

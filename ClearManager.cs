@@ -22,6 +22,10 @@ public class ClearManager : MonoBehaviour {
 
         //이미지 세팅
         SettingScene(game_num);
+
+        //클리어 값 설정
+        if (PlayerPrefs.GetInt("tmp_Stage") < (game_num))
+            PlayerPrefs.SetInt("tmp_Stage", game_num);
     }
 
     void SettingScene(int sceneNum) {
@@ -89,10 +93,6 @@ public class ClearManager : MonoBehaviour {
     public void Close() {
         //메인용 배경음악으로 초기화
         SoundManager.Instance.BGM_reset();
-        
-        //클리어 값 설정
-        if (PlayerPrefs.GetInt("tmp_stage") < (game_num))
-            PlayerPrefs.SetInt("tmp_stage", game_num);
 
         //02_Map으로 돌아가기
         GetComponent<SceneController>().BackMap();
