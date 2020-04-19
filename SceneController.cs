@@ -37,6 +37,9 @@ public class SceneController : MonoBehaviour {
         switch (num) {
             case 1: // 01_Main
                 scene = "01_Main";
+                //메인용 배경음악으로 초기화
+                if (GetActiveScene_num() > 10)
+                    SoundManager.Instance.BGM_reset();
                 break;
             case 2: // 02_Map.............. soil 세팅
                 scene = "02_Map";
