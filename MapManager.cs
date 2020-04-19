@@ -95,6 +95,11 @@ public class MapManager : MonoBehaviour
             }
 
             //맵 활성화
+            btn_1.image.sprite = mp;
+            btn_2.image.sprite = mp;
+            btn_3.image.sprite = mp;
+
+            //맵 활성화
             btn_2.interactable = true;
             btn_3.interactable = true;
         }
