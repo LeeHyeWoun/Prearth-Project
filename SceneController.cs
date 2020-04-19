@@ -86,7 +86,7 @@ public class SceneController : MonoBehaviour {
                     //아직 준비되지 않은 게임씬일 경우
                     if (!Application.CanStreamedLevelBeLoaded(scene)) {
                         string message = "'stage" + (num - 10).ToString() + "'는 아직 준비중입니다. (" + scene + ")";
-                        GameObject GO = GameObject.Find("SoundManager");
+                        GameObject GO = GameObject.Find("Default");
                         if (GO)
                             GO.GetComponent<ToastManager>().ShowToast(message);
                         return;
