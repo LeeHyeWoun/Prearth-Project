@@ -24,8 +24,7 @@ public class ClearManager : MonoBehaviour {
         SettingScene(game_num);
 
         //클리어 값 설정
-        if (PlayerPrefs.GetInt("tmp_Stage") < (game_num))
-            PlayerPrefs.SetInt("tmp_Stage", game_num);
+        PlayerPrefs.SetInt("tmp_Stage", game_num);
     }
 
     void SettingScene(int sceneNum) {

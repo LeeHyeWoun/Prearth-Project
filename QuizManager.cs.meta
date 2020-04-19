@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: ea2309e6b6fb77f44a630947a02410a8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - go_blur: {instanceID: 0}
+  - go_result: {instanceID: 0}
+  - go_commentary: {instanceID: 0}
+  - t_question: {instanceID: 0}
+  - t_option1: {instanceID: 0}
+  - t_option2: {instanceID: 0}
+  - t_option3: {instanceID: 0}
+  - t_option4: {instanceID: 0}
+  - t_count: {instanceID: 0}
+  - option1: {instanceID: 0}
+  - option2: {instanceID: 0}
+  - option3: {instanceID: 0}
+  - option4: {instanceID: 0}
+  - img_option: {fileID: 21300000, guid: 529cca9d0913b9948884dffc8a52f4f5, type: 3}
+  - img_option_correct: {fileID: 21300000, guid: 083f885e5c4250e4bab0091fdab5b18b,
+      type: 3}
+  - img_option_wrong: {fileID: 21300000, guid: e6b51192a7b7df447b3783c66c5cfd66, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

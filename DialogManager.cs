@@ -246,7 +246,16 @@ public class DialogManager : MonoBehaviour {
                 img_base.transform.Translate(Vector3.down * 10);
                 yield return null;
             }
-            SC.Change_Scene(10);
+            if (PlayerPrefs.GetInt("tmp_Stage") < (GetComponent<SceneController>().GetActiveScene_num() - 10))
+                SC.Change_Scene(10);
+            else {
+                //메인용 배경음악으로 초기화
+                SoundManager.Instance.BGM_reset();
+
+                //02_Map으로 돌아가기
+                GetComponent<SceneController>().BackMap();
+            }
+
         }
         else {
             for (int i = 0; i < 50; i++)
@@ -264,29 +273,6 @@ public class DialogManager : MonoBehaviour {
                 SC.Destroy_Scene();
         }
 
-    }
-
-    //코루틴 >> 한 음절씩 출력
-    IEnumerator Routine_wording() {
-
-        fast = false;
-
-        string sentence = "";
-        for (int i = 0; i < fileLine.Length; i++)
-        {
-            if (fast)
-            {
-                fast = false;
-                t_dialog.text = fileLine;
-                break;
-            }
-            sentence += fileLine[i];
-            t_dialog.text = sentence;
-
-            yield return StartCoroutine(WaitForUnscaledSeconds(0.05f));
-        }
-
-        yield return StartCoroutine(WaitForUnscaledSeconds(1.5f));
     }
 
     //코루틴 >> 한 문장씩 출력
@@ -320,6 +306,30 @@ public class DialogManager : MonoBehaviour {
         //창 사라지기
         yield return StartCoroutine(Routine_disappear());
 
+    }
+
+    //코루틴 >> 한 음절씩 출력
+    IEnumerator Routine_wording()
+    {
+
+        fast = false;
+
+        string sentence = "";
+        for (int i = 0; i < fileLine.Length; i++)
+        {
+            if (fast)
+            {
+                fast = false;
+                t_dialog.text = fileLine;
+                break;
+            }
+            sentence += fileLine[i];
+            t_dialog.text = sentence;
+
+            yield return StartCoroutine(WaitForUnscaledSeconds(0.05f));
+        }
+
+        yield return StartCoroutine(WaitForUnscaledSeconds(1.5f));
     }
 
     //코루틴 >> WaitforSecond를 대체
