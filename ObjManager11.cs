@@ -35,7 +35,6 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     IEnumerator coroutine_trash1, coroutine_trash2, coroutine_trash3, coroutine_trash4;
 
     //커스텀 클래스 인스턴스
-    SoundController SC;
     OrderController OC;
     GameButtonController GBC;
 
@@ -47,7 +46,6 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         trash_lids[2] = trash3_lid;
         trash_lids[3] = trash4_lid;
 
-        SC = GetComponent<SoundController>();
         OC = GetComponent<OrderController>();
         GBC = GetComponent<GameButtonController>();
     }
@@ -132,7 +130,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 break;
         }
         
-        SC.Play_effect(0);
+        SoundManager.Instance.Play_effect(0);
         target.SetActive(false);
 
         //단서 박스에 채우기 및 이펙트 효과
@@ -203,9 +201,9 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             //print(target.name + " / " + num);
 
             if (Match_Clue_to_Trash(clue_name, num))
-                SC.Play_effect(1);  //적절하다는 효과음 내기
+                SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
             else
-                SC.Play_effect(2);  //적절하지 않다는 효과음 내기
+                SoundManager.Instance.Play_effect(2);  //적절하지 않다는 효과음 내기
         }
     }
 
@@ -231,7 +229,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 break;
 
             default:
-                SC.Play_effect(2);  //적절하지 않다는 효과음 내기
+                SoundManager.Instance.Play_effect(2);  //적절하지 않다는 효과음 내기
                 break;
         }
     }
@@ -306,16 +304,16 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     break;
             }
             if (success) {
-                SC.Play_effect(1);
+                SoundManager.Instance.Play_effect(1);
                 if (!B_Pet.activeSelf && !B_Vinyl.activeSelf) {
                     GBC.Clear_Clue(1);
                 }
             }
             else
-                SC.Play_effect(2);
+                SoundManager.Instance.Play_effect(2);
         }
         else
-            SC.Play_effect(2);
+            SoundManager.Instance.Play_effect(2);
     }
     public void Item_knife() {
         string name = GetClickUI();
