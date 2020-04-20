@@ -237,7 +237,10 @@ public class QuizManager : MonoBehaviour {
     IEnumerator Routine_check(bool correct) {
         GameObject check;
         if (correct)
+        {
+            go_wrong.SetActive(false);
             check = go_correct;
+        }
         else
             check = go_wrong;
         check.SetActive(true);

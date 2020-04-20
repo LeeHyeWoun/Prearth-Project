@@ -20,27 +20,18 @@ public class SoundController : MonoBehaviour
     public Slider s_bgm, s_effect;
 
     private AudioSource bgm, effect;
-    private AudioClip
-        effect_no, effect_ok, effect_select;
     
     //변수
     private float value_effect = 1f;
     private float value_bgm = 1f;
 
-    //싱글톤의 SoundManager을 불러오기
-    readonly SoundManager SM = SoundManager.Instance;
-
-
     //초기화
     void Start()
     {
-        if (SM)
+        if (SoundManager.Instance)
         {
-            bgm = SM.Player_BGM;
-            effect = SM.Player_effect;
-            effect_no = SM.effect_no;
-            effect_ok = SM.effect_ok;
-            effect_select = SM.effect_select;
+            bgm = SoundManager.Instance.Player_BGM;
+            effect = SoundManager.Instance.Player_effect;
 
             //슬라이더 초기화
             if (s_bgm != null || s_effect != null) {
@@ -55,7 +46,7 @@ public class SoundController : MonoBehaviour
     //배경음악 설정
     public void SetBGM()
     {
-        if (SM)
+        if (SoundManager.Instance)
         {
             value_bgm = s_bgm.value;
             bgm.volume = value_bgm;
@@ -70,7 +61,7 @@ public class SoundController : MonoBehaviour
     //효과음 설정
     public void SetEffect()
     {
-        if (SM)
+        if (SoundManager.Instance)
         {
             value_effect = s_effect.value;
             effect.volume = value_effect;
@@ -85,8 +76,8 @@ public class SoundController : MonoBehaviour
     //Effect 선택 Play
     public void Play_effect(int num)
     {
-        if (SM)
-            SM.Play_effect(num);
+        if (SoundManager.Instance)
+            SoundManager.Instance.Play_effect(num);
     }
 
     //BGM 소리 크기 설정
