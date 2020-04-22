@@ -3,11 +3,29 @@
 //Do씬에 임시적으로 적용할 스크립트
 public class DoManager : MonoBehaviour {
 
-    //싱글톤의 SoundManager을 불러오기
-    readonly SoundManager SM = SoundManager.Instance;
+    SceneController SC;
 
-    public void button() {
-        SM.Play_effect(0);
+    void Start() {
+        SC = GetComponent<SceneController>();
+    }
+
+    public void button(int num) {
+        SoundManager.Instance.Play_effect(0);
+
+        switch (num) {
+            case 1:
+                SC.Go(5);
+                break;
+            case 2:
+                SC.Go(6);
+                break;
+            case 3:
+                SC.Go(7);
+                break;
+            default:
+                SC.Destroy_Scene();
+                break;
+        }
     }
 
 }
