@@ -23,6 +23,11 @@ public class ZoomManager : MonoBehaviour
     //변수
     float deltaMagDiff;             // Zoom 값
     bool play = true;               //실행 여부
+    Camera cmr;
+
+    void Start() {
+        cmr = Camera.main;
+    }
 
     void Update()
     {
@@ -68,16 +73,16 @@ public class ZoomManager : MonoBehaviour
     public void Zoom(float degree)
     {
         //카메라 줌 : orthographicSize = 1.5 ~ 5
-        Camera.main.orthographicSize += degree * MOV_SPEED;
-        float zoomSize = Camera.main.orthographicSize;
+        cmr.orthographicSize += degree * MOV_SPEED;
+        float zoomSize = cmr.orthographicSize;
         if (zoomSize > 5f)
             zoomSize = 5f;
         else if (zoomSize < 5f - MAX_ZOOM)
             zoomSize = 5f - MAX_ZOOM;
-        Camera.main.orthographicSize = zoomSize;
+        cmr.orthographicSize = zoomSize;
 
         //카메라 높이 수정
         float cmrPosY = (zoomSize - 5f) * MAX_CMR_MOV / MAX_ZOOM;
-        Camera.main.transform.position = new Vector3(0, cmrPosY, 10);
+        cmr.transform.position = new Vector3(0, cmrPosY, 10);
     }
 }
