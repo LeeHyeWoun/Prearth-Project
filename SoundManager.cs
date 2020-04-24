@@ -25,8 +25,10 @@ public class SoundManager : MonoBehaviour {
     //싱글톤 구현
     private void Awake()
     {
-        if (Instance == null)
+        if (Instance == null) {
             Instance = this;
+            SceneController.Instance = GetComponent<SceneController>();
+        }
         else if (Instance != this)
             Destroy(gameObject);
         DontDestroyOnLoad(gameObject);
