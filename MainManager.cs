@@ -49,6 +49,7 @@ public class MainManager : MonoBehaviour
     {
         //싱글톤의 SoundManager을 불러오기...Main에서는 꼭 Start에서 할당받아야함
         SM = SoundManager.Instance;
+        SC = SceneController.Instance;
 
         planet = stage_num/3;
         //토양행성은 기본적으로 활성화되어 있음
@@ -71,7 +72,6 @@ public class MainManager : MonoBehaviour
             }
         }
 
-        SC = GetComponent<SceneController>();
 
     }
 
