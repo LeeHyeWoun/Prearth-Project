@@ -26,13 +26,14 @@ public class ToastManager : MonoBehaviour {
 
     void Awake()
     {
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
-            DontDestroyOnLoad(this.gameObject);
-        }
+
+#if UNITY_EDITOR
+        Debug.Log("ToastManager전처리 : 에디터 환경");
+#elif UNITY_ANDROID
+        unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
+        DontDestroyOnLoad(this.gameObject);
     }
 
     void Update()
@@ -53,32 +54,34 @@ public class ToastManager : MonoBehaviour {
             CancelInvoke("CountReset");
             Application.Quit();
         }
+#endif
     }
 
     //토스트 띄우기
     public void ShowToast(string message)
     {
-        if(currentActivity!=null)
-            currentActivity.Call(
-                "runOnUiThread",
-                new AndroidJavaRunnable(() =>
-                {
-                    AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
-                    AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", message);
+#if UNITY_EDITOR
+        Debug.Log(message);
+#elif UNITY_ANDROID
+        currentActivity.Call(
+            "runOnUiThread",
+            new AndroidJavaRunnable(() =>
+            {
+                AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
+                AndroidJavaObject javaString = new AndroidJavaObject("java.lang.String", message);
 
-                    toast = Toast.CallStatic<AndroidJavaObject>
-                    (
-                        "makeText",
-                        context,
-                        javaString,
-                        Toast.GetStatic<int>("LENGTH_SHORT")
-                    );
+                toast = Toast.CallStatic<AndroidJavaObject>
+                (
+                    "makeText",
+                    context,
+                    javaString,
+                    Toast.GetStatic<int>("LENGTH_SHORT")
+                );
 
-                    toast.Call("show");
-                })
-             );
-        else
-            print(message);
+                toast.Call("show");
+            })
+         );
+#endif
     }
 
     //ClickCount 초기화
