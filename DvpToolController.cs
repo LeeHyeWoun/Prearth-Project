@@ -20,7 +20,7 @@ public class DvpToolController : MonoBehaviour {
     public Text txt_clear;
 
     private int count=0;
-    private const string tmp_Stage = "tmp_Stage";
+    private const string tmp_Clear = "tmp_Clear";
 
     //커스텀 클래스 인스턴스
     SoundManager SM;
@@ -29,7 +29,7 @@ public class DvpToolController : MonoBehaviour {
     private void Start()
     {
         SM = SoundManager.Instance;
-        txt_clear.text += PlayerPrefs.GetInt(tmp_Stage, 0).ToString();
+        txt_clear.text += PlayerPrefs.GetInt(tmp_Clear, 0).ToString();
     }
 
 
@@ -61,8 +61,8 @@ public class DvpToolController : MonoBehaviour {
         if (num > -1)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         else {
-            PlayerPrefs.SetInt("tutorial_page", 1);
-            SceneController.Instance.Load_Scene(0);
+            PlayerPrefs.SetInt("tmp_tutorial", 1);
+            SceneController.Instance.Load_Scene(14);
         }
 
     }
