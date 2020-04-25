@@ -73,7 +73,7 @@ public class MainManager : MonoBehaviour
                 SM.Play_effect(0);
                 if (stage_num < 0)
                 {
-                    PlayerPrefs.SetInt("tutorial_page", 3);
+                    PlayerPrefs.SetInt("tmp_tutorial", 3);
                     SceneController.Instance.Load_Scene(14);
                 }
                 else {
