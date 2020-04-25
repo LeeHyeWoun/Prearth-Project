@@ -1,31 +1,47 @@
-﻿using UnityEngine;
+﻿using UnityEngine.UI;
+using UnityEngine;
 
-//Do씬에 임시적으로 적용할 스크립트
+/**
+ * Date     : 2020.04.25
+ * Manager  : 이혜원
+ * 
+ * The function of this script :
+ *  Do_Base의 버튼 이벤트를 담당하는 스크립트
+ */
 public class DoManager : MonoBehaviour {
 
+    public Button b_tap_1, b_tap_2;
+
+    SoundManager SM;
     SceneController SC;
 
-    void Start() {
-        SC = GetComponent<SceneController>();
+    void Start()
+    {
+        SM = SoundManager.Instance;
+        SC = SceneController.Instance;
     }
 
-    public void button(int num) {
-        SoundManager.Instance.Play_effect(0);
-
-        switch (num) {
-            case 1:
-                SC.Go(5);
-                break;
-            case 2:
-                SC.Go(6);
-                break;
-            case 3:
-                SC.Go(7);
-                break;
-            default:
-                SC.Destroy_Scene();
-                break;
-        }
+    public void BE_Tap_1()
+    {
+        SM.Play_effect(0);
+        SC.Load_Scene(12);
+        b_tap_1.interactable = false;
+        b_tap_2.interactable = true;
+        b_tap_1.transform.Translate(Vector3.left * 40);
+        b_tap_2.transform.Translate(Vector3.right * 40);
     }
-
+    public void BE_Tap_2()
+    {
+        SM.Play_effect(0);
+        SC.Load_Scene(13);
+        b_tap_1.interactable = true;
+        b_tap_2.interactable = false;
+        b_tap_1.transform.Translate(Vector3.right * 40);
+        b_tap_2.transform.Translate(Vector3.left * 40);
+    }
+    public void BE_Back()
+    {
+        SM.Play_effect(0);
+        SC.Destroy_Scene();
+    }
 }
