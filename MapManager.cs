@@ -29,11 +29,8 @@ public class MapManager : MonoBehaviour
         texture_mapPoint_soil, texture_mapPoint_water, texture_mapPoint_air;//지도 스테이지 이미지
 
     //변수
-    int stage_num;
+    int clear_num;
     string str_origin = "";
-
-    //런타임 상수
-    readonly WaitForSeconds ShortTerm = new WaitForSeconds(1f);
 
     //커스텀 클래스의 인스턴스    
     SceneController SC;
@@ -42,23 +39,23 @@ public class MapManager : MonoBehaviour
     //초기화
     void Start()
     {
-        SC = GetComponent<SceneController>();
+        SC = SceneController.Instance;
 
         //데이터 불러오기
-        stage_num = PlayerPrefs.GetInt("tmp_Stage", 0);
-        int mapNum = PlayerPrefs.GetInt("TheMapIs", 1);
+        clear_num = PlayerPrefs.GetInt("tmp_Clear", 0);
+        int planet_num = SC.GetPlanetNum();
 
         //행성 디자인 설정
         Sprite mp;
-        switch (mapNum)
+        switch (planet_num)
         {
-            case 1:
+            case 0:
                 str_origin = "페페행성";
                 RI_map.texture = texture_map_soil;
                 mp = texture_mapPoint_soil;
                 break;
 
-            case 2:
+            case 1:
                 str_origin = "도도행성";
                 RI_map.texture = texture_map_water;
                 mp = texture_mapPoint_water;
@@ -73,20 +70,20 @@ public class MapManager : MonoBehaviour
 
         // 행성 진행 상태
         // 이미 클리어한 행성일 경우.................................................................................
-        if ((mapNum == 1 && stage_num >= 3) ||
-            (mapNum == 2 && stage_num >= 6) ||
-            (mapNum == 3 && stage_num >= 9))
+        if ((planet_num == 0 && clear_num >= 3) ||
+            (planet_num == 1 && clear_num >= 6) ||
+            (planet_num == 2 && clear_num >= 9))
         {
             //상태창 내용 설정
             str_origin += "의 연료를 모두 모았습니다.";
 
             //보석 설정
-            switch (mapNum)
+            switch (planet_num)
             {
-                case 1:
+                case 0:
                     RI_gem.texture = texture_gem1_3;
                     break;
-                case 2:
+                case 1:
                     RI_gem.texture = texture_gem2_3;
                     break;
                 default:
@@ -107,33 +104,33 @@ public class MapManager : MonoBehaviour
         else
         {
             //상태창 내용 설정
-            stage_num %= 3;
-            str_origin += " " + (3 - stage_num).ToString() + "조각 남았습니다.";
+            clear_num %= 3;
+            str_origin += " " + (3 - clear_num).ToString() + "조각 남았습니다.";
 
             //보석 설정
-            switch (mapNum) {
-                case 1:
-                    if (stage_num == 0)
+            switch (planet_num) {
+                case 0:
+                    if (clear_num == 0)
                         RI_gem.texture = texture_gem1_0;
-                    else if (stage_num == 1)
+                    else if (clear_num == 1)
                         RI_gem.texture = texture_gem1_1;
                     else
                         RI_gem.texture = texture_gem1_2;
                     break;
 
-                case 2:
-                    if (stage_num == 0)
+                case 1:
+                    if (clear_num == 0)
                         RI_gem.texture = texture_gem2_0;
-                    else if (stage_num == 1)
+                    else if (clear_num == 1)
                         RI_gem.texture = texture_gem2_1;
                     else
                         RI_gem.texture = texture_gem2_2;
                     break;
 
                 default:
-                    if (stage_num == 0)
+                    if (clear_num == 0)
                         RI_gem.texture = texture_gem3_0;
-                    else if (stage_num == 1)
+                    else if (clear_num == 1)
                         RI_gem.texture = texture_gem3_1;
                     else
                         RI_gem.texture = texture_gem3_2;
@@ -142,11 +139,11 @@ public class MapManager : MonoBehaviour
 
             //맵 활성화
             btn_1.image.sprite = mp;            //stage1 활성화
-            if (stage_num >= 1)
+            if (clear_num >= 1)
             {
                 btn_2.image.sprite = mp;        //stage2 활성화
 
-                if (stage_num >= 2)
+                if (clear_num >= 2)
                     btn_3.image.sprite = mp;    //stage3 활성화
             }
 
@@ -157,54 +154,22 @@ public class MapManager : MonoBehaviour
 
     public void Go_game(int num)
     {
-        switch (num)
+        //순서를 지키지 않았을 때 안내
+        if (num > clear_num)
         {
-            case 1:
-                SoundManager.Instance.Play_effect(0);
-                SC.Go(11);
-                break;
-
-            case 2:
-                if (stage_num >= 1)
-                {
-                    SoundManager.Instance.Play_effect(0);
-                    SC.Go(12);
-                }
-                else {
-                    Advice("'Stage1'부터 입장해주세요!");
-                    SoundManager.Instance.Play_effect(2);
-                }
-                break;
-
-            case 3:
-                if (stage_num >= 2)
-                {
-                    SoundManager.Instance.Play_effect(0);
-                    SC.Go(13);
-                }
-                else
-                {
-                    if (stage_num < 1)
-                        Advice("'Stage1'부터 입장해주세요!");
-                    else
-                        Advice("'Stage2'부터 입장해주세요!");
-
-                    SoundManager.Instance.Play_effect(2);
-                }
-                break;
+            SoundManager.Instance.Play_effect(2);
+            SC.Prevent(clear_num + 1);
+            return;
         }
-    }
 
-    void Advice(string advice) {
-        StopAllCoroutines();    //버튼을 연속으로 누를때 충돌을 피하기 위해
-        StartCoroutine(routine_advice(advice));
-    }
 
-    IEnumerator routine_advice(string advice) {
-        T_Status.text = "<color=#C1C1C1>" + advice + "</color>";
-        yield return ShortTerm;
-        T_Status.text = str_origin;
-    }
+        int scene_index = 2;                    //게임 인덱스는 2부터 시작
+        scene_index += num;                     //stage 설정: 0~2
+        scene_index += 3 * SC.GetPlanetNum();   //행성 설정 : 토양 : 0, 수질 : 1, 대기 : 2
+        
+        SoundManager.Instance.Play_effect(0);
+        SC.Load_Scene(scene_index);             //Scene 이동
 
+    }
 
 }

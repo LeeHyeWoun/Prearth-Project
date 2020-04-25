@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 /**
  * Date     : 2020.02.20
@@ -23,25 +22,21 @@ public class MainManager : MonoBehaviour
     //변수
     int stage_num, planet;
 
-    //상수
-    const string tmp_Stage = "tmp_Stage";
-
     //런타임 상수
     readonly Vector2 bigSize = new Vector2(652f, 652f);
 
     //커스텀 클래스 인스턴스
-    SceneController SC;
     SoundManager SM;
 
 
 
     void Awake() {
-        stage_num = PlayerPrefs.GetInt(tmp_Stage, -1);
+        stage_num = PlayerPrefs.GetInt("tmp_Clear", -1);
 
         if (stage_num < 0)
         {
             PlayerPrefs.SetInt("tutorial_page", 1);
-            SceneManager.LoadSceneAsync("00_Tutorial", LoadSceneMode.Additive);
+            SceneController.Instance.Load_Scene(14);
         }
     }
 
@@ -49,7 +44,6 @@ public class MainManager : MonoBehaviour
     {
         //싱글톤의 SoundManager을 불러오기...Main에서는 꼭 Start에서 할당받아야함
         SM = SoundManager.Instance;
-        SC = SceneController.Instance;
 
         planet = stage_num/3;
         //토양행성은 기본적으로 활성화되어 있음
@@ -80,19 +74,23 @@ public class MainManager : MonoBehaviour
         {
             case 1:
                 SM.Play_effect(0);
-                if (stage_num < 0) {
+                if (stage_num < 0)
+                {
                     PlayerPrefs.SetInt("tutorial_page", 3);
-                    SceneManager.LoadSceneAsync("00_Tutorial", LoadSceneMode.Additive);
+                    SceneController.Instance.Load_Scene(14);
                 }
-                else
-                    SC.Go(2);
+                else {
+                    SceneController.Instance.SetPlanetNum(0);
+                    SceneController.Instance.Load_Scene(1);
+                }
 
                 break;
 
             case 2:
                 if (planet >= 1) {
                     SM.Play_effect(0);
-                    SC.Go(3);
+                    SceneController.Instance.SetPlanetNum(1);
+                    SceneController.Instance.Load_Scene(1);
                 }
                 else
                     SM.Play_effect(2);
@@ -101,7 +99,8 @@ public class MainManager : MonoBehaviour
             case 3:
                 if (planet >= 2) {
                     SM.Play_effect(0);
-                    SC.Go(4);
+                    SceneController.Instance.SetPlanetNum(2);
+                    SceneController.Instance.Load_Scene(1);
                 }
                 else
                     SM.Play_effect(2);
