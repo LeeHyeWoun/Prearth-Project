@@ -131,12 +131,12 @@ public class OrderController : MonoBehaviour {
             PlayerPrefs.SetInt("tmp_Stage", tmp);
 
             //클리어 창 팝업 + fade in effedt
-            GetComponent<SceneController>().Change_Scene(10);
+            SceneController.Instance.Load_Scene(10);
         }
         //이미 클리어한 스테이지일 경우 그냥 맵으로 돌아가기
         else
         {
-            GetComponent<SceneController>().BackMap();
+            SceneController.Instance.Load_Scene(1);
         }
     }
 

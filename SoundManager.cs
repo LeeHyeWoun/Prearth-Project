@@ -12,15 +12,15 @@
  */
 public class SoundManager : MonoBehaviour {
 
-    // Audio players components.
+    // 싱글톤 인스턴스
+    public static SoundManager Instance = null;
+
+    // 할당 받을 오디오 관련 컴포넌트 및 리소스
     public AudioSource Player_BGM, Player_effect;
     public AudioClip
     bgm_game, bgm_main,
     effect_no, effect_ok, effect_select;
 
-
-    // Singleton instance.
-    public static SoundManager Instance = null;
 
     //싱글톤 구현
     private void Awake()
@@ -35,30 +35,24 @@ public class SoundManager : MonoBehaviour {
     }
 
     //소리값 초기화
-    void Start() {
+    void Start()
+    {
         Player_BGM.volume = PlayerPrefs.GetFloat("bgm", 0.5f);
         Player_effect.volume = PlayerPrefs.GetFloat("effect", 1f);
     }
 
+    
     //Effect 선택 Play
     public void Play_effect(int num)
     {
-        AudioClip clip;
-        switch (num)
-        {
-            case 1:
-                clip = effect_ok;
-                break;
+        if (num.Equals(1))
+            Player_effect.PlayOneShot(effect_ok);
 
-            case 2:
-                clip = effect_no;
-                break;
+        else if (num.Equals(2))
+            Player_effect.PlayOneShot(effect_no);
 
-            default:
-                clip = effect_select;
-                break;
-        }
-        Player_effect.PlayOneShot(clip);
+        else
+            Player_effect.PlayOneShot(effect_select);
     }
 
     //Game 끝내고 소리 재설정

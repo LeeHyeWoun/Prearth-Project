@@ -247,13 +247,13 @@ public class DialogManager : MonoBehaviour {
                 yield return null;
             }
             if (PlayerPrefs.GetInt("tmp_Stage") < (GetComponent<SceneController>().GetActiveScene_num() - 10))
-                SC.Change_Scene(10);
+                SC.Load_Scene(10);
             else {
                 //메인용 배경음악으로 초기화
                 SoundManager.Instance.BGM_reset();
 
                 //02_Map으로 돌아가기
-                GetComponent<SceneController>().BackMap();
+                SceneController.Instance.Load_Scene(1);
             }
 
         }

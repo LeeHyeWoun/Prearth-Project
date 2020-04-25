@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour {
 
@@ -17,9 +16,8 @@ public class TutorialManager : MonoBehaviour {
     
     void Start() {
         SM = SoundManager.Instance;
-        page = PlayerPrefs.GetInt("tutorial_page", 1);
+        page = PlayerPrefs.GetInt("tutorial_page");
         ChageImage(page);
-        print("튜토리얼 모드 ************************************************************");
     }
 
     public void Next() {
@@ -43,16 +41,13 @@ public class TutorialManager : MonoBehaviour {
         if (page < 3)
         {
             PlayerPrefs.SetInt("tutorial_page", 3);
-            SceneManager.UnloadSceneAsync("00_Tutorial");
+            SceneController.Instance.Destroy_Scene();
         }
         else
         {
-            PlayerPrefs.SetInt("tmp_Stage", 0);
-            PlayerPrefs.SetInt("TheMapIs", 1);
-
-            print("튜토리얼 종료 ************************************************************");
-            print("****************************** [" + SceneManager.GetActiveScene().name + "] --> [" + "02_Map" + "] ******************************");
-            SceneManager.LoadScene("02_Map");
+            PlayerPrefs.SetInt("tmp_Clear", 0);
+            SceneController.Instance.SetPlanetNum(0);
+            SceneController.Instance.Load_Scene(1);
         }
     }
 

@@ -13,6 +13,6 @@ public class DialogController : MonoBehaviour {
 
     public void Dialog(string filename) {
         PlayerPrefs.SetString("DIALOG", filename);
-        SC.Add_Scene(9);
+        SC.Load_Scene(9);
     }
 }

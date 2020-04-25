@@ -38,7 +38,7 @@ public class QuizManager : MonoBehaviour {
         
         //대화창
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num() + "_start");
-        SC.Add_Scene(9);
+        SC.Load_Scene(9);
 
         string file_name = "quiz"+ (SC.GetActiveScene_num()-10)/3;
 
@@ -206,7 +206,7 @@ public class QuizManager : MonoBehaviour {
         go_blur.SetActive(false);
         go_result.SetActive(false);
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num()+"_clear");
-        SC.Add_Scene(9);
+        SC.Load_Scene(9);
     }
 
     public void Back()

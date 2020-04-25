@@ -18,7 +18,7 @@ public class ClearManager : MonoBehaviour {
     int game_num;
 
     void Start () {
-        game_num = GetComponent<SceneController>().GetActiveScene_num() - 10;
+        game_num = SceneController.Instance.GetActiveScene_num() - 10;
 
         //이미지 세팅
         SettingScene(game_num);
@@ -94,7 +94,7 @@ public class ClearManager : MonoBehaviour {
         SoundManager.Instance.BGM_reset();
 
         //02_Map으로 돌아가기
-        GetComponent<SceneController>().BackMap();
+        SceneController.Instance.Load_Scene(1);
 
     }
 }
