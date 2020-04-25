@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 6e22820162a18a24380163b3c661fcc3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ri1: {instanceID: 0}
+  - r12: {instanceID: 0}
+  - ri3: {instanceID: 0}
+  - soil_default: {fileID: 2800000, guid: b3dd892b06b10f44d81b5554ed697e87, type: 3}
+  - soil_ing: {fileID: 2800000, guid: b7eb758665a8e054cb090a6401a9246a, type: 3}
+  - soil_complete: {fileID: 2800000, guid: 3f91c0d53d4f6c44bbfc2d162f7d5799, type: 3}
+  - water_default: {fileID: 2800000, guid: 5a5c54b86f8f83b4e8035846ba786db1, type: 3}
+  - water_ing: {fileID: 2800000, guid: 76bbff75913c56f448f5b320c0941974, type: 3}
+  - water_complete: {fileID: 2800000, guid: 91c480aab03e6d04c83cb3269e36cd17, type: 3}
+  - air_default: {fileID: 2800000, guid: 49bcfc41e75b47946a754a19d4d57af8, type: 3}
+  - air_ing: {fileID: 2800000, guid: 99ee1e65ddd2b794fa7ba4de57b08354, type: 3}
+  - air_complete: {fileID: 2800000, guid: 8696044f36f55714cb07297dc6c54168, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

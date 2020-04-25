@@ -38,17 +38,21 @@ public class QuizManager : MonoBehaviour {
         
         //대화창
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num() + "_start");
-        SC.Load_Scene(9);
+        SC.Load_Scene(16);
 
-        string file_name = "quiz"+ (SC.GetActiveScene_num()-10)/3;
+        string file_name = "quiz"+ (SC.GetActiveScene_num()-1)/3;
 
-        //대사 파일 불러오기 및 파일 존재 여부 체크
+        //대사 파일 불러오기
         TextAsset file = Resources.Load(LOCATION + file_name) as TextAsset;
+
+#if DEV_TEST
+        //파일 존재 여부 체크
         if (file == null)
         {
             print("Error : 파일명을 다시 체크해주세요.\n 'Resource/dialog/' 경로에서 파일<" + file_name + ".txt>를 찾을 수 없습니다.");
             return;
         }
+#endif
         stringReader = new StringReader(file.text);
         SetQuiz();
 
@@ -206,7 +210,7 @@ public class QuizManager : MonoBehaviour {
         go_blur.SetActive(false);
         go_result.SetActive(false);
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num()+"_clear");
-        SC.Load_Scene(9);
+        SC.Load_Scene(16);
     }
 
     public void Back()

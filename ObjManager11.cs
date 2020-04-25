@@ -101,7 +101,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     //단서를 모두 찾았을 때의 이벤트 ... Collect에서 Invoke로 사용
     void Success()
     {
-        OC.Dialog_Start("11_play1");
+        OC.Dialog_Start("2_play1");
     }
 
     //단서 발견 시 이벤트...클릭
@@ -249,7 +249,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     clueBox1.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_pat;
                     blank.SetActive(true);
-                    OC.Dialog_Start("11_Play2_1");
+                    OC.Dialog_Start("2_Play2_1");
                 }
                 break;
 
@@ -262,7 +262,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 }
                 //음식물 쓰레기통
                 else if (trash_num == 3)
-                    OC.Dialog_Start("11_Play2_2");
+                    OC.Dialog_Start("2_Play2_2");
 
                 break;
 
@@ -274,7 +274,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     clueBox3.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_icepack;
                     blank.SetActive(true);
-                    OC.Dialog_Start("11_Play2_3");
+                    OC.Dialog_Start("2_Play2_3");
                 }
                 break;
 
@@ -351,7 +351,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     void Ending()
     {
         //게임 마무리 대사
-        OC.Dialog_Start("11_clear");
+        OC.Dialog_Start("2_clear");
     }
 
 

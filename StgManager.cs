@@ -27,7 +27,6 @@ public class StgManager : MonoBehaviour{
     float angle = 0f;                   //스테이지 회전 각도
     bool play = true;                   //스테이지 회전 가능 여부
 
-    //공개 메소드
     //스테이지 회전 가능 여부 설정자
     public void setPlay(bool play)
     {
@@ -77,6 +76,7 @@ public class StgManager : MonoBehaviour{
         }
     }
 
+#if DEV_TEST
     // 스테이지 자동회전.... PC환경에서 회전 테스트 용
     //void Update()
     //{
@@ -95,6 +95,6 @@ public class StgManager : MonoBehaviour{
     //    else if (angle > 315 || angle < 45)
     //        Inside(c4, c1, c2, c3);
     //}
-
+#endif
 
 }

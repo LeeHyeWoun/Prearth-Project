@@ -34,23 +34,6 @@ public class SceneController : MonoBehaviour {
         return planet_num;
     }
 
-    private int Index_padding(ref int num) {   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
-
-        if (num > 9)
-            num--;
-        if (num > 8)
-            num--;
-        if (num > 6)
-            num--;
-        if (num > 5)
-            num--;
-        if (num > 3)
-            num--;
-
-        return num;
-    }
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
     //Scene 이동 (Single mode)
     //주의 사항 : 빌드세팅의 인덱스 설정
     public void Load_Scene(int num) {
@@ -62,7 +45,16 @@ public class SceneController : MonoBehaviour {
             return;
         }
 
-        Index_padding(ref num);
+        if (num > 9)
+            num--;
+        if (num > 8)
+            num--;
+        if (num > 6)
+            num--;
+        if (num > 5)
+            num--;
+        if (num > 3)
+            num--;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         if (num > 11- 5/*게임 씬 추가 후  수정 바람*/)
@@ -115,7 +107,22 @@ public class SceneController : MonoBehaviour {
     }
 
     public int GetActiveScene_num() {
-        return SceneManager.GetActiveScene().buildIndex;
+        //return SceneManager.GetActiveScene().buildIndex;
+        int num = SceneManager.GetActiveScene().buildIndex;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
+        switch (num) {
+            case 3:
+                num = 4;
+                break;
+            case 4:
+                num = 7;
+                break;
+            default:
+                if(num>4)
+                    num += 5;
+                break;
+        }
+        return num;
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     //MapManager에서 사용

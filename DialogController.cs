@@ -2,17 +2,15 @@
 
 public class DialogController : MonoBehaviour {
 
-    SceneController SC;
+    SceneController SC = SceneController.Instance;
 
 	// Use this for initialization
 	void Start () {
-        SC = GetComponent<SceneController>();
-
         Dialog(SC.GetActiveScene_num() + "_start");
     }
 
     public void Dialog(string filename) {
         PlayerPrefs.SetString("DIALOG", filename);
-        SC.Load_Scene(9);
+        SC.Load_Scene(16);
     }
 }

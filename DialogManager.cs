@@ -17,13 +17,13 @@ public class DialogManager : MonoBehaviour {
     string file_name, fileLine, previous_code;
     string location = "dialog/";
     int lineCount = 0;
-    int map_num;
     bool fast = false;
     bool change_chracter = false;
     float origin;
     Color color = Color.white;
 
     //런타임 상수 선언
+    readonly int planet_num = SceneController.Instance.GetPlanetNum();
     readonly string[] names = { "줄리안", "꼬륵이", "뿌직이", "콜록이" };
     readonly Color[] colors = {
         new Color(203/255f,    112 /255f,  143/255f),               // pink
@@ -31,36 +31,36 @@ public class DialogManager : MonoBehaviour {
         new Color(221/255f,    159 /255f,  60 /255f) };             // yellow
 
     //커스텀 클래스 인스턴스
-    SceneController SC;
+    SceneController SC = SceneController.Instance;
 
 
     void Awake() {
-        map_num = PlayerPrefs.GetInt("TheMapIs", 1);
         file_name = PlayerPrefs.GetString("DIALOG");
-
-        SC = GetComponent<SceneController>();
     }
 
     private void Start () {
+
+#if DEV_TEST
         //전달 값 체크
         if (file_name.Length <= 0)
         {
             print("Error : 전달 받은 값이 없습니다. 대신 test.txt를 출력합니다.");
             file_name = "test";
         }
-
-        //경로 설정
-        if(!file_name.Equals("test"))
-            location += SC.GetActiveScene_num() + "/";
-
-        //대사 파일 불러오기 및 파일 존재 여부 체크
+#endif
+        //대사 파일 불러오기
+        location = "dialog/" + SceneController.Instance.GetActiveScene_num() + "/";
         TextAsset file = Resources.Load(location + file_name) as TextAsset;
+
+#if DEV_TEST
+        // 파일 존재 여부 체크
         if (file == null)
         {
             print("Error : 파일명을 다시 체크해주세요.\n 'Resource/dialog/' 경로에서 파일<" + file_name + ".txt>를 찾을 수 없습니다.");
             return;
         }
         print("Dialog <" + file_name + ">");
+#endif
         stringReader = new StringReader(file.text);
 
         //행성에 따라 배경과 외계인 세팅
@@ -78,6 +78,7 @@ public class DialogManager : MonoBehaviour {
         // ':'를 기준으로 캐릭터 코드와 대사 분리
         string[] split_Line = fileLine.Split(':');
 
+#if DEV_TEST
         //파일 형식 오류 검사
         if (split_Line.Length != 2)
         {// ':' 체크
@@ -89,7 +90,7 @@ public class DialogManager : MonoBehaviour {
             print("Error : 파일<" + file_name + "> 파일 형식을 다시 체크해주세요.\n " + lineCount + "번째 줄 첫 글자로 '" + split_Line[0] + "가 들어왔습니다.");
             return false;
         }
-
+#endif
 
         //변경 여부 설정
         if (previous_code == null || !previous_code.Equals(split_Line[0]))
@@ -121,7 +122,7 @@ public class DialogManager : MonoBehaviour {
         //외계인 이미지로 변경
         else
         {
-            t_name.text = names[map_num];
+            t_name.text = names[planet_num+1];
             ri_character.texture = img_alien;
         }
     }
@@ -130,16 +131,16 @@ public class DialogManager : MonoBehaviour {
     void SettingScene()
     {
 
-        t_name.color = colors[map_num-1];
-        btn_skip.color = colors[map_num - 1];
-        img_base.color = colors[map_num - 1];
-        switch (map_num)
+        t_name.color = colors[planet_num];
+        btn_skip.color = colors[planet_num];
+        img_base.color = colors[planet_num];
+        switch (planet_num)
         {
-            case 2:
+            case 1:
                 img_alien = img_alien2;
                 break;
 
-            case 3:
+            case 2:
                 img_alien = img_alien3;
                 break;
 
@@ -238,7 +239,7 @@ public class DialogManager : MonoBehaviour {
         //배경과 대화창 설정
         Color color_bg = color_filter.color;
         float time = 0;
-        if (file_name.Substring(3).Equals("clear"))
+        if (file_name.Substring(file_name.IndexOf('_')+1).Equals("clear"))
         {
             for (int i = 0; i < 50; i++)
             {
@@ -246,14 +247,14 @@ public class DialogManager : MonoBehaviour {
                 img_base.transform.Translate(Vector3.down * 10);
                 yield return null;
             }
-            if (PlayerPrefs.GetInt("tmp_Clear") < (GetComponent<SceneController>().GetActiveScene_num() - 10))
-                SC.Load_Scene(10);
+            if (PlayerPrefs.GetInt("tmp_Clear") < (SC.GetActiveScene_num() - 1))
+                SC.Load_Scene(17);
             else {
                 //메인용 배경음악으로 초기화
                 SoundManager.Instance.BGM_reset();
 
                 //02_Map으로 돌아가기
-                SceneController.Instance.Load_Scene(1);
+                SC.Load_Scene(1);
             }
 
         }

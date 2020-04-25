@@ -18,13 +18,13 @@ public class ClearManager : MonoBehaviour {
     int game_num;
 
     void Start () {
-        game_num = SceneController.Instance.GetActiveScene_num() - 10;
+        game_num = SceneController.Instance.GetActiveScene_num() - 1;
 
         //이미지 세팅
         SettingScene(game_num);
 
         //클리어 값 설정
-        PlayerPrefs.SetInt("tmp_Stage", game_num);
+        PlayerPrefs.SetInt("tmp_Clear", game_num);
     }
 
     void SettingScene(int sceneNum) {
