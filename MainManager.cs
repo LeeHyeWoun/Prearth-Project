@@ -6,10 +6,7 @@ using UnityEngine.UI;
  * Manager  : 이혜원
  * 
  * The function of this script :
- *  Scene# 01_Main의 관리해주는 스크립트
- *  
- *  Applied Location :
- *  -> Scene# 01_Main의 GameDirector(빈 오브젝트)
+ *  Scene# 00_Main의 관리해주는 스크립트
  */
 public class MainManager : MonoBehaviour
 {
@@ -35,7 +32,7 @@ public class MainManager : MonoBehaviour
 
         if (stage_num < 0)
         {
-            PlayerPrefs.SetInt("tutorial_page", 1);
+            PlayerPrefs.SetInt("tmp_tutorial", 1);
             SceneController.Instance.Load_Scene(14);
         }
     }

@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/**
+ * Date     : 2020.04.25
+ * Manager  : 이혜원
+ * 
+ * The function of this script :
+ *  Scene# 14_Tutorial의 관리해주는 스크립트
+ */
 public class TutorialManager : MonoBehaviour {
 
     //할당 받을 객체
@@ -16,7 +23,7 @@ public class TutorialManager : MonoBehaviour {
     
     void Start() {
         SM = SoundManager.Instance;
-        page = PlayerPrefs.GetInt("tutorial_page");
+        page = PlayerPrefs.GetInt("tmp_tutorial");
         ChageImage(page);
     }
 
@@ -40,11 +47,12 @@ public class TutorialManager : MonoBehaviour {
 
         if (page < 3)
         {
-            PlayerPrefs.SetInt("tutorial_page", 3);
+            PlayerPrefs.SetInt("tmp_tutorial", 3);
             SceneController.Instance.Destroy_Scene();
         }
         else
         {
+            PlayerPrefs.DeleteKey("tmp_tutorial");
             PlayerPrefs.SetInt("tmp_Clear", 0);
             SceneController.Instance.SetPlanetNum(0);
             SceneController.Instance.Load_Scene(1);
