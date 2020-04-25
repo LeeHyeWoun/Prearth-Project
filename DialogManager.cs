@@ -246,7 +246,7 @@ public class DialogManager : MonoBehaviour {
                 img_base.transform.Translate(Vector3.down * 10);
                 yield return null;
             }
-            if (PlayerPrefs.GetInt("tmp_Stage") < (GetComponent<SceneController>().GetActiveScene_num() - 10))
+            if (PlayerPrefs.GetInt("tmp_Clear") < (GetComponent<SceneController>().GetActiveScene_num() - 10))
                 SC.Load_Scene(10);
             else {
                 //메인용 배경음악으로 초기화

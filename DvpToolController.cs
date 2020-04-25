@@ -57,7 +57,7 @@ public class DvpToolController : MonoBehaviour {
     public void Apply(int num)
     {
         SM.Play_effect(0);
-        PlayerPrefs.SetInt(tmp_Stage, num);
+        PlayerPrefs.SetInt(tmp_Clear, num);
         if (num > -1)
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         else {

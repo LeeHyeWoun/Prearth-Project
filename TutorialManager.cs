@@ -48,6 +48,7 @@ public class TutorialManager : MonoBehaviour {
         if (page < 3)
         {
             PlayerPrefs.SetInt("tmp_tutorial", 3);
+            SceneController.Instance.Load_Scene(0);
             SceneController.Instance.Destroy_Scene();
         }
         else
