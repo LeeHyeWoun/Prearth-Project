@@ -13,8 +13,7 @@ public class OrderController : MonoBehaviour {
     Dictionary<string, string> orderList = new Dictionary<string, string>();
 
     //커스텀 클래스 인스턴스
-    SoundController SoundC;
-    SceneController SceneC;
+    SceneController SC;
     DialogController DC;
 
     //싱글톤의 SoundManager을 불러오기
@@ -26,14 +25,13 @@ public class OrderController : MonoBehaviour {
 
     void Start()
     {
-        SoundC = GetComponent<SoundController>();
-        SceneC = GetComponent<SceneController>();
+        SC = GetComponent<SceneController>();
         DC = GetComponent<DialogController>();
 
         //현재 씬에 따라 다른 start 대사 가져오기
-        sceneNum = SceneC.GetActiveScene_num();
+        sceneNum = SC.GetActiveScene_num();
 
-        switch (SceneC.GetActiveScene_num())
+        switch (SC.GetActiveScene_num())
         {
             case 11:
                 orderList.Add("11_start",   "꼬륵이의 집에서 문제의 단서를 찾아보세요.");
@@ -117,7 +115,7 @@ public class OrderController : MonoBehaviour {
             float bgm_value = PlayerPrefs.GetFloat("bgm", 1f);
             while (bgm_value > 0)
             {
-                SoundC.SetBGM_Volum(bgm_value);
+                SM.SetBGM_Volum(bgm_value);
                 bgm_value -= 0.01f;
                 yield return null;
             }

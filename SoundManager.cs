@@ -72,4 +72,9 @@ public class SoundManager : MonoBehaviour {
         Player_BGM.Play();
     }
 
+    //BGM 소리 크기 설정
+    public void SetBGM_Volum(float v)
+    {
+        Player_BGM.volume = v;
+    }
 }
