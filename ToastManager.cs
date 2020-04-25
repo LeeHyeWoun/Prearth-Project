@@ -14,9 +14,17 @@
 
 public class ToastManager : MonoBehaviour {
 
+#if UNITY_EDITOR
+    void Start() {
+        Debug.Log("ToastManager : Editor 모드");
+    }
+
+#elif UNITY_ANDROID
+    //상수
+    const string message_exit = "'뒤로'버튼을 한번 더 누르면 종료됩니다.";
+
     //변수
     int clickCount = 0;
-    const string message_exit = "'뒤로'버튼을 한번 더 누르면 종료됩니다.";
 
     //안드로이드
     AndroidJavaClass unityPlayer;
@@ -26,10 +34,6 @@ public class ToastManager : MonoBehaviour {
 
     void Awake()
     {
-
-#if UNITY_EDITOR
-        Debug.Log("ToastManager전처리 : 에디터 환경");
-#elif UNITY_ANDROID
         unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
         currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
         context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
@@ -54,8 +58,8 @@ public class ToastManager : MonoBehaviour {
             CancelInvoke("CountReset");
             Application.Quit();
         }
-#endif
     }
+#endif
 
     //토스트 띄우기
     public void ShowToast(string message)
@@ -81,7 +85,6 @@ public class ToastManager : MonoBehaviour {
                 toast.Call("show");
             })
          );
-#endif
     }
 
     //ClickCount 초기화
@@ -94,5 +97,6 @@ public class ToastManager : MonoBehaviour {
             {
                 if (toast != null) toast.Call("cancel");
             }));
+#endif
     }
 }
