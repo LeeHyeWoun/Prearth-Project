@@ -37,8 +37,8 @@ public class SoundManager : MonoBehaviour {
     //소리값 초기화
     void Start()
     {
-        Player_BGM.volume = PlayerPrefs.GetFloat("bgm", 0.5f);
-        Player_effect.volume = PlayerPrefs.GetFloat("effect", 1f);
+        Player_BGM.volume = PlayerPrefs.GetFloat("tmp_bgm", 0.5f);
+        Player_effect.volume = PlayerPrefs.GetFloat("tmp_effect", 1f);
     }
 
     
@@ -59,7 +59,7 @@ public class SoundManager : MonoBehaviour {
     public void BGM_reset()
     {
         BGM_chage(false);
-        Player_BGM.volume = PlayerPrefs.GetFloat("bgm", 1f);
+        Player_BGM.volume = PlayerPrefs.GetFloat("tmp_bgm", 1f);
     }
 
     public void BGM_chage(bool isGame)

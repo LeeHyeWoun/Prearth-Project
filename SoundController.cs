@@ -40,7 +40,7 @@ public class SoundController : MonoBehaviour
             }
         }
         else
-            print("SoundManager 없음\n소리 설정을 원한다면 '00_Tutorial'로 가주세요.");
+            print("SoundManager 없음\n소리 설정을 원한다면 '00_Main'로 가주세요.");
     }
 
     //배경음악 설정
@@ -50,7 +50,7 @@ public class SoundController : MonoBehaviour
         {
             value_bgm = s_bgm.value;
             bgm.volume = value_bgm;
-            PlayerPrefs.SetFloat("bgm", value_bgm);
+            PlayerPrefs.SetFloat("tmp_bgm", value_bgm);
         }
         else {
             s_bgm.value = 0;
