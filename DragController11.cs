@@ -42,7 +42,7 @@ public class DragController11 : RaycastManager,
     private void SetPlays(bool b) {
         OM.SetPlay(b);
         ZM.SetPlay(b);
-        SM.setPlay(b);
+        SM.SetPlay(b);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -51,6 +51,7 @@ public class DragController11 : RaycastManager,
         if (GetPlay()&& isInteractable)
         {
             SetPlays(false);
+            SoundManager.Instance.Play_effect(0);
             transform.localScale = transform.localScale * 1.2f;
         }
     }

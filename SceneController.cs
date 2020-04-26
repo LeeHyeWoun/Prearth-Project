@@ -59,6 +59,9 @@ public class SceneController : MonoBehaviour {
 
         if (num < 11 - 5/*게임 씬 추가 후  수정 바람*/)
         {
+            //코루틴 삭제
+            StopAllCoroutines();
+
             //일시정지 해제
             Time.timeScale = 1;
 

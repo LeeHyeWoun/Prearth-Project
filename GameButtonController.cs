@@ -56,6 +56,7 @@ public class GameButtonController : MonoBehaviour
     //Apply to 'B_Item'
     public void ItemBox()
     {
+        SoundManager.Instance.Play_effect(0);
         if (itemBox.activeSelf)
             itemBox.SetActive(false);
         else

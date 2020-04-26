@@ -13,11 +13,11 @@ public class OrderController : MonoBehaviour {
     Dictionary<string, string> orderList = new Dictionary<string, string>();
 
     //커스텀 클래스 인스턴스
-    SceneController SC;
     DialogController DC;
 
     //싱글톤의 SoundManager을 불러오기
     readonly SoundManager SM = SoundManager.Instance;
+    readonly SceneController SC = SceneController.Instance;
 
     //미리 캐싱
     readonly WaitForSeconds orderTerm = new WaitForSeconds(3f);
@@ -25,7 +25,6 @@ public class OrderController : MonoBehaviour {
 
     void Start()
     {
-        SC = GetComponent<SceneController>();
         DC = GetComponent<DialogController>();
 
         //현재 씬에 따라 다른 start 대사 가져오기
