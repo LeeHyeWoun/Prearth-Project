@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
@@ -28,16 +26,42 @@ public class StgManager : MonoBehaviour{
     bool play = true;                   //스테이지 회전 가능 여부
 
     //스테이지 회전 가능 여부 설정자
-    public void setPlay(bool play)
+    public void SetPlay(bool play)
     {
         this.play = play;
     }
 
+#if UNITY_EDITOR
+    //회전 이벤트....PC환경에서 회전 테스트 용
+    void Update()
+    {
+        if(play)
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Rotate(Vector3.up, 0.3f);
+                angle += 0.3f;
+                if (angle < 0) angle += 360;
+                angle %= 360;
+
+                Visible();
+            }
+            else if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Rotate(Vector3.down, 0.3f);
+                angle -= 0.3f;
+                if (angle < 0) angle += 360;
+                angle %= 360;
+
+                Visible();
+            }
+    }
+
+#elif UNITY_ANDROID
     //회전 이벤트 ... stage오브젝트에 콜라이더 씌워야 함
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void OnMouseDrag()
     {
-        if (play && Input.touchCount == 1 &&
+        if (play && 
+            Input.touchCount == 1 &&
             !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
         {
             //좌우로 드래그한 만큼 회전
@@ -49,23 +73,27 @@ public class StgManager : MonoBehaviour{
             if (angle < 0) angle += 360;
             angle %= 360;
 
-            //벽이 없더라도 StgManager 작동 가능
-            if (c1 == null || c2 == null || c3 == null || c4 == null)
-                return;
-
-            //안쪽 벽만 보이게 하기
-            if (angle > 45 && angle < 135)
-                Inside(c1, c2, c3, c4);
-            else if (angle > 135 && angle < 225)
-                Inside(c2, c3, c4, c1);
-            else if (angle > 225 && angle < 315)
-                Inside(c3, c4, c1, c2);
-            else if (angle > 315 || angle < 45)
-                Inside(c4, c1, c2, c3);
+            Visible();
         }
     }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#endif
 
+    void Visible()
+    {
+        //벽이 없더라도 StgManager 작동 가능
+        if (c1 == null || c2 == null || c3 == null || c4 == null)
+            return;
+
+        //안쪽 벽만 보이게 하기
+        if (angle > 45 && angle < 135)
+            Inside(c1, c2, c3, c4);
+        else if (angle > 135 && angle < 225)
+            Inside(c2, c3, c4, c1);
+        else if (angle > 225 && angle < 315)
+            Inside(c3, c4, c1, c2);
+        else if (angle > 315 || angle < 45)
+            Inside(c4, c1, c2, c3);
+    }
 
     void Inside(GameObject f1, GameObject f2, GameObject b1, GameObject b2) {
         if (!b1.activeSelf || !b2.activeSelf) {
@@ -75,26 +103,5 @@ public class StgManager : MonoBehaviour{
             b2.SetActive(true);
         }
     }
-
-#if DEV_TEST
-    // 스테이지 자동회전.... PC환경에서 회전 테스트 용
-    //void Update()
-    //{
-    //    float rotX = 0.3f;
-    //    transform.Rotate(Vector3.up, rotX);
-    //    angle += rotX;
-    //    if (angle < 0) angle += 360;
-    //    angle %= 360;
-
-    //    if (angle > 45 && angle < 135)
-    //        Inside(c1, c2, c3, c4);
-    //    else if (angle > 135 && angle < 225)
-    //        Inside(c2, c3, c4, c1);
-    //    else if (angle > 225 && angle < 315)
-    //        Inside(c3, c4, c1, c2);
-    //    else if (angle > 315 || angle < 45)
-    //        Inside(c4, c1, c2, c3);
-    //}
-#endif
 
 }

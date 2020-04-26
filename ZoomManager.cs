@@ -21,7 +21,7 @@ public class ZoomManager : MonoBehaviour
     const float AUTO_SPEED = 8f;   // autoZoom 속도
 
     //변수
-    float deltaMagDiff;             // Zoom 값
+    float deltaMagDiff = 0f;        // Zoom 값
     bool play = true;               //실행 여부
     Camera cmr;
 
@@ -44,6 +44,19 @@ public class ZoomManager : MonoBehaviour
     //두 손가락 제스처를 통해 줌 인/줌 아웃
     void PinchTouch()
     {
+#if UNITY_EDITOR
+        //Zoom_in   : 방향키▲
+        if (Input.GetKey(KeyCode.UpArrow)) {
+            deltaMagDiff -= 4f;
+            Zoom(deltaMagDiff);
+        }
+        //Zoom_out  : 방향키▼
+        else if (Input.GetKey(KeyCode.DownArrow))
+        {
+            deltaMagDiff += 4f;
+            Zoom(deltaMagDiff);
+        }
+#elif UNITY_ANDROID
         //Pinch Zoom : 두 손가락을 이용해 화면 확대/축소
         if (Input.touchCount == 2 && (
             Input.GetTouch(0).phase == TouchPhase.Moved ||
@@ -68,6 +81,7 @@ public class ZoomManager : MonoBehaviour
             if (deltaMagDiff > 3f || deltaMagDiff < -3f)
                 Zoom(deltaMagDiff);
         }
+#endif
     }
 
     public void Zoom(float degree)
