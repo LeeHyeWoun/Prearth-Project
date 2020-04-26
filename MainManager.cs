@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
+using System.Collections;
 /**
  * Date     : 2020.02.20
  * Manager  : 이혜원
@@ -11,7 +11,7 @@ using UnityEngine.UI;
 public class MainManager : MonoBehaviour
 {
     //할당
-    public GameObject halo_water, halo_air;
+    public GameObject halo_soil, halo_water, halo_air;
     public Text t_water, t_air;
     public Button btn_soil, btn_water, btn_air;
     public Sprite sprite_water, sprite_air;
@@ -21,6 +21,7 @@ public class MainManager : MonoBehaviour
 
     //런타임 상수
     readonly Vector2 bigSize = new Vector2(652f, 652f);
+    readonly WaitForSeconds wait = new WaitForSeconds(0.02f);
 
     //커스텀 클래스 인스턴스
     SoundManager SM;
@@ -63,7 +64,11 @@ public class MainManager : MonoBehaviour
             }
         }
 
-
+        StartCoroutine("routine_halo_soil");
+        if(halo_water.activeSelf)
+            StartCoroutine("routine_halo_water");
+        if(halo_air.activeSelf)
+            StartCoroutine("routine_halo_air");
     }
 
     public void Go_map(int num) {
@@ -105,4 +110,51 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    IEnumerator routine_halo_soil()
+    {
+        while (true) {
+            for (int i = 250; i > 200; i--)
+            {
+                halo_soil.transform.localScale = Vector3.one * (0.004f * i);//1~0.8
+                yield return wait;
+            }
+            for (int i = 200; i < 250; i++)
+            {
+                halo_soil.transform.localScale = Vector3.one * (0.004f * i);
+                yield return wait;
+            }
+        }
+    }
+    IEnumerator routine_halo_water()
+    {
+        while (true)
+        {
+            for (int i = 250; i > 200; i--)
+            {
+                halo_water.transform.localScale = Vector3.one * (0.004f * i);
+                yield return wait;
+            }
+            for (int i = 200; i < 250; i++)
+            {
+                halo_water.transform.localScale = Vector3.one * (0.004f * i);
+                yield return wait;
+            }
+        }
+    }
+    IEnumerator routine_halo_air()
+    {
+        while (true)
+        {
+            for (int i = 250; i > 200; i--)
+            {
+                halo_air.transform.localScale = Vector3.one * (0.004f * i);
+                yield return wait;
+            }
+            for (int i = 200; i < 250; i++)
+            {
+                halo_air.transform.localScale = Vector3.one * (0.004f * i);
+                yield return wait;
+            }
+        }
+    }
 }

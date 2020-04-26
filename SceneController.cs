@@ -57,7 +57,21 @@ public class SceneController : MonoBehaviour {
             num--;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        if (num > 11- 5/*게임 씬 추가 후  수정 바람*/)
+        if (num < 11 - 5/*게임 씬 추가 후  수정 바람*/)
+        {
+            //일시정지 해제
+            Time.timeScale = 1;
+
+            //배경음악 설정
+            if (num == 0 && GetActiveScene_num() > 1)
+                SoundManager.Instance.BGM_reset();
+            else if (num > 1 && num < 11)
+                SoundManager.Instance.BGM_chage(true);
+
+            //이동
+            SceneManager.LoadScene(num, LoadSceneMode.Single);
+        }
+        else if (num > 11- 5/*게임 씬 추가 후  수정 바람*/)
         {
             //일시정지
             Time.timeScale = 0;
@@ -68,17 +82,6 @@ public class SceneController : MonoBehaviour {
 
             //추가
             SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
-        }
-        else if (num < 11- 5/*게임 씬 추가 후  수정 바람*/)
-        {
-            //배경음악 설정
-            if (num == 0 && GetActiveScene_num() > 1)
-                SoundManager.Instance.BGM_reset();
-            else if (num > 1 && num < 11)
-                SoundManager.Instance.BGM_chage(true);
-
-            //이동
-            SceneManager.LoadScene(num, LoadSceneMode.Single);
         }
         else
         {

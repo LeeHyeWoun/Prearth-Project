@@ -44,6 +44,6 @@ public class SoundController : MonoBehaviour
     {
         value_effect = s_effect.value;
         effect.volume = value_effect;
-        PlayerPrefs.SetFloat("effect", value_effect);
+        PlayerPrefs.SetFloat("tmp_effect", value_effect);
     }
 }

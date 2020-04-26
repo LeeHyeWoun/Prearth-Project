@@ -22,6 +22,7 @@ public class TutorialManager : MonoBehaviour {
     int page;
     
     void Start() {
+        Time.timeScale = 0;
         SM = SoundManager.Instance;
         page = PlayerPrefs.GetInt("tmp_tutorial");
         ChageImage(page);
@@ -43,6 +44,7 @@ public class TutorialManager : MonoBehaviour {
 
     public void Skip()
     {
+        Time.timeScale = 1;
         SM.Play_effect(0);
 
         if (page < 3)
