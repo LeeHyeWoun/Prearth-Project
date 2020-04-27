@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.IO;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class DialogManager : MonoBehaviour {
     //변수
     Texture img_alien, img_name_j, img_name_a;
     StringReader stringReader;
+    StringBuilder sentence = new StringBuilder("");
     string file_name, fileLine, previous_code;
     string location = "dialog/";
     int lineCount = 0;
@@ -161,7 +163,7 @@ public class DialogManager : MonoBehaviour {
         StopCoroutine("Routine_talking");
 
         //창 사라지기
-        StartCoroutine(Routine_disappear());
+        StartCoroutine("Routine_disappear");
     }
 
     //코루틴 >> 대화창 등장하기
@@ -315,7 +317,7 @@ public class DialogManager : MonoBehaviour {
 
         fast = false;
 
-        string sentence = "";
+        sentence.Remove(0, sentence.Length);
         for (int i = 0; i < fileLine.Length; i++)
         {
             if (fast)
@@ -324,8 +326,8 @@ public class DialogManager : MonoBehaviour {
                 t_dialog.text = fileLine;
                 break;
             }
-            sentence += fileLine[i];
-            t_dialog.text = sentence;
+            sentence.Append(fileLine[i]);
+            t_dialog.text = sentence.ToString();
 
             yield return StartCoroutine(WaitForUnscaledSeconds(0.05f));
         }
