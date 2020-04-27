@@ -19,7 +19,7 @@ public class MainManager : MonoBehaviour
     //변수
     int stage_num, planet;
 
-    //런타임 상수
+    //상수
     readonly Vector2 bigSize = new Vector2(652f, 652f);
     readonly WaitForSeconds wait = new WaitForSeconds(0.02f);
 

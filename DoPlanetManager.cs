@@ -10,6 +10,7 @@ using UnityEngine.UI;
  */
 public class DoPlanetManager : MonoBehaviour {
 
+    public Text t_date_soil, t_date_water, t_date_air;
     public RawImage ri_soil, ri_water, ri_air;
     public Texture
         soil_ing,   soil_complete,
@@ -25,20 +26,29 @@ public class DoPlanetManager : MonoBehaviour {
         else if (clear < 3)
             ri_soil.texture = soil_ing;
         else
+        {
             ri_soil.texture = soil_complete;
+            t_date_soil.text = PlayerPrefs.GetString("tmp_date_soil","null") + " 조사완료";
+        }
 
         if (clear < 3)
             return;
         else if (clear < 6)
             ri_water.texture = water_ing;
         else
+        {
             ri_water.texture = water_complete;
+            t_date_water.text = PlayerPrefs.GetString("tmp_date_water", "null") + " 조사완료";
+        }
 
         if (clear < 6)
             return;
         else if (clear < 9)
             ri_air.texture = air_ing;
         else
+        {
             ri_air.texture = air_complete;
+            t_date_air.text = PlayerPrefs.GetString("tmp_date_air", "null") + " 조사완료";
+        }
     }
 }

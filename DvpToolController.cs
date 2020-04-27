@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -58,8 +59,12 @@ public class DvpToolController : MonoBehaviour {
     {
         SM.Play_effect(0);
         PlayerPrefs.SetInt(tmp_Clear, num);
-        if (num > -1)
+        if (num > -1) {
+            PlayerPrefs.SetString(
+                num == 3 ? "tmp_date_soil" : num == 6 ? "tmp_date_water" : "tmp_date_air",
+                DateTime.Now.ToString("yyyy-MM-dd"));
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
         else {
             PlayerPrefs.SetInt("tmp_tutorial", 1);
             SceneController.Instance.Load_Scene(0);

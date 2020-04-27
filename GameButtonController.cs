@@ -66,6 +66,6 @@ public class GameButtonController : MonoBehaviour
     //게임 마무리 대사
     void Ending()
     {
-        GetComponent<OrderController>().Dialog_Start("2_clear");
+        GetComponent<AdviceController>().Dialog_and_Advice("clear");
     }
 }

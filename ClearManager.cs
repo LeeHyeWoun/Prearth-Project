@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using System;
 
 public class ClearManager : MonoBehaviour {
 
@@ -25,6 +24,12 @@ public class ClearManager : MonoBehaviour {
 
         //클리어 값 설정
         PlayerPrefs.SetInt("tmp_Clear", game_num);
+        if (game_num % 3 == 0)
+        {
+            PlayerPrefs.SetString(
+                game_num == 3 ? "tmp_date_soil" : game_num == 6 ? "tmp_date_water" : "tmp_date_air", 
+                DateTime.Now.ToString("yyyy-MM-dd"));
+        }
     }
 
     void SettingScene(int sceneNum) {

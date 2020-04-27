@@ -35,7 +35,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     IEnumerator coroutine_trash1, coroutine_trash2, coroutine_trash3, coroutine_trash4;
 
     //커스텀 클래스 인스턴스
-    OrderController OC;
+    AdviceController AC;
     GameButtonController GBC;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -46,7 +46,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         trash_lids[2] = trash3_lid;
         trash_lids[3] = trash4_lid;
 
-        OC = GetComponent<OrderController>();
+        AC = GetComponent<AdviceController>();
         GBC = GetComponent<GameButtonController>();
     }
     void Update()
@@ -101,7 +101,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     //단서를 모두 찾았을 때의 이벤트 ... Collect에서 Invoke로 사용
     void Success()
     {
-        OC.Dialog_Start("2_play1");
+        AC.Dialog_and_Advice("play1");
     }
 
     //단서 발견 시 이벤트...클릭
@@ -138,7 +138,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         eff_clue.transform.localScale = effectScale * Camera.main.orthographicSize / 5;
         eff_clue.Play();
 
-        OC.Order(message);
+        AC.Advice(message);
 
         //모든 단서를 찾았다면
         if (clueBox1.interactable && clueBox2.interactable && clueBox3.interactable)
@@ -249,7 +249,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     clueBox1.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_pat;
                     blank.SetActive(true);
-                    OC.Dialog_Start("2_Play2_1");
+                    AC.Dialog_and_Advice("Play2_1");
                 }
                 break;
 
@@ -262,7 +262,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 }
                 //음식물 쓰레기통
                 else if (trash_num == 3)
-                    OC.Dialog_Start("2_Play2_2");
+                    AC.Dialog_and_Advice("Play2_2");
 
                 break;
 
@@ -274,7 +274,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                     clueBox3.GetComponent<Image>().sprite = clue_empty;
                     blank_RI.GetComponent<RawImage>().texture = blank_icepack;
                     blank.SetActive(true);
-                    OC.Dialog_Start("2_Play2_3");
+                    AC.Dialog_and_Advice("Play2_3");
                 }
                 break;
 
@@ -351,7 +351,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     void Ending()
     {
         //게임 마무리 대사
-        OC.Dialog_Start("2_clear");
+        AC.Dialog_and_Advice("clear");
     }
 
 

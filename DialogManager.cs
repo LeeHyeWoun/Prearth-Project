@@ -160,6 +160,7 @@ public class DialogManager : MonoBehaviour {
     //버튼 이벤트 >> 넘어가기
     public void Skip()
     {
+        SoundManager.Instance.Play_effect(0);
         StopCoroutine("Routine_talking");
 
         //창 사라지기

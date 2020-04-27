@@ -162,6 +162,7 @@ public class QuizManager : MonoBehaviour {
 
             if (wrong) {
                 wrong = false;
+                wrongList.Add("Q" + (page + 1) + ". " + t_question.text);
                 wrongList.Add(t_option.text);
             }
             else
@@ -181,10 +182,8 @@ public class QuizManager : MonoBehaviour {
         {
             option.interactable = false;
 
-            if (!wrong) {
-                wrongList.Add("Q" + (page + 1) + ". " + t_question.text);
+            if (!wrong)
                 wrong = true;
-            }
 
             SoundManager.Instance.Play_effect(2);
             option.GetComponent<Image>().sprite = img_option_wrong;
@@ -207,6 +206,7 @@ public class QuizManager : MonoBehaviour {
     }
 
     public void Close_Quiz() {
+        SoundManager.Instance.Play_effect(0);
         go_blur.SetActive(false);
         go_result.SetActive(false);
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num()+"_clear");
