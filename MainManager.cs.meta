@@ -3,7 +3,17 @@ guid: dd57d3e808654af488ecce55eb6c38c7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - halo_soil: {instanceID: 0}
+  - halo_water: {instanceID: 0}
+  - halo_air: {instanceID: 0}
+  - t_water: {instanceID: 0}
+  - t_air: {instanceID: 0}
+  - btn_soil: {instanceID: 0}
+  - btn_water: {instanceID: 0}
+  - btn_air: {instanceID: 0}
+  - sprite_water: {fileID: 21300000, guid: 62b150d3052d7bd42915192d3c1c62e5, type: 3}
+  - sprite_air: {fileID: 21300000, guid: c73347aa6ac3daa4a9ed7180d4f6461c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

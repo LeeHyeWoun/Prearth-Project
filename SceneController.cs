@@ -56,7 +56,7 @@ public class SceneController : MonoBehaviour {
         if (num > 3)
             num--;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
+        //Activitiy Scene 00~10
         if (num < 11 - 5/*게임 씬 추가 후  수정 바람*/)
         {
             //코루틴 삭제
@@ -74,26 +74,28 @@ public class SceneController : MonoBehaviour {
             //이동
             SceneManager.LoadScene(num, LoadSceneMode.Single);
         }
-        else if (num > 11- 5/*게임 씬 추가 후  수정 바람*/)
-        {
-            //일시정지
-            Time.timeScale = 0;
-
-            //이미 Additive Scene이 있다면 Unload 하기
-            if (SceneManager.sceneCount > 1)
-                SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(SceneManager.sceneCount-1).name);
-
-            //추가
-            SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
-        }
+        //Additive Scene 11~17
         else
         {
             //일시정지
             Time.timeScale = 0;
 
-            //추가
-            SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
-            SceneManager.LoadSceneAsync(num + 1, LoadSceneMode.Additive);
+            //11_Do_base
+            if (num == 11 - 5/*게임 씬 추가 후  수정 바람*/)
+            {
+                //추가
+                SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
+                SceneManager.LoadSceneAsync(num + 1, LoadSceneMode.Additive);
+            }
+            else
+            {
+                //이미 Additive Scene이 있다면 Unload 하기
+                if (SceneManager.sceneCount > 1)
+                    SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(SceneManager.sceneCount - 1).name);
+
+                //추가
+                SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
+            }
         }
     }
 

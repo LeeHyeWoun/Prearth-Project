@@ -10,6 +10,7 @@ using UnityEngine;
  */
 public class DoManager : MonoBehaviour {
 
+    public ParticleSystem ps_comet;
     public Button b_tap_1, b_tap_2;
 
     SoundManager SM;
@@ -19,6 +20,10 @@ public class DoManager : MonoBehaviour {
     {
         SM = SoundManager.Instance;
         SC = SceneController.Instance;
+    }
+
+    void Update() {
+        ps_comet.Simulate(Time.unscaledDeltaTime, true, false);
     }
 
     public void BE_Tap_1()
