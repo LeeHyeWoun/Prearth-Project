@@ -20,18 +20,20 @@ public class SceneController : MonoBehaviour {
     private int planet_num = 0; //토양 : 0, 수질 : 1, 대기 : 2
     private ToastManager TM;
 
+    public int Planet_num
+    {
+        get
+        {
+            return planet_num;
+        }
+        set
+        {
+            planet_num = value;
+        }
+    }
+
     private void Awake() {
         TM = GetComponent<ToastManager>();
-    }
-
-    //행성값에 대한 설정자
-    public void SetPlanetNum(int num) {
-        planet_num = num;
-    }
-
-    //행성값에 대한 접근자
-    public int GetPlanetNum() {
-        return planet_num;
     }
 
     //Scene 이동 (Single mode)
@@ -39,7 +41,7 @@ public class SceneController : MonoBehaviour {
     public void Load_Scene(int num) {
 
         //Scene 존재 여부 체크
-        if (num == 5 || num == 8 || num == 9) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
+        if (num == 8 || num == 9) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
         {
             TM.ShowToast("아직 준비되지 않은 Scene입니다.");
             return;
@@ -49,11 +51,9 @@ public class SceneController : MonoBehaviour {
             num--;
         if (num > 8)
             num--;
-        if (num > 5)
-            num--;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Activitiy Scene 00~10
-        if (num < 11 - 3/*게임 씬 추가 후  수정 바람*/)
+        if (num < 11 - 2/*게임 씬 추가 후  수정 바람*/)
         {
             //코루틴 삭제
             StopAllCoroutines();
@@ -77,7 +77,7 @@ public class SceneController : MonoBehaviour {
             Time.timeScale = 0;
 
             //11_Do_base
-            if (num == 11 - 3/*게임 씬 추가 후  수정 바람*/)
+            if (num == 11 - 2/*게임 씬 추가 후  수정 바람*/)
             {
                 //추가
                 SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
@@ -113,10 +113,8 @@ public class SceneController : MonoBehaviour {
     public int GetActiveScene_num() {
         //return SceneManager.GetActiveScene().buildIndex;
         int num = SceneManager.GetActiveScene().buildIndex;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
-        if(num > 4)
-            num++;
-        else if (num > 7)
-            num += 3;
+        if (num > 7)
+            num += 2;
         return num;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }

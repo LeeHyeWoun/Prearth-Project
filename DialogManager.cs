@@ -25,7 +25,7 @@ public class DialogManager : MonoBehaviour {
     Color color = Color.white;
 
     //런타임 상수 선언
-    readonly int planet_num = SceneController.Instance.GetPlanetNum();
+    readonly int planet_num = SceneController.Instance.Planet_num;
     readonly string[] names = { "줄리안", "꼬륵이", "뿌직이", "콜록이" };
     readonly Color[] colors = {
         new Color(203/255f,    112 /255f,  143/255f),               // pink

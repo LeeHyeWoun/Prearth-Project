@@ -17,10 +17,10 @@ public class RaycastManager : MonoBehaviour {
     protected GameObject target;                                      //레이케스트 충돌 오브젝트
     private bool play = true;                                       //클릭 이벤트 실행 가능 여부
 
-    //클릭 이벤트 실행 가능 여부 설정자
-    public void SetPlay(bool play)
-    {
-        this.play = play;
+    public bool Play {
+        set {
+            play = value;
+        }
     }
 
     protected bool GetPlay() {

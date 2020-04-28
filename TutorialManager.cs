@@ -56,7 +56,7 @@ public class TutorialManager : MonoBehaviour {
         {
             PlayerPrefs.DeleteKey("tmp_tutorial");
             PlayerPrefs.SetInt("tmp_Clear", 0);
-            SceneController.Instance.SetPlanetNum(0);
+            SceneController.Instance.Planet_num = 0;
             SceneController.Instance.Load_Scene(1);
         }
     }

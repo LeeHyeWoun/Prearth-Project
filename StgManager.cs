@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 
@@ -25,10 +24,12 @@ public class StgManager : MonoBehaviour{
     float angle = 0f;                   //스테이지 회전 각도
     bool play = true;                   //스테이지 회전 가능 여부
 
-    //스테이지 회전 가능 여부 설정자
-    public void SetPlay(bool play)
+    public bool Play
     {
-        this.play = play;
+        set
+        {
+            play = value;
+        }
     }
 
 #if UNITY_EDITOR

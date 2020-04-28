@@ -21,11 +21,19 @@ public class ZoomManager : MonoBehaviour
     const float AUTO_SPEED = 8f;   // autoZoom 속도
 
     //변수
+    Camera cmr;
     float deltaMagDiff = 0f;        // Zoom 값
     bool play = true;               //실행 여부
-    Camera cmr;
 
-    void Start() {
+    public bool Play
+    {
+        set {
+            play = value;
+        }
+    }
+
+    void Start()
+    {
         cmr = Camera.main;
     }
 
@@ -35,11 +43,6 @@ public class ZoomManager : MonoBehaviour
             PinchTouch();
     }
 
-    //실행 설정
-    public void SetPlay(bool play)
-    {
-        this.play = play;
-    }
 
     //두 손가락 제스처를 통해 줌 인/줌 아웃
     void PinchTouch()

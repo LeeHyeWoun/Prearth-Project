@@ -42,7 +42,7 @@ public class MapManager : MonoBehaviour
 
         //데이터 불러오기
         clear_num = PlayerPrefs.GetInt("tmp_Clear", 0);
-        int planet_num = SC.GetPlanetNum();
+        int planet_num = SC.Planet_num;
 
         //행성 디자인 설정
         Sprite mp;
@@ -164,7 +164,7 @@ public class MapManager : MonoBehaviour
 
         int scene_index = 2;                    //게임 인덱스는 2부터 시작
         scene_index += num;                     //stage 설정: 0~2
-        scene_index += 3 * SC.GetPlanetNum();   //행성 설정 : 토양 : 0, 수질 : 1, 대기 : 2
+        scene_index += 3 * SC.Planet_num;   //행성 설정 : 토양 : 0, 수질 : 1, 대기 : 2
         
         SoundManager.Instance.Play_effect(0);
         SC.Load_Scene(scene_index);             //Scene 이동

@@ -4,8 +4,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /**
- * Date     : 2019.12.08
- * Manager  : 이혜원
+ * Date     : 2020.04.08
+ * Manager  : 여연진
  * 
  * The function of this script :
  *  아이템에 관한 다양한 이벤트를 다루는 스크립트
@@ -13,11 +13,11 @@ using UnityEngine.UI;
  *  Applied Location :
  *  -> item1,item2,item3, clue1, clue2, clue3
  */
-public class DragController11 : RaycastManager, 
+public class DragController5 : RaycastManager,
     IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler
 {
     //할당 받을 객체들
-    public GameObject gameDirector,stg;
+    public GameObject gameDirector, stg;
 
     //변수
     Vector3 defaultposition;
@@ -25,21 +25,22 @@ public class DragController11 : RaycastManager,
     bool isInteractable = false;
 
     //상수
-    const float plane_distance=12f;
+    const float plane_distance = 12f;
 
     //커스텀 클래스 인스턴스
-    ObjManager11 OM;
+    ObjectManager5 OM;
     ZoomManager ZM;
     StgManager SM;
 
     private void Start()
     {
-        OM = gameDirector.GetComponent<ObjManager11>();
+        OM = gameDirector.GetComponent<ObjectManager5>();
         ZM = gameDirector.GetComponent<ZoomManager>();
         SM = stg.GetComponent<StgManager>();
     }
 
-    private void SetPlays(bool b) {
+    private void SetPlays(bool b)
+    {
         OM.Play = b;
         ZM.Play = b;
         SM.Play = b;
@@ -48,7 +49,7 @@ public class DragController11 : RaycastManager,
     public void OnPointerDown(PointerEventData eventData)
     {
         isInteractable = GetComponent<Button>().interactable;
-        if (GetPlay()&& isInteractable)
+        if (GetPlay() && isInteractable)
         {
             SetPlays(false);
             SoundManager.Instance.Play_effect(0);
@@ -63,7 +64,7 @@ public class DragController11 : RaycastManager,
      */
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (GetPlay()&& isInteractable)
+        if (GetPlay() && isInteractable)
         {
             defaultposition = transform.position;
         }
@@ -71,7 +72,7 @@ public class DragController11 : RaycastManager,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (GetPlay()&& isInteractable)
+        if (GetPlay() && isInteractable)
         {
             var screenPoint = new Vector3(eventData.position.x, eventData.position.y, plane_distance);
             transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
@@ -80,7 +81,7 @@ public class DragController11 : RaycastManager,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (GetPlay()&& isInteractable)
+        if (GetPlay() && isInteractable)
         {
             //놓는 위치에서 움찔 효과를 주기 위해 살짝 커지게 하기
             transform.localScale = transform.localScale * 1.1f;
@@ -89,10 +90,10 @@ public class DragController11 : RaycastManager,
             string name = gameObject.name;
             if (name.Length > 5 && name.Substring(2, 4) == "Clue")
                 OM.Select_Trash(name);
-            else if (name.Equals("B_Vinyl") || name.Equals("B_Pet"))
+          /*  else if (name.Equals("B_Vinyl") || name.Equals("B_Pet"))
                 OM.DragDrop_Clue(name);
             else if (name.Equals("B_item2"))
-                OM.Item_knife();
+                OM.Item_knife();*/
 
         }
     }
@@ -113,7 +114,7 @@ public class DragController11 : RaycastManager,
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (GetPlay()&& isInteractable)
+        if (GetPlay() && isInteractable)
         {
             transform.localScale = transform.localScale / 1.2f;
         }

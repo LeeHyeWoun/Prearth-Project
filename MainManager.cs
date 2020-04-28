@@ -82,7 +82,7 @@ public class MainManager : MonoBehaviour
                     SceneController.Instance.Load_Scene(14);
                 }
                 else {
-                    SceneController.Instance.SetPlanetNum(0);
+                    SceneController.Instance.Planet_num = 0;
                     SceneController.Instance.Load_Scene(1);
                 }
 
@@ -91,7 +91,7 @@ public class MainManager : MonoBehaviour
             case 2:
                 if (planet >= 1) {
                     SM.Play_effect(0);
-                    SceneController.Instance.SetPlanetNum(1);
+                    SceneController.Instance.Planet_num = 1;
                     SceneController.Instance.Load_Scene(1);
                 }
                 else
@@ -101,7 +101,7 @@ public class MainManager : MonoBehaviour
             case 3:
                 if (planet >= 2) {
                     SM.Play_effect(0);
-                    SceneController.Instance.SetPlanetNum(2);
+                    SceneController.Instance.Planet_num = 2;
                     SceneController.Instance.Load_Scene(1);
                 }
                 else
