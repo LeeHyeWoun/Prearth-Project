@@ -6,7 +6,7 @@
 > * SDK : C:/Users/Owner/AppData/Local/Android/Sdk  
 > * JDK : C:/Program Files/Java/jdk1.8.0_181  
 
-### 팀명 : 천지개벽  
+### Team.천지개벽  
 기획	: 공동  
 UI 디자인	: 정진명  
 모델링	: 황성미  
