@@ -4,7 +4,7 @@
 >version : Unity 2018.2.5f1 Personal(64bit)  
 >External Tools  
 > * SDK : C:/Users/Owner/AppData/Local/Android/Sdk  
-> * JDK : C:/Program Files/Java/jdk1.8.0_181  
+> * JDK : C:/Program Files/Java/jdk1.8.0_181   
 
 ### Team.천지개벽  
 기획	: 공동  
