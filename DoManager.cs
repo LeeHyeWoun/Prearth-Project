@@ -12,6 +12,8 @@ public class DoManager : MonoBehaviour {
 
     public Button b_tap_1, b_tap_2;
 
+    Camera cmr;
+
     SoundManager SM;
     SceneController SC;
 
@@ -19,6 +21,8 @@ public class DoManager : MonoBehaviour {
     {
         SM = SoundManager.Instance;
         SC = SceneController.Instance;
+        cmr = Camera.main;
+        cmr.enabled = false;
     }
 
     public void BE_Tap_1()
@@ -41,6 +45,7 @@ public class DoManager : MonoBehaviour {
     }
     public void BE_Back()
     {
+        cmr.enabled = true;
         SM.Play_effect(0);
         SC.Destroy_Scene();
     }
