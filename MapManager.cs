@@ -16,16 +16,17 @@ public class MapManager : MonoBehaviour
 {
 
     //할당
-    public Button btn_1, btn_2, btn_3;                                      //stage 포인트
     public Text T_Status;                                                   //상태 알림
-    public RawImage RI_gem, RI_map;                                         //보석과 지도
+    public Image I_gem_fill;                                                //보석
+    public RawImage RI_gem_base, RI_map;                                    //보석 베이스와 지도
+    public Button btn_1, btn_2, btn_3;                                      //stage 포인트
+
     public Texture
-        texture_gem1_0, texture_gem1_1, texture_gem1_2, texture_gem1_3,     //대기 행성의 보석
-        texture_gem2_0, texture_gem2_1, texture_gem2_2, texture_gem2_3,     //수질 행성의 보석
-        texture_gem3_0, texture_gem3_1, texture_gem3_2, texture_gem3_3,     //대기 행성의 보석
-        texture_map_soil, texture_map_water, texture_map_air;               //지도 이미지
+        texture_gem_base_2, texture_gem_base_3,                             //보석 베이스 이미지
+        texture_map_water, texture_map_air;                                 //지도 이미지
     public Sprite
-        texture_mapPoint_soil, texture_mapPoint_water, texture_mapPoint_air;//지도 스테이지 이미지
+        sprite_gem_fill2, sprite_gem_fill3,                                 //보석 이미지
+        sprite_mapPoint_soil, sprite_mapPoint_water, sprite_mapPoint_air;//지도 스테이지 이미지
 
     //변수
     int clear_num;
@@ -50,20 +51,19 @@ public class MapManager : MonoBehaviour
         {
             case 0:
                 str_origin = "페페행성";
-                RI_map.texture = texture_map_soil;
-                mp = texture_mapPoint_soil;
+                mp = sprite_mapPoint_soil;
                 break;
 
             case 1:
                 str_origin = "도도행성";
                 RI_map.texture = texture_map_water;
-                mp = texture_mapPoint_water;
+                mp = sprite_mapPoint_water;
                 break;
 
             default:
                 str_origin = "라라행성";
                 RI_map.texture = texture_map_air;
-                mp = texture_mapPoint_air;
+                mp = sprite_mapPoint_air;
                 break;
         }
 
@@ -76,18 +76,16 @@ public class MapManager : MonoBehaviour
             //상태창 내용 설정
             str_origin += "의 연료를 모두 모았습니다.";
 
-            //보석 설정
-            switch (planet_num)
+            //보석 이미지 설정
+            if (planet_num.Equals(1))
             {
-                case 0:
-                    RI_gem.texture = texture_gem1_3;
-                    break;
-                case 1:
-                    RI_gem.texture = texture_gem2_3;
-                    break;
-                default:
-                    RI_gem.texture = texture_gem3_3;
-                    break;
+                RI_gem_base.texture = texture_gem_base_2;
+                I_gem_fill.sprite = sprite_gem_fill2;
+            }
+            else if (planet_num.Equals(2))
+            {
+                RI_gem_base.texture = texture_gem_base_3;
+                I_gem_fill.sprite = sprite_gem_fill3;
             }
 
             //맵 활성화
@@ -106,33 +104,28 @@ public class MapManager : MonoBehaviour
             clear_num %= 3;
             str_origin += " " + (3 - clear_num).ToString() + "조각 남았습니다.";
 
-            //보석 설정
-            switch (planet_num) {
+            //보석 이미지 설정
+            if (planet_num.Equals(1))
+            {
+                RI_gem_base.texture = texture_gem_base_2;
+                I_gem_fill.sprite = sprite_gem_fill2;
+            }
+            else if (planet_num.Equals(2))
+            {
+                RI_gem_base.texture = texture_gem_base_3;
+                I_gem_fill.sprite = sprite_gem_fill3;
+            }
+
+            //보석 양 설정
+            switch (clear_num) {
                 case 0:
-                    if (clear_num == 0)
-                        RI_gem.texture = texture_gem1_0;
-                    else if (clear_num == 1)
-                        RI_gem.texture = texture_gem1_1;
-                    else
-                        RI_gem.texture = texture_gem1_2;
+                    I_gem_fill.fillAmount = 0f;
                     break;
-
                 case 1:
-                    if (clear_num == 0)
-                        RI_gem.texture = texture_gem2_0;
-                    else if (clear_num == 1)
-                        RI_gem.texture = texture_gem2_1;
-                    else
-                        RI_gem.texture = texture_gem2_2;
+                    I_gem_fill.fillAmount = 0.33f;
                     break;
-
-                default:
-                    if (clear_num == 0)
-                        RI_gem.texture = texture_gem3_0;
-                    else if (clear_num == 1)
-                        RI_gem.texture = texture_gem3_1;
-                    else
-                        RI_gem.texture = texture_gem3_2;
+                case 2:
+                    I_gem_fill.fillAmount = 0.66f;
                     break;
             }
 

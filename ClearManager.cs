@@ -4,17 +4,21 @@ using System;
 
 public class ClearManager : MonoBehaviour {
 
-    public Image clearbase;
-    public RawImage Gem;
+    //UI
+    public Image clearbase, I_gem_fill;
+    public RawImage RI_gem_base;
     public Text advice;
-    public Sprite
-        base1, base2, base3;
-    public Texture
-        gem1_1, gem1_2, gem1_3,
-        gem2_1, gem2_2, gem2_3,
-        gem3_1, gem3_2, gem3_3;
 
+    //asset
+    public Sprite
+        base2, base3,
+        sprite_gem_fill2, sprite_gem_fill3;
+    public Texture
+        texture_gem_base_2, texture_gem_base_3;                             //보석 베이스 이미지
+
+    //변수
     int game_num;
+
 
     void Start () {
         game_num = SceneController.Instance.GetActiveScene_num() - 1;
@@ -32,54 +36,32 @@ public class ClearManager : MonoBehaviour {
         }
     }
 
+
     void SettingScene(int sceneNum) {
-        //씬 넘버에 따라 배경 세팅
-        switch ((sceneNum - 1) / 3)
+        //배경 설정
+        if((sceneNum - 1) / 3 == 1)
+            clearbase.sprite = base2;   //14~16
+        else 
+        if ((sceneNum - 1) / 3 == 2)
+            clearbase.sprite = base3;   //17~19
+
+        //보석 이미지 설정
+        if (sceneNum > 7)       //air
         {
-            case 1:
-                clearbase.sprite = base2;   //14~16
-                break;
-            case 2:
-                clearbase.sprite = base3;   //17~19
-                break;
-            default:
-                clearbase.sprite = base1;   //11~13
-                break;
+            RI_gem_base.texture = texture_gem_base_3;
+            I_gem_fill.sprite = sprite_gem_fill3;
+        }
+        else if (sceneNum > 4)  //water
+        {
+            RI_gem_base.texture = texture_gem_base_2;
+            I_gem_fill.sprite = sprite_gem_fill2;
         }
 
-        //씬 넘버에 따라 연료이미지 세팅
-        Texture texture_gem;
-        switch (sceneNum)
-        {
-            case 2:
-                texture_gem = gem1_2;       //12
-                break;
-            case 3:
-                texture_gem = gem1_3;       //13
-                break;
-            case 4:
-                texture_gem = gem2_1;       //14
-                break;
-            case 5:
-                texture_gem = gem2_2;       //15
-                break;
-            case 6:
-                texture_gem = gem2_3;       //16
-                break;
-            case 7:
-                texture_gem = gem3_1;       //17
-                break;
-            case 8:
-                texture_gem = gem3_2;       //18
-                break;
-            case 9:
-                texture_gem = gem3_3;       //19
-                break;
-            default:
-                texture_gem = gem1_1;       //11
-                break;
-        }
-        Gem.texture = texture_gem;
+        //보석 양 설정
+        if (sceneNum % 3 == 1)
+            I_gem_fill.fillAmount = 0.33f;
+        else if(sceneNum % 3 == 0)
+            I_gem_fill.fillAmount = 0.66f;
 
         //씬 넘버에 안내문 내용 세팅
         int quotient = (sceneNum) % 3;
