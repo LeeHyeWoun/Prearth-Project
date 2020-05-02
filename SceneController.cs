@@ -41,19 +41,16 @@ public class SceneController : MonoBehaviour {
     public void Load_Scene(int num) {
 
         //Scene 존재 여부 체크
-        if (num == 8 || num == 9) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
+        if (num == 9) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
         {
             TM.ShowToast("아직 준비되지 않은 Scene입니다.");
             return;
         }
-
-        if (num > 9)
-            num--;
-        if (num > 8)
+        else if (num > 9)
             num--;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Activitiy Scene 00~10
-        if (num < 11 - 2/*게임 씬 추가 후  수정 바람*/)
+        if (num < 11 - 1/*게임 씬 추가 후  수정 바람*/)
         {
             //코루틴 삭제
             StopAllCoroutines();
@@ -77,7 +74,7 @@ public class SceneController : MonoBehaviour {
             Time.timeScale = 0;
 
             //11_Do_base
-            if (num == 11 - 2/*게임 씬 추가 후  수정 바람*/)
+            if (num == 11 - 1/*게임 씬 추가 후  수정 바람*/)
             {
                 //추가
                 SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
@@ -113,8 +110,8 @@ public class SceneController : MonoBehaviour {
     public int GetActiveScene_num() {
         //return SceneManager.GetActiveScene().buildIndex;
         int num = SceneManager.GetActiveScene().buildIndex;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
-        if (num > 7)
-            num += 2;
+        if (num > 8)
+            num++;
         return num;
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
