@@ -25,18 +25,18 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
 
     //변수
     Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
-    string str_preTarget = "";
+    //string str_preTarget = "";
     bool[] clear_clue = new bool[3] { false, false, false };//단서 클리어 정도
 
     //커스텀 클래스 인스턴스
     AdviceController AC;
-    GameButtonController GBC;
+    //GameButtonController GBC;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Start()
     {
         AC = GetComponent<AdviceController>();
-        GBC = GetComponent<GameButtonController>();
+        //GBC = GetComponent<GameButtonController>();
     }
     void Update()
     {

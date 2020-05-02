@@ -13,16 +13,18 @@ public class DialogManager : MonoBehaviour {
         img_jullian, img_alien1, img_alien2, img_alien3;
 
     //변수
-    Texture img_alien, img_name_j, img_name_a;
+    Texture img_alien;
     StringReader stringReader;
     StringBuilder sentence = new StringBuilder("");
+    Color color = Color.white;
     string file_name, fileLine, previous_code;
     string location = "dialog/";
-    int lineCount = 0;
     bool fast = false;
     bool change_chracter = false;
     float origin;
-    Color color = Color.white;
+#if DEV_TEST
+    int lineCount = 0;
+#endif
 
     //런타임 상수 선언
     readonly int planet_num = SceneController.Instance.Planet_num;
@@ -171,7 +173,9 @@ public class DialogManager : MonoBehaviour {
     IEnumerator Routine_appear()
     {
 
+#if DEV_TEST
         lineCount++;
+#endif
 
         //첫 대사 입력
         fileLine = stringReader.ReadLine();
@@ -288,7 +292,9 @@ public class DialogManager : MonoBehaviour {
         //file의 남은 대사가 없을 때까지 반복
         do
         {
+#if DEV_TEST
             lineCount++;
+#endif
 
             //대사 입력
             fileLine = stringReader.ReadLine();
