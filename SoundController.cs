@@ -16,8 +16,8 @@ public class SoundController : MonoBehaviour
     //객체 할당
     public Slider s_bgm, s_effect;
 
-    private AudioSource bgm = SoundManager.Instance.Player_BGM;
-    private AudioSource effect = SoundManager.Instance.Player_effect;
+    private AudioSource bgm;
+    private AudioSource effect;
     
     //변수
     private float value_effect = 1f;
@@ -26,6 +26,9 @@ public class SoundController : MonoBehaviour
     //초기화
     void Start()
     {
+        bgm = bgm = SoundManager.Instance.Player_BGM;
+        effect = SoundManager.Instance.Player_effect;
+        
         //슬라이더 초기화
         s_bgm.value = bgm.volume;
         s_effect.value = effect.volume;

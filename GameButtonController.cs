@@ -15,41 +15,41 @@ using UnityEngine.UI;
 public class GameButtonController : MonoBehaviour
 {
 
-    public GameObject clue1, clue2, clue3, itemBox;
+    public Image clue1, clue2, clue3;
+    public GameObject itemBox;
     public Sprite clue_clear;
 
     //임시 종료 처리
     public void Developer_Button()
     {
+        clue1.sprite = clue_clear;
+        clue2.sprite = clue_clear;
+        clue3.sprite = clue_clear;
 
-        GameObject[] clue = { clue1, clue2, clue3 };
-        for (int i = 0; i < 3; i++)
-        {
-            clue[i].GetComponent<Image>().sprite = clue_clear;
-            clue[i].GetComponent<Button>().interactable = true;
-        }
         Invoke("Ending", 1f);
     }
 
     //단서 해결 이벤트
     public void Clear_Clue(int num)
     {
-        GameObject clue;
         switch (num)
         {
             case 1:
-                clue = clue1;
+                clue1.sprite = clue_clear;
+                if (clue2.sprite.Equals(clue_clear) && clue3.sprite.Equals(clue_clear))
+                    Invoke("Ending", 1f);
                 break;
             case 2:
-                clue = clue2;
+                clue2.sprite = clue_clear;
+                if (clue1.sprite.Equals(clue_clear) && clue3.sprite.Equals(clue_clear))
+                    Invoke("Ending", 1f);
                 break;
-            default:
-                clue = clue3;
+            case 3:
+                clue3.sprite = clue_clear;
+                if (clue1.sprite.Equals(clue_clear) && clue2.sprite.Equals(clue_clear))
+                    Invoke("Ending", 1f);
                 break;
         }
-        clue.GetComponent<Image>().sprite = clue_clear;
-        clue.GetComponent<Button>().interactable = true;
-
     }
 
     //아이템박스 열고 닫기

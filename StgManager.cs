@@ -21,8 +21,8 @@ public class StgManager : MonoBehaviour{
     const float ROT_SPEED = 80;
 
     //변수
-    float angle = 0f;                   //스테이지 회전 각도
-    bool play = true;                   //스테이지 회전 가능 여부
+    protected float angle = 0f;                   //스테이지 회전 각도
+    protected bool play = true;                   //스테이지 회전 가능 여부
 
     public bool Play
     {
@@ -34,7 +34,7 @@ public class StgManager : MonoBehaviour{
 
 #if UNITY_EDITOR
     //회전 이벤트....PC환경에서 회전 테스트 용
-    void Update()
+    protected void Update()
     {
         if(play)
             if (Input.GetKey(KeyCode.LeftArrow))
@@ -59,7 +59,7 @@ public class StgManager : MonoBehaviour{
 
 #elif UNITY_ANDROID
     //회전 이벤트 ... stage오브젝트에 콜라이더 씌워야 함
-    void OnMouseDrag()
+    protected void OnMouseDrag()
     {
         if (play && 
             Input.touchCount == 1 &&

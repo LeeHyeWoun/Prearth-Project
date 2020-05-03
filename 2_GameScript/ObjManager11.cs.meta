@@ -27,10 +27,13 @@ MonoImporter:
   - clueBox1: {instanceID: 0}
   - clueBox2: {instanceID: 0}
   - clueBox3: {instanceID: 0}
+  - clue_1: {fileID: 21300000, guid: a67fbbf4b70eb04489d2b5c4ed310c3b, type: 3}
+  - clue_2: {fileID: 21300000, guid: 730cf0b8f900f9f4d95ad4798d66d8a6, type: 3}
+  - clue_3: {fileID: 21300000, guid: 9f524969050d1d1499b68a9ecce3ab50, type: 3}
   - clue_empty: {fileID: 21300000, guid: cf14e6e64b92453418e4b927d514d7c8, type: 3}
   - clue_clear: {fileID: 21300000, guid: 0fba527c6361dd447b11640feef5a5d1, type: 3}
-  - blank_pat: {instanceID: 0}
-  - blank_icepack: {instanceID: 0}
+  - blank_pat: {fileID: 2800000, guid: 41ead03241cbe0848807fa6e2884d777, type: 3}
+  - blank_icepack: {fileID: 2800000, guid: 1be56d944db847942940bbbd2fba77ba, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -24,9 +24,6 @@ public class DragController11 : RaycastManager,
     readonly WaitForEndOfFrame wait = new WaitForEndOfFrame();
     bool isInteractable = false;
 
-    //상수
-    const float plane_distance=12f;
-
     //커스텀 클래스 인스턴스
     ObjManager11 OM;
     ZoomManager ZM;
@@ -73,7 +70,7 @@ public class DragController11 : RaycastManager,
     {
         if (GetPlay()&& isInteractable)
         {
-            var screenPoint = new Vector3(eventData.position.x, eventData.position.y, plane_distance);
+            var screenPoint = new Vector3(eventData.position.x, eventData.position.y, 10f);
             transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
         }
     }
@@ -92,14 +89,19 @@ public class DragController11 : RaycastManager,
             else if (name.Equals("B_Vinyl") || name.Equals("B_Pet"))
             {
                 SetPlays(true);
-                OM.DragDrop_Clue(name);
+                OM.Drag_DisassembledClue1(name);
+            }
+            else if (name.Equals("B_icepack_vinyl") || name.Equals("B_icepack_water"))
+            {
+                SetPlays(true);
+                OM.Drag_DisassembledClue2(name);
             }
             else if (name.Equals("B_item2") && GetClickUI().Equals("RI_Blank"))
             {
                 transform.position = defaultposition;
                 SetPlays(true);
                 transform.localScale = transform.localScale / 1.1f;
-                OM.Item_knife();
+                OM.Disassembled();
             }
 
         }

@@ -22,12 +22,12 @@ public class DialogManager : MonoBehaviour {
     bool fast = false;
     bool change_chracter = false;
     float origin;
+    int planet_num;
 #if DEV_TEST
     int lineCount = 0;
 #endif
 
     //런타임 상수 선언
-    readonly int planet_num = SceneController.Instance.Planet_num;
     readonly string[] names = { "줄리안", "꼬륵이", "뿌직이", "콜록이" };
     readonly Color[] colors = {
         new Color(203/255f,    112 /255f,  143/255f),               // pink
@@ -40,6 +40,7 @@ public class DialogManager : MonoBehaviour {
 
     void Awake() {
         file_name = PlayerPrefs.GetString("DIALOG");
+        planet_num = SceneController.Instance.Planet_num;
     }
 
     private void Start () {

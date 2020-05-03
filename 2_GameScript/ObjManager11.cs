@@ -16,14 +16,16 @@ using UnityEngine.UI;
 public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManager을 상속할 것
 {
     public GameObject
-        blank, blank_RI, B_Pet, B_Vinyl,
+        blank, blank_RI, B_Pet, B_Vinyl, B_icepack_vinyl, B_icepack_water,
         clue1, clue2, clue3,                                //단서
         fridge_L, fridge_R,                                 //냉장고 문
         trash1_body, trash2_body, trash3_body, trash4_body, //쓰레기 통
         trash1_lid, trash2_lid, trash3_lid, trash4_lid;     //쓰레기 뚜껑
-    public ParticleSystem eff_clue1, eff_clue2, eff_clue3;  //단서버튼의 이펙트 효과
+    public ParticleSystem
+        eff_clue1, eff_clue2, eff_clue3,                    //단서버튼의 이펙트 효과
+        ps_collect1, ps_collect2, ps_collect3;              //단서 위치의 이펙트 효과
     public Button clueBox1, clueBox2, clueBox3;             //clue 박스
-    public Sprite clue_empty, clue_clear;
+    public Sprite clue_1, clue_2, clue_3, clue_empty, clue_clear;
     public Texture blank_pat, blank_icepack;
 
     //변수
@@ -98,33 +100,32 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         }
     }
 
-    //단서를 모두 찾았을 때의 이벤트 ... Collect에서 Invoke로 사용
-    void Success()
-    {
-        AC.Dialog_and_Advice("play1");
-    }
-
     //단서 발견 시 이벤트...클릭
     void Collect(int num) {
-        Button clueBox;
         ParticleSystem eff_clue;
         string message;
 
         switch (num) {
             case 1:
-                clueBox = clueBox1;
+                clueBox1.GetComponent<Image>().sprite = clue_1;
+                clear_clue[0] = true;
+                ps_collect1.Play();
                 eff_clue = eff_clue1;
                 message = "페트병";
                 break;
 
             case 2:
-                clueBox = clueBox2;
+                clueBox2.GetComponent<Image>().sprite = clue_2;
+                clear_clue[1] = true;
+                ps_collect2.Play();
                 eff_clue = eff_clue2;
                 message = "닭뼈";
                 break;
 
             default:
-                clueBox = clueBox3;
+                clueBox3.GetComponent<Image>().sprite = clue_3;
+                clear_clue[2] = true;
+                ps_collect3.Play();
                 eff_clue = eff_clue3;
                 message = "아이스팩";
                 break;
@@ -134,24 +135,40 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         target.SetActive(false);
 
         //단서 박스에 채우기 및 이펙트 효과
-        clueBox.interactable = true;
         eff_clue.transform.localScale = effectScale * Camera.main.orthographicSize / 5;
         eff_clue.Play();
 
         AC.Advice(message);
 
         //모든 단서를 찾았다면
-        if (clueBox1.interactable && clueBox2.interactable && clueBox3.interactable)
+        if (clear_clue[0] && clear_clue[1] && clear_clue[2])
         {
+            //초기화
+            for (int i = 0; i < 3; i++)
+                clear_clue[i] = false;
+
             //쓰레기통 뚜껑 모두 닫기
             for (int i = 0; i < 4; i++)
-            {
                 StartCoroutine(Close_Trash(i));
-            }
+
             //다음 명령 내리기
-            Invoke("Success", 4f);
+            AC.Dialog_and_Advice("play1");
+
+            //잠금 해제
+            Enable_drag(true);
         }
 
+    }
+
+    //단서 드래그 활성화여부 설정
+    void Enable_drag(bool b)
+    {
+        if(!clear_clue[0])
+            clueBox1.interactable = b;
+        if (!clear_clue[1])
+            clueBox2.interactable = b;
+        if (!clear_clue[2])
+            clueBox3.interactable = b;
     }
 
     //냉장고 문 여닫기 이벤트...클릭
@@ -205,6 +222,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 clueBox1.GetComponent<Image>().sprite = clue_empty;
                 blank_RI.GetComponent<RawImage>().texture = blank_pat;
                 blank.SetActive(true);
+                Enable_drag(false);  //잠금
+
                 AC.Dialog_and_Advice("play2_1");
             }
             //단서2...닭뼈
@@ -213,7 +232,9 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 if (obj_name.Equals("trash2_2") && angle_trash[1] > 0)
                 {
                     SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
-                    Clear_clue(2);
+                    clear_clue[1] = true;
+                    clueBox2.interactable = false;
+                    GBC.Clear_Clue(2);
                 }
                 else if (obj_name.Equals("trash4_2") && angle_trash[3] > 0)
                 {
@@ -229,6 +250,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 clueBox3.GetComponent<Image>().sprite = clue_empty;
                 blank_RI.GetComponent<RawImage>().texture = blank_icepack;
                 blank.SetActive(true);
+                Enable_drag(false);  //잠금
+
                 AC.Dialog_and_Advice("play2_3");
             }
             else
@@ -236,74 +259,88 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         }
     }
 
-    public void DragDrop_Clue(string name) {
+    public void Drag_DisassembledClue1(string name) {
         target = GetClickedObject();
         if (target != null)
         {
             string target_name = target.name;
-            bool success = false;
-            switch (name) {
-                case "B_Pet":       //페트병 - 재활용 쓰레기통
-                    if (target_name.Equals("trash1_2")) {
-                        success = true;
-                        B_Pet.SetActive(false);
-                    }
-                    break;
-
-                case "B_Vinyl":     //비닐 - 비닐 쓰레기통
-                    if (target_name.Equals("trash3_2")){
-                        success = true;
-                        B_Vinyl.SetActive(false);
-                    }
-                    break;
-            }
-            if (success) {
+            //페트병 - 재활용 쓰레기통
+            if (name.Equals("B_Pet") && target_name.Equals("trash1_2") && angle_trash[0] > 0)
+            {
                 SoundManager.Instance.Play_effect(1);
-                if (!B_Pet.activeSelf && !B_Vinyl.activeSelf) {
-                    GBC.Clear_Clue(1);
-                }
+                B_Pet.SetActive(false);
+            }
+            else
+            //비닐 - 비닐 쓰레기통
+            if (name.Equals("B_Vinyl") && target_name.Equals("trash3_2") && angle_trash[2] > 0)
+            {
+                SoundManager.Instance.Play_effect(1);
+                B_Vinyl.SetActive(false);
             }
             else
                 SoundManager.Instance.Play_effect(2);
+
+            if (!B_Pet.activeSelf && !B_Vinyl.activeSelf)
+            {
+                clear_clue[0] = true;
+                Enable_drag(true);  //잠금해제
+                GBC.Clear_Clue(1);
+            }
         }
         else
             SoundManager.Instance.Play_effect(2);
     }
-    public void Item_knife() {
-        blank.SetActive(false);
-        B_Vinyl.SetActive(true);
-        B_Pet.SetActive(true);
-        GBC.ItemBox();
-    }
 
-    public void Clear_clue(int num) {
-        Button clueBox = null;
-        switch (num) {
-            case 1:
-                clueBox = clueBox1;
-                break;
-            case 2:
-                clueBox = clueBox2;
-                break;
-            case 3:
-                clueBox = clueBox3;
-                break;
-        }
-        if (clueBox != null) {
-            clear_clue[num - 1] = true;
-            clueBox.GetComponent<Image>().sprite = clue_clear;
-        }
-
-        if (clear_clue[0] && clear_clue[1] && clear_clue[2])
-            Invoke("Ending", 3f);
-    }
-
-    void Ending()
+    public void Drag_DisassembledClue2(string name)
     {
-        //게임 마무리 대사
-        AC.Dialog_and_Advice("clear");
+        target = GetClickedObject();
+        if (target != null)
+        {
+            string target_name = target.name;
+            //비닐 - 비닐 쓰레기통
+            if (name.Equals("B_icepack_vinyl") && target_name.Equals("trash3_2") && angle_trash[2] > 0)
+            {
+                SoundManager.Instance.Play_effect(1);
+                B_icepack_vinyl.SetActive(false);
+            }
+            else
+            //아이스팩 내용물 - 일반 쓰레기통
+            if (name.Equals("B_icepack_water") && target_name.Equals("trash2_2") && angle_trash[1] > 0)
+            {
+                SoundManager.Instance.Play_effect(1);
+                B_icepack_water.SetActive(false);
+            }
+            else
+                SoundManager.Instance.Play_effect(2);
+
+            if (!B_icepack_vinyl.activeSelf && !B_icepack_water.activeSelf)
+            {
+                clear_clue[2] = true;
+                Enable_drag(true);  //잠금해제
+                GBC.Clear_Clue(3);
+            }
+        }
+        else
+            SoundManager.Instance.Play_effect(2);
     }
 
+    public void Disassembled() {
+        blank.SetActive(false);
+        GBC.ItemBox();
+
+        //페트병 분리
+        if (clueBox1.GetComponent<Image>().sprite.Equals(clue_empty))
+        {
+            B_Vinyl.SetActive(true);
+            B_Pet.SetActive(true);
+        }
+        //아이스팩 분리
+        else
+        {
+            B_icepack_vinyl.SetActive(true);
+            B_icepack_water.SetActive(true);
+        }
+    }
 
     //루틴+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //냉장고 열기
