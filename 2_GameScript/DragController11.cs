@@ -87,12 +87,20 @@ public class DragController11 : RaycastManager,
             StartCoroutine(ItemReturn());
 
             string name = gameObject.name;
-            if (name.Length > 5 && name.Substring(2, 4) == "Clue")
+            if (name.Length > 5 && name.Substring(2, 4).Equals("Clue"))
                 OM.Select_Trash(name);
             else if (name.Equals("B_Vinyl") || name.Equals("B_Pet"))
+            {
+                SetPlays(true);
                 OM.DragDrop_Clue(name);
-            else if (name.Equals("B_item2"))
+            }
+            else if (name.Equals("B_item2") && GetClickUI().Equals("RI_Blank"))
+            {
+                transform.position = defaultposition;
+                SetPlays(true);
+                transform.localScale = transform.localScale / 1.1f;
                 OM.Item_knife();
+            }
 
         }
     }

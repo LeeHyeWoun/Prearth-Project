@@ -149,7 +149,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 StartCoroutine(Close_Trash(i));
             }
             //다음 명령 내리기
-            Invoke("Success", 3f);
+            Invoke("Success", 4f);
         }
 
     }
@@ -196,90 +196,44 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         target = GetClickedObject();
         if (target != null)
         {
-            int num = -1;
-            SetTrash_Number(target.name, ref num);
-            //print(target.name + " / " + num);
-
-            if (Match_Clue_to_Trash(clue_name, num))
+            string obj_name = target.name;
+            //단서1...페트병
+            if (clue_name.Equals("B_Clue_1") 
+                && obj_name.Equals("trash1_2") && angle_trash[0] > 0)
+            {
                 SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
+                clueBox1.GetComponent<Image>().sprite = clue_empty;
+                blank_RI.GetComponent<RawImage>().texture = blank_pat;
+                blank.SetActive(true);
+                AC.Dialog_and_Advice("play2_1");
+            }
+            //단서2...닭뼈
+            else if (clue_name.Equals("B_Clue_2"))
+            {
+                if (obj_name.Equals("trash2_2") && angle_trash[1] > 0)
+                {
+                    SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
+                    Clear_clue(2);
+                }
+                else if (obj_name.Equals("trash4_2") && angle_trash[3] > 0)
+                {
+                    SoundManager.Instance.Play_effect(2);  //적절하지 않다는 효과음 내기
+                    AC.Dialog_and_Advice("play2_2");
+                }
+            }
+            //단서3...아이스팩
+            else if (clue_name.Equals("B_Clue_3") 
+                && obj_name.Equals("trash3_2") && angle_trash[2] > 0)
+            {
+                SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
+                clueBox3.GetComponent<Image>().sprite = clue_empty;
+                blank_RI.GetComponent<RawImage>().texture = blank_icepack;
+                blank.SetActive(true);
+                AC.Dialog_and_Advice("play2_3");
+            }
             else
                 SoundManager.Instance.Play_effect(2);  //적절하지 않다는 효과음 내기
         }
-    }
-
-    //쓰레기통 번호 매기기
-    void SetTrash_Number(string target_name, ref int num) {
-        switch (target_name)
-        {
-            case "trash1_2":
-                if (angle_trash[0] > 0)
-                    num = 0;
-                break;
-            case "trash2_2":
-                if (angle_trash[1] > 0)
-                    num = 1;
-                break;
-            case "trash3_2":
-                if (angle_trash[2] > 0)
-                    num = 2;
-                break;
-            case "trash4_2":
-                if (angle_trash[3] > 0)
-                    num = 3;
-                break;
-
-            default:
-                SoundManager.Instance.Play_effect(2);  //적절하지 않다는 효과음 내기
-                break;
-        }
-    }
-
-    //적절한 단서와 쓰레기통이 매치되었는지 확인
-    bool Match_Clue_to_Trash(string clue_name, int trash_num)
-    {
-        bool success = false;
-        switch (clue_name)
-        {
-
-            case "B_Clue_1":    //페트병
-                //재활용 쓰레기통
-                if (trash_num == 0)
-                {   
-                    success = true;
-                    clueBox1.GetComponent<Image>().sprite = clue_empty;
-                    blank_RI.GetComponent<RawImage>().texture = blank_pat;
-                    blank.SetActive(true);
-                    AC.Dialog_and_Advice("Play2_1");
-                }
-                break;
-
-            case "B_Clue_2":    //닭뼈
-                //일반 쓰레기통
-                if (trash_num == 1)
-                {
-                    success = true;
-                    Clear_clue(2);
-                }
-                //음식물 쓰레기통
-                else if (trash_num == 3)
-                    AC.Dialog_and_Advice("Play2_2");
-
-                break;
-
-            case "B_Clue_3":    //아이스팩
-                //비닐 쓰레기통
-                if (trash_num == 2)
-                {
-                    success = true;
-                    clueBox3.GetComponent<Image>().sprite = clue_empty;
-                    blank_RI.GetComponent<RawImage>().texture = blank_icepack;
-                    blank.SetActive(true);
-                    AC.Dialog_and_Advice("Play2_3");
-                }
-                break;
-
-        }
-        return success;
     }
 
     public void DragDrop_Clue(string name) {
@@ -316,14 +270,10 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             SoundManager.Instance.Play_effect(2);
     }
     public void Item_knife() {
-        string name = GetClickUI();
-        if (name != null && name.Equals("RI_Blank"))
-        {
-            blank.SetActive(false);
-            B_Vinyl.SetActive(true);
-            B_Pet.SetActive(true);
-            GBC.ItemBox();
-        }
+        blank.SetActive(false);
+        B_Vinyl.SetActive(true);
+        B_Pet.SetActive(true);
+        GBC.ItemBox();
     }
 
     public void Clear_clue(int num) {

@@ -65,6 +65,6 @@ public class RaycastManager : MonoBehaviour {
         Ray2D ray = new Ray2D(touchPosition, Vector2.zero);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 
-        return hit.collider.name;
+        return hit ? hit.collider.name : "";
     }
 }
