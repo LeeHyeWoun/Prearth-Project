@@ -79,12 +79,19 @@ public class AdviceController : MonoBehaviour
     {
         file = sceneNum + "_" + file;
         //Dialog
+        StartCoroutine(Routine_Dialog(file));
+    }
+
+    IEnumerator Routine_Dialog(string file) {
         PlayerPrefs.SetString("DIALOG", file);
+        while (routine != null) {
+            yield return wait1;
+        }
         SceneController.Instance.Load_Scene(16);
 
         //Advice
-        if(orderList[file] != null)
-        Advice(orderList[file]);
+        if (orderList[file] != null)
+            Advice(orderList[file]);
     }
 
     IEnumerator Routine_Advice(string txt)
@@ -125,7 +132,7 @@ public class AdviceController : MonoBehaviour
         {
             fade_A *= 0.94f;
             if (fade_A < 0.2)
-                fade_A -= 0.01f;
+                fade_A -= 0.05f;
             fade_RI.a = fade_A;
             fade_T.a = fade_A;
 
@@ -134,7 +141,7 @@ public class AdviceController : MonoBehaviour
             yield return null;
         }
         order_RI.SetActive(false);
-
+        routine = null;
     }
 
 }
