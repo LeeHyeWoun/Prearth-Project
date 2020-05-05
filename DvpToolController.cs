@@ -68,7 +68,6 @@ public class DvpToolController : MonoBehaviour {
         else {
             PlayerPrefs.SetInt("tmp_tutorial", 1);
             SceneController.Instance.Load_Scene(0);
-            SceneController.Instance.Load_Scene(14);
         }
 
     }

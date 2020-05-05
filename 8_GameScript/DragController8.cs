@@ -29,29 +29,18 @@ public class DragController8 : RaycastManager,
 
     //커스텀 클래스 인스턴스
     ObjManager8 OM;
-    ZoomManager ZM;
-    StgManager SM;
 
     private void Start()
     {
         OM = gameDirector.GetComponent<ObjManager8>();
-        ZM = gameDirector.GetComponent<ZoomManager>();
-        SM = stg.GetComponent<StgManager>();
-    }
-
-    private void SetPlays(bool b)
-    {
-        OM.Play = b;
-        ZM.Play = b;
-        SM.Play = b;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isInteractable = GetComponent<Button>().interactable;
-        if (GetPlay() && isInteractable)
+        if (isInteractable)
         {
-            SetPlays(false);
+            Time.timeScale = 0;
             SoundManager.Instance.Play_effect(0);
             transform.localScale = transform.localScale * 1.2f;
         }
@@ -64,7 +53,7 @@ public class DragController8 : RaycastManager,
      */
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (GetPlay() && isInteractable)
+        if (isInteractable)
         {
             defaultposition = transform.position;
         }
@@ -72,7 +61,7 @@ public class DragController8 : RaycastManager,
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (GetPlay() && isInteractable)
+        if (isInteractable)
         {
             var screenPoint = new Vector3(eventData.position.x, eventData.position.y, plane_distance);
             transform.position = Camera.main.ScreenToWorldPoint(screenPoint);
@@ -81,7 +70,7 @@ public class DragController8 : RaycastManager,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (GetPlay() && isInteractable)
+        if (isInteractable)
         {
             //놓는 위치에서 움찔 효과를 주기 위해 살짝 커지게 하기
             transform.localScale = transform.localScale * 1.1f;
@@ -107,13 +96,13 @@ public class DragController8 : RaycastManager,
 
         //아이템을 원래상태로 복귀
         transform.position = defaultposition;
-        SetPlays(true);
+        Time.timeScale = 1;
         transform.localScale = transform.localScale / 1.1f;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (GetPlay() && isInteractable)
+        if (isInteractable)
         {
             transform.localScale = transform.localScale / 1.2f;
         }

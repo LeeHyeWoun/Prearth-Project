@@ -19,46 +19,38 @@ public class TutorialManager : MonoBehaviour {
     SoundManager SM;
 
     //변수
-    int page;
+    int page = 1;
     
     void Start() {
         Time.timeScale = 0;
         SM = SoundManager.Instance;
-        page = PlayerPrefs.GetInt("tmp_tutorial");
-        ChageImage(page);
     }
 
     public void Next() {
         SM.Play_effect(0);
         ChageImage(++page);
-        arrow_pre.SetActive(true);
-        arrow_next.SetActive(false);
+
+        if (page.Equals(2))
+            arrow_pre.SetActive(true);
+        else if (page.Equals(4))
+            arrow_next.SetActive(false);
     }
 
     public void Pre() {
         SM.Play_effect(0);
         ChageImage(--page);
-        arrow_pre.SetActive(false);
-        arrow_next.SetActive(true);
+        if (page.Equals(1))
+            arrow_pre.SetActive(false);
+        else if (page.Equals(3))
+            arrow_next.SetActive(true);
     }
 
     public void Skip()
     {
-        Time.timeScale = 1;
         SM.Play_effect(0);
-
-        if (page < 3)
-        {
-            PlayerPrefs.SetInt("tmp_tutorial", 3);
-            SceneController.Instance.Destroy_Scene();
-        }
-        else
-        {
-            PlayerPrefs.DeleteKey("tmp_tutorial");
-            PlayerPrefs.SetInt("tmp_Clear", 0);
-            SceneController.Instance.Planet_num = 0;
-            SceneController.Instance.Load_Scene(1);
-        }
+        PlayerPrefs.SetInt("tmp_Clear", 0);
+        Time.timeScale = 1;
+        SceneController.Instance.Destroy_Scene();
     }
 
     void ChageImage(int page) {

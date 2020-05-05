@@ -40,7 +40,7 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
     }
     void Update()
     {
-        if (GetPlay())
+        if (Time.timeScale.Equals(1))
             ObjectClick();
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

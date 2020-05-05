@@ -16,18 +16,7 @@ public class RaycastManager : MonoBehaviour {
 
     protected GameObject target;                                      //레이케스트 충돌 오브젝트
 
-    private bool play = true;                                       //클릭 이벤트 실행 가능 여부
     private Camera cmr;
-
-    public bool Play {
-        set {
-            play = value;
-        }
-    }
-
-    protected bool GetPlay() {
-        return play;
-    }
 
     void Awake() {
         cmr = Camera.main;
@@ -61,7 +50,7 @@ public class RaycastManager : MonoBehaviour {
 
     //클릭한 UI 이름 반환
     protected string GetClickUI() {
-        Vector2 touchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 touchPosition = cmr.ScreenToWorldPoint(Input.mousePosition);
         Ray2D ray = new Ray2D(touchPosition, Vector2.zero);
         RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
 

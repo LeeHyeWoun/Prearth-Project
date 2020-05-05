@@ -44,6 +44,7 @@ public class DialogManager : MonoBehaviour {
     }
 
     private void Start () {
+        Time.timeScale = 0;
 
 #if DEV_TEST
         //전달 값 체크
@@ -244,6 +245,7 @@ public class DialogManager : MonoBehaviour {
         }
         yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
 
+
         //배경과 대화창 설정
         Color color_bg = color_filter.color;
         float time = 0;
@@ -255,6 +257,8 @@ public class DialogManager : MonoBehaviour {
                 img_base.transform.Translate(Vector3.down * 10);
                 yield return null;
             }
+            Time.timeScale = 1;
+
             if (PlayerPrefs.GetInt("tmp_Clear") < (SC.GetActiveScene_num() - 1))
                 SC.Load_Scene(17);
             else {
@@ -278,8 +282,8 @@ public class DialogManager : MonoBehaviour {
                 img_base.transform.Translate(Vector3.down * 10);
                 yield return null;
             }
-            if (!file_name.Equals("test"))
-                SC.Destroy_Scene();
+            Time.timeScale = 1;
+            SC.Destroy_Scene();
         }
 
     }

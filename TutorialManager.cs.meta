@@ -6,8 +6,8 @@ MonoImporter:
   defaultReferences:
   - tutorial1: {fileID: 2800000, guid: f685cae3b14b13b4cafc7f0761eb504f, type: 3}
   - tutorial2: {fileID: 2800000, guid: 8945cffc5ccd5f94787cd4b171f1fba8, type: 3}
-  - tutorial3: {fileID: 2800000, guid: c49a8114038761f4f9d3ef72e3d7398c, type: 3}
-  - tutorial4: {fileID: 2800000, guid: 5795f71c08303fe499f212cf4b5c30fd, type: 3}
+  - tutorial3: {fileID: 2800000, guid: 2375fb7377719b94eae50ab47cdb6a58, type: 3}
+  - tutorial4: {fileID: 2800000, guid: c3a88df18a437814e9024c396cbe767a, type: 3}
   - RI_tutorial: {instanceID: 0}
   - arrow_pre: {instanceID: 0}
   - arrow_next: {instanceID: 0}

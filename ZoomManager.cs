@@ -23,14 +23,6 @@ public class ZoomManager : MonoBehaviour
     //변수
     Camera cmr;
     float deltaMagDiff = 0f;        // Zoom 값
-    bool play = true;               //실행 여부
-
-    public bool Play
-    {
-        set {
-            play = value;
-        }
-    }
 
     void Start()
     {
@@ -39,7 +31,7 @@ public class ZoomManager : MonoBehaviour
 
     void Update()
     {
-        if (play)
+        if (Time.timeScale.Equals(1))
             PinchTouch();
     }
 

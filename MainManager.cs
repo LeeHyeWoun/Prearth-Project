@@ -32,10 +32,7 @@ public class MainManager : MonoBehaviour
         stage_num = PlayerPrefs.GetInt("tmp_Clear", -1);
 
         if (stage_num < 0)
-        {
-            PlayerPrefs.SetInt("tmp_tutorial", 1);
             SceneController.Instance.Load_Scene(14);
-        }
     }
 
     void Start()
@@ -76,16 +73,8 @@ public class MainManager : MonoBehaviour
         {
             case 1:
                 SM.Play_effect(0);
-                if (stage_num < 0)
-                {
-                    PlayerPrefs.SetInt("tmp_tutorial", 3);
-                    SceneController.Instance.Load_Scene(14);
-                }
-                else {
-                    SceneController.Instance.Planet_num = 0;
-                    SceneController.Instance.Load_Scene(1);
-                }
-
+                SceneController.Instance.Planet_num = 0;
+                SceneController.Instance.Load_Scene(1);
                 break;
 
             case 2:

@@ -22,21 +22,12 @@ public class StgManager : MonoBehaviour{
 
     //변수
     protected float angle = 0f;                   //스테이지 회전 각도
-    protected bool play = true;                   //스테이지 회전 가능 여부
-
-    public bool Play
-    {
-        set
-        {
-            play = value;
-        }
-    }
 
 #if UNITY_EDITOR
     //회전 이벤트....PC환경에서 회전 테스트 용
     protected void Update()
     {
-        if(play)
+        if(Time.timeScale.Equals(1))
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.Rotate(Vector3.up, 0.3f);
@@ -61,7 +52,7 @@ public class StgManager : MonoBehaviour{
     //회전 이벤트 ... stage오브젝트에 콜라이더 씌워야 함
     protected void OnMouseDrag()
     {
-        if (play && 
+        if (Time.timeScale.Equals(1) && 
             Input.touchCount == 1 &&
             !EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
         {

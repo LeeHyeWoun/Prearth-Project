@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class AdviceController : MonoBehaviour
 {
     //할당받을 객체
-    public ParticleSystem order_effect;
     public GameObject order_RI, order_T;
 
     //변수

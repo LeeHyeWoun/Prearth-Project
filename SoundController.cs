@@ -26,7 +26,7 @@ public class SoundController : MonoBehaviour
     //초기화
     void Start()
     {
-        bgm = bgm = SoundManager.Instance.Player_BGM;
+        bgm = SoundManager.Instance.Player_BGM;
         effect = SoundManager.Instance.Player_effect;
         
         //슬라이더 초기화

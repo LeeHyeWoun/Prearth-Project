@@ -40,7 +40,7 @@ public class ObjManager8 : RaycastManager//ObjManager는 무조건 RaycastManage
     }
     void Update()
     {
-        if (GetPlay())
+        if (Time.timeScale.Equals(1))
             ObjectClick();
     }
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -271,11 +271,8 @@ public class ObjManager8 : RaycastManager//ObjManager는 무조건 RaycastManage
         Vector3 vec = num == 0 ? Vector3.forward : Vector3.back;
         while (angle_fridge[num] < 120)
         {
-            if (GetPlay())
-            {
-                obj.transform.Rotate(vec, 4);
-                angle_fridge[num] += 4;
-            }
+            obj.transform.Rotate(vec, 4);
+            angle_fridge[num] += 4;
             yield return null;
         }
     }
@@ -285,11 +282,8 @@ public class ObjManager8 : RaycastManager//ObjManager는 무조건 RaycastManage
         Vector3 vec = num == 0 ? Vector3.forward : Vector3.back;
         while (angle_fridge[num] > 0)
         {
-            if (GetPlay())
-            {
-                obj.transform.Rotate(vec, -4);
-                angle_fridge[num] -= 4;
-            }
+            obj.transform.Rotate(vec, -4);
+            angle_fridge[num] -= 4;
             yield return null;
         }
     }
