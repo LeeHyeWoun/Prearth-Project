@@ -8,7 +8,6 @@ public class QuizManager : MonoBehaviour {
 
     public GameObject 
         go_blur, go_result, go_commentary, go_correct, go_wrong, 
-        go_btn_commentary, go_btn_close, 
         go_btn_back, go_btn_next;
     public Text t_question, t_option1, t_option2, t_option3, t_option4, t_count, t_page, t_q, t_a;
     public Button btn_option1, btn_option2, btn_option3, btn_option4;
@@ -18,8 +17,9 @@ public class QuizManager : MonoBehaviour {
     char[] corrects = new char[6];
     bool wrong = false;
     int page, count = 0;
-    StringReader stringReader;
-    List<string> wrongList = new List<string>();
+    StringReader q_stringReader, c_stringReader;
+    string c_tmp;
+    List<string> commentationList = new List<string>();
 
 
     //상수
@@ -27,7 +27,7 @@ public class QuizManager : MonoBehaviour {
     readonly char[] corrects1 = { '1', '4', '3', '2', '2', '3' };
     readonly char[] corrects2 = { '1', '2', '4', '1', '3', '2' };
     readonly char[] corrects3 = { '3', '1', '1', '1', '2', '3' };
-    readonly Color color_t_option = new Color(92 / 255, 100 / 255, 102 / 255);
+    readonly Color color_t_option = new Color(92 / 255f, 100 / 255f, 102 / 255f);
     readonly WaitForSeconds term = new WaitForSeconds(2f);
 
     SceneController SC;
@@ -40,24 +40,27 @@ public class QuizManager : MonoBehaviour {
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num() + "_start");
         SC.Load_Scene(16);
 
-        string file_name = "quiz"+ (SC.GetActiveScene_num()-1)/3;
+        string q_file_name = "quiz"+ (SC.GetActiveScene_num()-1)/3;
+        string c_file_name = "commentation" + (SC.GetActiveScene_num() - 1) / 3;
 
         //대사 파일 불러오기
-        TextAsset file = Resources.Load(LOCATION + file_name) as TextAsset;
+        TextAsset q_file = Resources.Load(LOCATION + q_file_name) as TextAsset;
+        TextAsset c_file = Resources.Load(LOCATION + c_file_name) as TextAsset;
 
 #if DEV_TEST
         //파일 존재 여부 체크
-        if (file == null)
+        if (q_file.Equals(null) || c_file.Equals(null))
         {
-            print("Error : 파일명을 다시 체크해주세요.\n 'Resource/dialog/' 경로에서 파일<" + file_name + ".txt>를 찾을 수 없습니다.");
+            print("Error : 파일명을 다시 체크해주세요.\n 'Resource/dialog/' 경로에서 파일<" + q_file_name + ".txt>를 찾을 수 없습니다.");
             return;
         }
 #endif
-        stringReader = new StringReader(file.text);
+        q_stringReader = new StringReader(q_file.text);
+        c_stringReader = new StringReader(c_file.text);
         SetQuiz();
 
         //정답 설정
-        switch (file_name) {
+        switch (q_file_name) {
             case "quiz1":
                 corrects = corrects1;
                 break;
@@ -80,25 +83,17 @@ public class QuizManager : MonoBehaviour {
 
     void Open_Result()
     {
-        if (count.Equals(6)) {
-            go_btn_commentary.SetActive(false);
-
-            Vector3 v3 = go_btn_close.transform.position;
-            v3.x = go_result.transform.position.x;
-            go_btn_close.transform.position=v3;
-        }
-
         t_count.text = count.ToString();
         go_blur.SetActive(true);
         go_result.SetActive(true);
     }
 
     void SetQuiz() {
-        t_question.text = stringReader.ReadLine();
-        t_option1.text = stringReader.ReadLine();
-        t_option2.text = stringReader.ReadLine();
-        t_option3.text = stringReader.ReadLine();
-        t_option4.text = stringReader.ReadLine();
+        t_question.text = q_stringReader.ReadLine();
+        t_option1.text = q_stringReader.ReadLine();
+        t_option2.text = q_stringReader.ReadLine();
+        t_option3.text = q_stringReader.ReadLine();
+        t_option4.text = q_stringReader.ReadLine();
         t_page.text = (page + 1) + " / 6";
     }
 
@@ -160,17 +155,18 @@ public class QuizManager : MonoBehaviour {
             btn_option3.interactable = false;
             btn_option4.interactable = false;
 
-            if (wrong) {
+            if (wrong)
                 wrong = false;
-                wrongList.Add("Q" + (page + 1) + ". " + t_question.text);
-                wrongList.Add(t_option.text);
-            }
             else
                 count++;
 
             SoundManager.Instance.Play_effect(1);
             option.GetComponent<Image>().sprite = img_option_correct;
             StartCoroutine(Routine_check(true));
+
+            //해설 저장
+            commentationList.Add("Q" + (page + 1) + ". " + t_question.text);
+            commentationList.Add(c_stringReader.ReadLine());
 
             if (page.Equals(5))
                 Invoke("Open_Result", 2f);
@@ -182,8 +178,7 @@ public class QuizManager : MonoBehaviour {
         {
             option.interactable = false;
 
-            if (!wrong)
-                wrong = true;
+            wrong = true;
 
             SoundManager.Instance.Play_effect(2);
             option.GetComponent<Image>().sprite = img_option_wrong;
@@ -198,10 +193,8 @@ public class QuizManager : MonoBehaviour {
         go_result.SetActive(!open);
         if (open) {
             page = 0;
-            t_q.text = wrongList[0];
-            t_a.text = wrongList[1];
-            if (wrongList.Count.Equals(2))
-                go_btn_next.SetActive(false);
+            t_q.text = commentationList[0];
+            t_a.text = commentationList[1];
         }
     }
 
@@ -217,8 +210,8 @@ public class QuizManager : MonoBehaviour {
     {
         SoundManager.Instance.Play_effect(0);
         page--;
-        t_q.text = wrongList[page * 2];
-        t_a.text = wrongList[page * 2 + 1];
+        t_q.text = commentationList[page * 2];
+        t_a.text = commentationList[page * 2 + 1];
 
         if(!go_btn_next.activeSelf)
             go_btn_next.SetActive(true);
@@ -229,12 +222,12 @@ public class QuizManager : MonoBehaviour {
     public void Next() {
         SoundManager.Instance.Play_effect(0);
         page++;
-        t_q.text = wrongList[page * 2];
-        t_a.text = wrongList[page * 2 + 1];
+        t_q.text = commentationList[page * 2];
+        t_a.text = commentationList[page * 2 + 1];
 
         if(!go_btn_back.activeSelf)
             go_btn_back.SetActive(true);
-        if ((page+1).Equals(wrongList.Count/2))
+        if ((page+1).Equals(commentationList.Count/2))
             go_btn_next.SetActive(false);
     }
 
