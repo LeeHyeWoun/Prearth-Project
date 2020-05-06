@@ -30,13 +30,13 @@ public class DvpToolController : MonoBehaviour {
     private void Start()
     {
         SM = SoundManager.Instance;
-        txt_clear.text += PlayerPrefs.GetInt(tmp_Clear, 0).ToString();
     }
 
 
     //투명 버튼 3번 연속 터치시 tool 열기
     public void OpenTool() {
         SM.Play_effect(0);
+        txt_clear.text = "Clear : " + PlayerPrefs.GetInt(tmp_Clear, 0).ToString();
 
         if (count > 2)
         {
@@ -66,7 +66,6 @@ public class DvpToolController : MonoBehaviour {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
         else {
-            PlayerPrefs.SetInt("tmp_tutorial", 1);
             SceneController.Instance.Load_Scene(0);
         }
 

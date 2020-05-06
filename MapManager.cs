@@ -42,7 +42,7 @@ public class MapManager : MonoBehaviour
         SC = SceneController.Instance;
 
         //데이터 불러오기
-        clear_num = PlayerPrefs.GetInt("tmp_Clear", 0);
+        clear_num = PlayerPrefs.GetInt("tmp_Clear");
         int planet_num = SC.Planet_num;
 
         //행성 디자인 설정
@@ -102,7 +102,10 @@ public class MapManager : MonoBehaviour
         {
             //상태창 내용 설정
             clear_num %= 3;
-            str_origin += " " + (3 - clear_num).ToString() + "조각 남았습니다.";
+            if (clear_num > 0)
+                str_origin += " " + (3 - clear_num).ToString() + "조각 남았습니다.";
+            else
+                str_origin += " 3조각 남았습니다.";
 
             //보석 이미지 설정
             if (planet_num.Equals(1))
@@ -118,14 +121,14 @@ public class MapManager : MonoBehaviour
 
             //보석 양 설정
             switch (clear_num) {
-                case 0:
-                    I_gem_fill.fillAmount = 0f;
-                    break;
                 case 1:
                     I_gem_fill.fillAmount = 0.33f;
                     break;
                 case 2:
                     I_gem_fill.fillAmount = 0.66f;
+                    break;
+                default:
+                    I_gem_fill.fillAmount = 0f;
                     break;
             }
 
@@ -146,22 +149,35 @@ public class MapManager : MonoBehaviour
 
     public void Go_game(int num)
     {
+        //게임 튜토리얼
+        if (clear_num.Equals(-1))
+        {
+            if (num == 0)
+            {
+                SoundManager.Instance.Play_effect(0);
+                SC.Load_Scene(14);
+                clear_num = 0;
+            }
+            else {
+                SoundManager.Instance.Play_effect(2);
+                SC.Prevent(clear_num + 2);
+            }
+        }
         //순서를 지키지 않았을 때 안내
-        if (num > clear_num)
+        else if (num > clear_num)
         {
             SoundManager.Instance.Play_effect(2);
             SC.Prevent(clear_num + 1);
-            return;
         }
+        else
+        {
+            int scene_index = 2;                    //게임 인덱스는 2부터 시작
+            scene_index += num;                     //stage 설정: 0~2
+            scene_index += 3 * SC.Planet_num;   //행성 설정 : 토양 : 0, 수질 : 1, 대기 : 2
 
-
-        int scene_index = 2;                    //게임 인덱스는 2부터 시작
-        scene_index += num;                     //stage 설정: 0~2
-        scene_index += 3 * SC.Planet_num;   //행성 설정 : 토양 : 0, 수질 : 1, 대기 : 2
-        
-        SoundManager.Instance.Play_effect(0);
-        SC.Load_Scene(scene_index);             //Scene 이동
-
+            SoundManager.Instance.Play_effect(0);
+            SC.Load_Scene(scene_index);             //Scene 이동
+        }
     }
 
 }

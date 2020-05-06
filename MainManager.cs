@@ -29,9 +29,9 @@ public class MainManager : MonoBehaviour
 
 
     void Awake() {
-        stage_num = PlayerPrefs.GetInt("tmp_Clear", -1);
+        stage_num = PlayerPrefs.GetInt("tmp_Clear", -2);
 
-        if (stage_num < 0)
+        if (stage_num.Equals(-2))
             SceneController.Instance.Load_Scene(14);
     }
 
