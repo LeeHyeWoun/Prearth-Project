@@ -13,9 +13,10 @@ UI 디자인	: 정진명
 개발	: 이혜원, 여연진  
 
 ### To Do List  
-- DragManager 기본 생성 후 각 게임 씬에서 사용할 스크립트를 만들어 오버라이딩
-- SceneController를 has-a관계로 생성
 - google play game service 설정
 - 업적 설정
-- 별동별 effect
-- UI effect sheet 만들기
+
+### To Done List
+- particle
+-- 배경의 유성우, 오브젝트 클릭 시, 육각형 UI용
+  
