@@ -22,7 +22,7 @@ UI 디자인	: 정진명
   
 ### Log  
 04.22~0429  
-    * 조사일지에 조사 완료 시점 기록 구현  
+    조사일지에 조사 완료 시점 기록 구현  
     * Activity Scene과 Additive Scene을 구분한 Scene이동 함수 업데이트  
     * SceneController 싱글톤 방식 적용  
     * 기존 스크립트를 다양한 씬에서 재사용 가능하도록 수정 및 정리  
