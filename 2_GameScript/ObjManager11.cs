@@ -15,18 +15,24 @@ using UnityEngine.UI;
 
 public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManager을 상속할 것
 {
+    //3D Object
     public GameObject
         blank, blank_RI, B_Pet, B_Vinyl, B_icepack_vinyl, B_icepack_water,
-        clue1, clue2, clue3,                                //단서
-        fridge_L, fridge_R,                                 //냉장고 문
-        trash1_body, trash2_body, trash3_body, trash4_body, //쓰레기 통
-        trash1_lid, trash2_lid, trash3_lid, trash4_lid;     //쓰레기 뚜껑
-    public ParticleSystem
-        eff_clue1, eff_clue2, eff_clue3,                    //단서버튼의 이펙트 효과
-        ps_collect1, ps_collect2, ps_collect3;              //단서 위치의 이펙트 효과
-    public Button clueBox1, clueBox2, clueBox3;             //clue 박스
-    public Sprite clue_1, clue_2, clue_3, clue_empty, clue_clear;
+        fridge_L, fridge_R;                                 //냉장고 문
+    public GameObject[]
+        GameObjects_Trash_lid;                              //쓰레기 뚜껑... size = 4
+
+    //Effect
+    public ParticleSystem[]
+        particles_clue_btn,                                 //단서버튼의 이펙트 효과... size = 3
+        particles_clue_object;                              //단서 위치의 이펙트 효과... size = 3
+
+    //UI
+    public Button[] Btns_clue;                              //clue 박스... size = 3
+
+    //Resource
     public Texture blank_pat, blank_icepack;
+    public Sprite[] Sprites_clue;                           //size = 4
 
     //상수
     readonly WaitForEndOfFrame wait = new WaitForEndOfFrame();
@@ -35,25 +41,15 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     int[] angle_fridge = new int[2] { 0, 0 };               //냉장고 문 열림 정도
     int[] angle_trash = new int[4] { 0, 0, 0, 0 };          //쓰레기통 뚜껑 문 열림 정도
     bool[] clear_clue = new bool[3] { false, false, false };//단서 클리어 정도
-    GameObject[] trash_lids = new GameObject[4];
     Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
     IEnumerator coroutine_trash1, coroutine_trash2, coroutine_trash3, coroutine_trash4;
-    Camera cmr;
-
-    //커스텀 클래스 인스턴스
     AdviceController AC;
     GameButtonController GBC;
 
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    //초기화----------------------------------------------------------------------------------
     void Start()
     {
-        cmr = Camera.main;
-
-        trash_lids[0] = trash1_lid;
-        trash_lids[1] = trash2_lid;
-        trash_lids[2] = trash3_lid;
-        trash_lids[3] = trash4_lid;
-
         AC = GetComponent<AdviceController>();
         GBC = GetComponent<GameButtonController>();
     }
@@ -62,8 +58,9 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         if (Time.timeScale.Equals(1))
             ObjectClick();
     }
-    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+    //private 함수----------------------------------------------------------------------------
     //오브젝트 클릭 이벤트
     void ObjectClick()
     {
@@ -108,34 +105,13 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
 
     //단서 발견 시 이벤트...클릭
     void Collect(int num) {
-        string message;
+        Btns_clue[num-1].GetComponent<Image>().sprite = Sprites_clue[num];
+        clear_clue[num-1] = true;
+        particles_clue_object[num-1].Play();
 
-        switch (num) {
-            case 1:
-                clueBox1.GetComponent<Image>().sprite = clue_1;
-                clear_clue[0] = true;
-                ps_collect1.Play();
-                message = "페트병";
-                break;
-
-            case 2:
-                clueBox2.GetComponent<Image>().sprite = clue_2;
-                clear_clue[1] = true;
-                ps_collect2.Play();
-                message = "닭뼈";
-                break;
-
-            default:
-                clueBox3.GetComponent<Image>().sprite = clue_3;
-                clear_clue[2] = true;
-                ps_collect3.Play();
-                message = "아이스팩";
-                break;
-        }
-        
         SoundManager.Instance.Play_effect(1);
         target.SetActive(false);
-        AC.Advice(message);
+        AC.Advice(num==1? "페트병" : num==2? "닭뼈" : "아이스팩");
 
         //모든 단서를 찾았다면
         if (clear_clue[0] && clear_clue[1] && clear_clue[2])
@@ -152,7 +128,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             AC.Dialog_and_Advice("play1");
 
             //드래그해야할 단서 표시하기
-            StartCoroutine(Effect_clue(eff_clue1));
+            StartCoroutine(Effect_clue(particles_clue_btn[0]));
 
             //잠금 해제
             Enable_drag(true);
@@ -169,24 +145,13 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     //단서 드래그 활성화여부 설정 겸 이펙트 효과
     void Enable_drag(bool b)
     {
-        if (!clear_clue[0])
-        {
-            clueBox1.interactable = b;
-            if(b)
-                StartCoroutine(Effect_clue(eff_clue1));
-        }
-        if (!clear_clue[1])
-        {
-            clueBox2.interactable = b;
-            if (b)
-                StartCoroutine(Effect_clue(eff_clue2));
-        }
-        if (!clear_clue[2])
-        {
-            clueBox3.interactable = b;
-            if (b)
-                StartCoroutine(Effect_clue(eff_clue3));
-        }
+        for (int i = 0; i < 3; i++)
+            if (!clear_clue[i])
+            {
+                Btns_clue[i].interactable = b;
+                if (b)
+                    StartCoroutine(Effect_clue(particles_clue_btn[i]));
+            }
     }
 
     //냉장고 문 여닫기 이벤트...클릭
@@ -228,6 +193,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
             StartCoroutine(Close_Trash(num));
     }
 
+
+    //public 함수----------------------------------------------------------------------------
     //쓰레기통 선택 이벤트...드래그
     //I_DragManager.cs의 OnEndDrag 위치에서 사용
     public void Select_Trash(string clue_name) {
@@ -241,7 +208,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 && obj_name.Equals("trash1_2") && angle_trash[0] > 0)
             {
                 SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
-                clueBox1.GetComponent<Image>().sprite = clue_empty;
+                Btns_clue[0].GetComponent<Image>().sprite = Sprites_clue[0];
                 blank_RI.GetComponent<RawImage>().texture = blank_pat;
                 blank.SetActive(true);
                 Enable_drag(false);  //잠금
@@ -255,7 +222,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 {
                     SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
                     clear_clue[1] = true;
-                    clueBox2.interactable = false;
+                    Btns_clue[1].interactable = false;
                     GBC.Clear_Clue(2);
                     Enable_drag(true);
                 }
@@ -270,7 +237,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 && obj_name.Equals("trash3_2") && angle_trash[2] > 0)
             {
                 SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
-                clueBox3.GetComponent<Image>().sprite = clue_empty;
+                Btns_clue[2].GetComponent<Image>().sprite = Sprites_clue[0];
                 blank_RI.GetComponent<RawImage>().texture = blank_icepack;
                 blank.SetActive(true);
                 Enable_drag(false);  //잠금
@@ -353,7 +320,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         SoundManager.Instance.Play_effect(1);
 
         //페트병 분리
-        if (clueBox1.GetComponent<Image>().sprite.Equals(clue_empty))
+        if (Btns_clue[0].GetComponent<Image>().sprite.Equals(Sprites_clue[0]))
         {
             B_Vinyl.SetActive(true);
             B_Pet.SetActive(true);
@@ -366,7 +333,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         }
     }
 
-    //루틴+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //코루틴---------------------------------------------------------------------------------------
     //냉장고 열기
     IEnumerator Open_Fridge(GameObject obj, int num)
     {
@@ -400,7 +367,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                 //(num+1)번 쓰레기통은 뚜껑을 열고
                 if (i == num)
                 {
-                    trash_lids[i].transform.Rotate(vec, 4);
+                    GameObjects_Trash_lid[i].transform.Rotate(vec, 4);
                     angle_trash[i] += 4;
                 }
                 //나머지 뚜껑은 닫기
@@ -422,7 +389,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
                             break;
                     }
 
-                    trash_lids[i].transform.Rotate(vec, -4);
+                    GameObjects_Trash_lid[i].transform.Rotate(vec, -4);
                     angle_trash[i] -= 4;
                 }
             }
@@ -436,7 +403,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
         Vector3 vec = Vector3.left;
         while (angle_trash[num] > 0)
         {
-            trash_lids[num].transform.Rotate(vec, -4);
+            GameObjects_Trash_lid[num].transform.Rotate(vec, -4);
             angle_trash[num] -= 4;
             yield return null;
         }

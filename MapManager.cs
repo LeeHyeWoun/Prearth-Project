@@ -14,19 +14,19 @@ using UnityEngine.UI;
 
 public class MapManager : MonoBehaviour
 {
-
-    //할당
+    //UI
     public Text T_Status;                                                   //상태 알림
     public Image I_gem_fill;                                                //보석
     public RawImage RI_gem_base, RI_map;                                    //보석 베이스와 지도
     public Button btn_1, btn_2, btn_3;                                      //stage 포인트
 
+    //Resource
     public Texture
         texture_gem_base_2, texture_gem_base_3,                             //보석 베이스 이미지
         texture_map_water, texture_map_air;                                 //지도 이미지
     public Sprite
-        sprite_gem_fill2, sprite_gem_fill3,                                 //보석 이미지
-        sprite_mapPoint_soil, sprite_mapPoint_water, sprite_mapPoint_air;//지도 스테이지 이미지
+        sprite_gem_fill2, sprite_gem_fill3;                                 //보석 이미지
+    public Sprite[] Sprites_MapPoin;                                        //지도 스테이지 이미지...size = 3
 
     //변수
     int clear_num;
@@ -46,24 +46,21 @@ public class MapManager : MonoBehaviour
         int planet_num = SC.Planet_num;
 
         //행성 디자인 설정
-        Sprite mp;
+        Sprite mp = Sprites_MapPoin[planet_num];
         switch (planet_num)
         {
             case 0:
                 str_origin = "페페행성";
-                mp = sprite_mapPoint_soil;
                 break;
 
             case 1:
                 str_origin = "도도행성";
                 RI_map.texture = texture_map_water;
-                mp = sprite_mapPoint_water;
                 break;
 
             default:
                 str_origin = "라라행성";
                 RI_map.texture = texture_map_air;
-                mp = sprite_mapPoint_air;
                 break;
         }
 

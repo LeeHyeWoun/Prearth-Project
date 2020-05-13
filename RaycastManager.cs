@@ -16,7 +16,7 @@ public class RaycastManager : MonoBehaviour {
 
     protected GameObject target;                                      //레이케스트 충돌 오브젝트
 
-    private Camera cmr;
+    protected Camera cmr;
 
     void Awake() {
         cmr = Camera.main;
