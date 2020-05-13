@@ -10,24 +10,24 @@ using System.Collections;
  */
 public class MainManager : MonoBehaviour
 {
-    //할당
-    public GameObject halo_soil, halo_water, halo_air;
+    //UI
     public Text t_water, t_air;
-    public Button btn_soil, btn_water, btn_air;
+    public Button btn_water, btn_air;
+    public GameObject[] Gameobjects_halo;   //size = 3
+
+    //Resource
     public Sprite sprite_water, sprite_air;
 
     //변수
+    SoundManager SM;
     int stage_num, planet;
 
     //상수
     readonly Vector2 bigSize = new Vector2(652f, 652f);
     readonly WaitForSeconds wait = new WaitForSeconds(0.02f);
 
-    //커스텀 클래스 인스턴스
-    SoundManager SM;
 
-
-
+    //초기화----------------------------------------------------------------------------------------------
     void Awake() {
         stage_num = PlayerPrefs.GetInt("tmp_Clear", -2);
 
@@ -46,7 +46,7 @@ public class MainManager : MonoBehaviour
         if (planet >= 1)
         {
             // 수질행성 활성화
-            halo_water.SetActive(true);
+            Gameobjects_halo[1].SetActive(true);
             btn_water.image.sprite = sprite_water;
             btn_water.GetComponent<RectTransform>().sizeDelta = bigSize;
             t_water.color = Color.white;
@@ -54,7 +54,7 @@ public class MainManager : MonoBehaviour
             if (planet >= 2)
             {
                 // 대기행성 활성화
-                halo_air.SetActive(true);
+                Gameobjects_halo[2].SetActive(true);
                 btn_air.image.sprite = sprite_air;
                 btn_air.GetComponent<RectTransform>().sizeDelta = bigSize;
                 t_air.color = Color.white;
@@ -62,12 +62,13 @@ public class MainManager : MonoBehaviour
         }
 
         StartCoroutine("routine_halo_soil");
-        if(halo_water.activeSelf)
+        if(Gameobjects_halo[1].activeSelf)
             StartCoroutine("routine_halo_water");
-        if(halo_air.activeSelf)
+        if(Gameobjects_halo[2].activeSelf)
             StartCoroutine("routine_halo_air");
     }
 
+    //public 함수----------------------------------------------------------------------------------------
     public void Go_map(int num) {
         switch (num)
         {
@@ -99,17 +100,18 @@ public class MainManager : MonoBehaviour
         }
     }
 
+    //코루틴----------------------------------------------------------------------------------------------
     IEnumerator routine_halo_soil()
     {
         while (true) {
             for (int i = 250; i > 200; i--)
             {
-                halo_soil.transform.localScale = Vector3.one * (0.004f * i);//1~0.8
+                Gameobjects_halo[0].transform.localScale = Vector3.one * (0.004f * i);//1~0.8
                 yield return wait;
             }
             for (int i = 200; i < 250; i++)
             {
-                halo_soil.transform.localScale = Vector3.one * (0.004f * i);
+                Gameobjects_halo[0].transform.localScale = Vector3.one * (0.004f * i);
                 yield return wait;
             }
         }
@@ -120,12 +122,12 @@ public class MainManager : MonoBehaviour
         {
             for (int i = 250; i > 200; i--)
             {
-                halo_water.transform.localScale = Vector3.one * (0.004f * i);
+                Gameobjects_halo[1].transform.localScale = Vector3.one * (0.004f * i);
                 yield return wait;
             }
             for (int i = 200; i < 250; i++)
             {
-                halo_water.transform.localScale = Vector3.one * (0.004f * i);
+                Gameobjects_halo[1].transform.localScale = Vector3.one * (0.004f * i);
                 yield return wait;
             }
         }
@@ -136,12 +138,12 @@ public class MainManager : MonoBehaviour
         {
             for (int i = 250; i > 200; i--)
             {
-                halo_air.transform.localScale = Vector3.one * (0.004f * i);
+                Gameobjects_halo[2].transform.localScale = Vector3.one * (0.004f * i);
                 yield return wait;
             }
             for (int i = 200; i < 250; i++)
             {
-                halo_air.transform.localScale = Vector3.one * (0.004f * i);
+                Gameobjects_halo[2].transform.localScale = Vector3.one * (0.004f * i);
                 yield return wait;
             }
         }
