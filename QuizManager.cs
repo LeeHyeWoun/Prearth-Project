@@ -6,21 +6,25 @@ using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour {
 
+    //UI
     public GameObject 
         go_blur, go_result, go_commentary, go_correct, go_wrong, 
         go_btn_back, go_btn_next;
-    public Text t_question, t_option1, t_option2, t_option3, t_option4, t_count, t_page, t_q, t_a;
-    public Button btn_option1, btn_option2, btn_option3, btn_option4;
-    public Sprite img_option, img_option_correct, img_option_wrong;
+    public Text t_question, t_count, t_page, t_q, t_a;
+    public Text[] Txts_option;      //size = 4
+    public Button[] Btns_option;    //size = 4
+
+    //Resource
+    public Sprite[] Sprites_option; //size = 3
 
     //변수
     char[] corrects = new char[6];
     bool wrong = false;
     int page, count = 0;
     StringReader q_stringReader, c_stringReader;
+    SceneController SC;
     string c_tmp;
     List<string> commentationList = new List<string>();
-
 
     //상수
     const string LOCATION = "quiz/";
@@ -30,9 +34,8 @@ public class QuizManager : MonoBehaviour {
     readonly Color color_t_option = new Color(92 / 255f, 100 / 255f, 102 / 255f);
     readonly WaitForSeconds term = new WaitForSeconds(2f);
 
-    SceneController SC;
 
-
+    //초기화------------------------------------------------------------------------------------------
     void Start () {
         SC = GetComponent<SceneController>();
         
@@ -75,6 +78,8 @@ public class QuizManager : MonoBehaviour {
         }
     }
 
+
+    //privaste 함수들---------------------------------------------------------------------------------------------------------------
     void Next_Question()
     {
         page++;
@@ -90,10 +95,8 @@ public class QuizManager : MonoBehaviour {
 
     void SetQuiz() {
         t_question.text = q_stringReader.ReadLine();
-        t_option1.text = q_stringReader.ReadLine();
-        t_option2.text = q_stringReader.ReadLine();
-        t_option3.text = q_stringReader.ReadLine();
-        t_option4.text = q_stringReader.ReadLine();
+        for(int i = 0; i<4; i++)
+            Txts_option[i].text = q_stringReader.ReadLine();
         t_page.text = (page + 1) + " / 6";
     }
 
@@ -102,58 +105,30 @@ public class QuizManager : MonoBehaviour {
         SetQuiz();
 
         //글자색 초기화
-        t_option1.color = color_t_option;
-        t_option2.color = color_t_option;
-        t_option3.color = color_t_option;
-        t_option4.color = color_t_option;
-
-        //버튼 색 초기화
-        btn_option1.GetComponent<Image>().sprite = img_option;
-        btn_option2.GetComponent<Image>().sprite = img_option;
-        btn_option3.GetComponent<Image>().sprite = img_option;
-        btn_option4.GetComponent<Image>().sprite = img_option;
-
-        //클릭 활성화
-        btn_option1.interactable = true;
-        btn_option2.interactable = true;
-        btn_option3.interactable = true;
-        btn_option4.interactable = true;
+        for (int i = 0; i < 4; i++)
+            Txts_option[i].color = color_t_option;
+        
+        for (int i = 0; i < 4; i++)
+        {
+            //버튼 색 초기화
+            Btns_option[i].GetComponent<Image>().sprite = Sprites_option[0];
+            //클릭 활성화
+            Btns_option[i].interactable = true;
+        }
     }
 
+
+    //public 함수들-----------------------------------------------------------------------------------------------------------------
     public void Select(int num) {
         //선택된 버튼 구분
-        Button option;
-        Text t_option;
-        switch (num) {
-
-            case 1:
-                option = btn_option1;
-                t_option = t_option1;
-                break;
-
-            case 2:
-                option = btn_option2;
-                t_option = t_option2;
-                break;
-
-            case 3:
-                option = btn_option3;
-                t_option = t_option3;
-                break;
-
-            default:
-                option = btn_option4;
-                t_option = t_option4;
-                break;
-        }
+        Button option = Btns_option[num-1];
+        Text t_option = Txts_option[num-1];
 
         //정답 이벤트
         if (num.Equals(corrects[page]-'0'))
         {
-            btn_option1.interactable = false;
-            btn_option2.interactable = false;
-            btn_option3.interactable = false;
-            btn_option4.interactable = false;
+            for(int i=0; i<4; i++)
+                Btns_option[i].interactable = false;
 
             if (wrong)
                 wrong = false;
@@ -161,7 +136,7 @@ public class QuizManager : MonoBehaviour {
                 count++;
 
             SoundManager.Instance.Play_effect(1);
-            option.GetComponent<Image>().sprite = img_option_correct;
+            option.GetComponent<Image>().sprite = Sprites_option[1];
             StartCoroutine(Routine_check(true));
 
             //해설 저장
@@ -181,7 +156,7 @@ public class QuizManager : MonoBehaviour {
             wrong = true;
 
             SoundManager.Instance.Play_effect(2);
-            option.GetComponent<Image>().sprite = img_option_wrong;
+            option.GetComponent<Image>().sprite = Sprites_option[2];
             StartCoroutine(Routine_check(false));
         }
         t_option.color = Color.white;
