@@ -21,7 +21,6 @@ public class DoManager : MonoBehaviour {
         SM = SoundManager.Instance;
         SC = SceneController.Instance;
         cmr = Camera.main;
-        print(cmr.cullingMask);
         cmr.cullingMask = 0;
     }
 

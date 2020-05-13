@@ -55,7 +55,7 @@ public class DialogManager : MonoBehaviour {
         }
 #endif
         //대사 파일 불러오기
-        location = "dialog/" + SceneController.Instance.GetActiveScene_num() + "/";
+        location += SceneController.Instance.GetActiveScene_num() + "/";
         TextAsset file = Resources.Load(location + file_name) as TextAsset;
 
 #if DEV_TEST

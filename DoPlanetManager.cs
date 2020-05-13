@@ -10,13 +10,15 @@ using UnityEngine.UI;
  */
 public class DoPlanetManager : MonoBehaviour {
 
-    public Text t_date_soil, t_date_water, t_date_air;
-    public RawImage ri_soil, ri_water, ri_air;
-    public Texture
-        soil_ing,   soil_complete,
-        water_ing,  water_complete,
-        air_ing,    air_complete;
+    //UI
+    public RawImage[] RIs_planet;       //size = 3
+    public Text[] Txts_name;            //size = 3
 
+    //Resource
+    public Texture[] Texturex_planet;   //size = 6
+
+
+    //초기화
     void Awake () {
 
         int clear = PlayerPrefs.GetInt("tmp_Clear",0);
@@ -24,31 +26,31 @@ public class DoPlanetManager : MonoBehaviour {
         if (clear < 0)
             return;
         else if (clear < 3)
-            ri_soil.texture = soil_ing;
+            RIs_planet[0].texture = Texturex_planet[0];
         else
         {
-            ri_soil.texture = soil_complete;
-            t_date_soil.text = PlayerPrefs.GetString("tmp_date_soil","null") + " 조사완료";
+            RIs_planet[0].texture = Texturex_planet[1];
+            Txts_name[0].text = PlayerPrefs.GetString("tmp_date_soil","null") + " 조사완료";
         }
 
         if (clear < 3)
             return;
         else if (clear < 6)
-            ri_water.texture = water_ing;
+            RIs_planet[1].texture = Texturex_planet[2];
         else
         {
-            ri_water.texture = water_complete;
-            t_date_water.text = PlayerPrefs.GetString("tmp_date_water", "null") + " 조사완료";
+            RIs_planet[1].texture = Texturex_planet[3];
+            Txts_name[1].text = PlayerPrefs.GetString("tmp_date_water", "null") + " 조사완료";
         }
 
         if (clear < 6)
             return;
         else if (clear < 9)
-            ri_air.texture = air_ing;
+            RIs_planet[2].texture = Texturex_planet[4];
         else
         {
-            ri_air.texture = air_complete;
-            t_date_air.text = PlayerPrefs.GetString("tmp_date_air", "null") + " 조사완료";
+            RIs_planet[2].texture = Texturex_planet[5];
+            Txts_name[2].text = PlayerPrefs.GetString("tmp_date_air", "null") + " 조사완료";
         }
     }
 }
