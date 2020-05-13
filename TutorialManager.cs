@@ -10,17 +10,19 @@ using UnityEngine.UI;
  */
 public class TutorialManager : MonoBehaviour {
 
-    //할당 받을 객체
-    public Texture tutorial1, tutorial2, tutorial3, tutorial4, tutorial5, tutorial6;
-    public RawImage RI_tutorial;
+    //UI
     public GameObject arrow_pre, arrow_next;
+    public RawImage RI_tutorial;
 
-    //커스텀 클래스 인스턴스
-    SoundManager SM;
+    //Resource
+    public Texture[] Textures_tutorial; //size = 6
 
     //변수
+    SoundManager SM;
     int page = 1;
-    
+
+
+    //초기화------------------------------------------------------------------------
     void Start() {
         Time.timeScale = 0;
         SM = SoundManager.Instance;
@@ -29,6 +31,14 @@ public class TutorialManager : MonoBehaviour {
             ChageImage(page = 5);
     }
 
+
+    //private 함수------------------------------------------------------------------------
+    void ChageImage(int page)
+    {
+        RI_tutorial.texture = Textures_tutorial[page - 1];
+    }
+
+    //public 함수-------------------------------------------------------------------------
     public void Next() {
         SM.Play_effect(0);
 
@@ -69,36 +79,4 @@ public class TutorialManager : MonoBehaviour {
         Time.timeScale = 1;
         SceneController.Instance.Destroy_Scene();
     }
-
-    void ChageImage(int page) {
-        Texture texture;
-        switch (page)
-        {
-            case 2:
-                texture = tutorial2;
-                break;
-
-            case 3:
-                texture = tutorial3;
-                break;
-
-            case 4:
-                texture = tutorial4;
-                break;
-
-            case 5:
-                texture = tutorial5;
-                break;
-
-            case 6:
-                texture = tutorial6;
-                break;
-
-            default:
-                texture = tutorial1;
-                break;
-        }
-        RI_tutorial.texture = texture;
-    }
-
 }
