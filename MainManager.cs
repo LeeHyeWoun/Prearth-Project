@@ -32,7 +32,7 @@ public class MainManager : MonoBehaviour
         stage_num = PlayerPrefs.GetInt("tmp_Clear", -2);
 
         if (stage_num.Equals(-2))
-            SceneController.Instance.Load_Scene(14);
+            SceneController.Instance.Load_Scene(12);
     }
 
     void Start()

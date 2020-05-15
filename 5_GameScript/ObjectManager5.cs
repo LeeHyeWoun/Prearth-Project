@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 /**
  * Date     : 2020.03.27
  * Manager  : 여연진
+ * 
+ * Date     : 2020.05.14
+ * Modify   : 이혜원
  * 
  * The function of this script :
  *  Scene'05_Water_1의 오브젝트에 관한 다양한 이벤트를 다루는 스크립트
@@ -16,27 +17,27 @@ using System.Linq;
 
 public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastManager을 상속할 것
 {
-    public GameObject
-        RI_blank,
-        clue1, clue2, clue3;                                //단서
-    public ParticleSystem eff_clue1, eff_clue2, eff_clue3;  //단서버튼의 이펙트 효과
-    public Button clueBox1, clueBox2, clueBox3;             //clue 박스
+    //UI
+    public Button[] Btns_clue;  //size = 3
+
+    //Effect
+    public ParticleSystem[]
+        Particles_clue_btn,     //size = 3
+        Particles_clue_object;  //size = 3
+
+    //Resource
     public Sprite clue_full, clue_clear;
 
     //변수
+    AdviceController AC;
     Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
-    //string str_preTarget = "";
     bool[] clear_clue = new bool[3] { false, false, false };//단서 클리어 정도
 
-    //커스텀 클래스 인스턴스
-    AdviceController AC;
-    //GameButtonController GBC;
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     void Start()
     {
         AC = GetComponent<AdviceController>();
-        //GBC = GetComponent<GameButtonController>();
     }
     void Update()
     {
@@ -80,44 +81,20 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
     //단서 발견 시 이벤트...클릭
     void Collect(int i)
     {
-        Button clueBox;
-        ParticleSystem eff_clue;
-        string message;
-
-        switch (i)
-        {
-            case 1:
-                clueBox = clueBox1;
-                eff_clue = eff_clue1;
-                message = "기름";
-                break;
-
-            case 2:
-                clueBox = clueBox2;
-                eff_clue = eff_clue2;
-                message = "물약";
-                break;
-
-            default:
-                clueBox = clueBox3;
-                eff_clue = eff_clue3;
-                message = "렌즈";
-                break;
-        }
-
         SoundManager.Instance.Play_effect(0);
         target.SetActive(false);
 
 
         //단서 박스애 채우기 및 이펙트 효과
-        clueBox.interactable = true;
-        eff_clue.transform.localScale = effectScale * Camera.main.orthographicSize / 5;
-        eff_clue.Play();
+        Btns_clue[i - 1].interactable = true;
+        Particles_clue_btn[i - 1].transform.localScale = effectScale * Camera.main.orthographicSize / 5;
+        Particles_clue_btn[i - 1].Play();
+        Particles_clue_object[i - 1].Play();
 
-        AC.Advice(message);
+        AC.Advice(i == 1 ? "기름" : i == 2 ? "물약" : "렌즈");
 
         //모든 단서를 찾았다면
-        if (clueBox1.interactable && clueBox2.interactable && clueBox3.interactable)
+        if (Btns_clue[0].interactable && Btns_clue[1].interactable && Btns_clue[2].interactable)
         {
             Invoke("Success", 3f);
         }
@@ -134,7 +111,6 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
         {
             int num = -1;
             SetTrash_Number(target.name, ref num);
-            //print(target.name + " / " + num);
 
             if (Match_Clue_to_Trash(clue_name, num))
                 SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
@@ -175,7 +151,7 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
                 if (trash_num == 0)
                 {
                     success = true;
-                    clueBox1.GetComponent<Image>().sprite = clue_full;
+                    Btns_clue[0].GetComponent<Image>().sprite = clue_full;
                     Clear_clue(1);
                     AC.Dialog_and_Advice("Play2_1");
                 }
@@ -186,7 +162,7 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
                 if (trash_num == 1)
                 {
                     success = true;
-                    clueBox2.GetComponent<Image>().sprite = clue_full;
+                    Btns_clue[1].GetComponent<Image>().sprite = clue_full;
                     Clear_clue(2);
                     AC.Dialog_and_Advice("Play2_2");
                 }
@@ -198,7 +174,7 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
                 if (trash_num == 2)
                 {
                     success = true;
-                    clueBox3.GetComponent<Image>().sprite = clue_full;
+                    Btns_clue[2].GetComponent<Image>().sprite = clue_full;
                     Clear_clue(3);
                     AC.Dialog_and_Advice("Play2_3");
                 }
@@ -210,24 +186,8 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
 
     public void Clear_clue(int num)
     {
-        Button clueBox = null;
-        switch (num)
-        {
-            case 1:
-                clueBox = clueBox1;
-                break;
-            case 2:
-                clueBox = clueBox2;
-                break;
-            case 3:
-                clueBox = clueBox3;
-                break;
-        }
-        if (clueBox != null)
-        {
-            clear_clue[num - 1] = true;
-            clueBox.GetComponent<Image>().sprite = clue_clear;
-        }
+        clear_clue[num - 1] = true;
+        Btns_clue[num - 1].GetComponent<Image>().sprite = clue_clear;
 
         if (clear_clue[0] && clear_clue[1] && clear_clue[2])
             Invoke("Ending", 3f);

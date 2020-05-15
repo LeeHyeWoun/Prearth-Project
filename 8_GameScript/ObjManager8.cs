@@ -16,7 +16,7 @@ using UnityEngine.UI;
 public class ObjManager8 : RaycastManager//ObjManager는 무조건 RaycastManager을 상속할 것
 {
     public GameObject
-        blank, blank_RI,
+        blank,
         clue1, clue2, clue3,                                //단서
         fridge_L, fridge_R;                              //냉장고 문    
     public ParticleSystem eff_clue1, eff_clue2, eff_clue3;  //단서버튼의 이펙트 효과

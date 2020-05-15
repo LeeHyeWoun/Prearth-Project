@@ -73,22 +73,12 @@ public class SceneController : MonoBehaviour {
             //일시정지
             Time.timeScale = 0;
 
-            //11_Do_base
-            if (num == 11 - 1/*게임 씬 추가 후  수정 바람*/)
-            {
-                //추가
-                SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
-                SceneManager.LoadSceneAsync(num + 1, LoadSceneMode.Additive);
-            }
-            else
-            {
-                //이미 Additive Scene이 있다면 Unload 하기
-                if (SceneManager.sceneCount > 1)
-                    SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(SceneManager.sceneCount - 1).name);
+            //이미 Additive Scene이 있다면 Unload 하기
+            if (SceneManager.sceneCount > 1)
+                SceneManager.UnloadSceneAsync(SceneManager.GetSceneAt(SceneManager.sceneCount - 1).name);
 
-                //추가
-                SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
-            }
+            //추가
+            SceneManager.LoadSceneAsync(num, LoadSceneMode.Additive);
         }
     }
 

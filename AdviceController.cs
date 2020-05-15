@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class AdviceController : MonoBehaviour
 {
     //할당받을 객체
-    public GameObject order_RI, order_T;
+    public GameObject order_I, order_T;
 
     //변수
     Dictionary<string, string> orderList = new Dictionary<string, string>();
     int sceneNum;
     IEnumerator routine;
-    RawImage oderRI;
+    Image oderI;
     Text oderT;
 
     //상수
@@ -23,7 +23,7 @@ public class AdviceController : MonoBehaviour
     void Start()
     {
         sceneNum = SceneController.Instance.GetActiveScene_num();
-        oderRI = order_RI.GetComponent<RawImage>();
+        oderI = order_I.GetComponent<Image>();
         oderT = order_T.GetComponent<Text>();
 
         //현재 씬에 따라 다른 start 대사 가져오기
@@ -70,6 +70,11 @@ public class AdviceController : MonoBehaviour
         if(routine!=null)
             StopCoroutine(routine);
 
+        //글자 수에 따라 이미지 가로 사이즈 변경
+        float width = 512 + ((order.Length > 3) ? (order.Length - 3) * 35 : 0);
+        order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 512);
+
+        //조언 띄우기
         routine = Routine_Advice(order);
         StartCoroutine(routine);
     }
@@ -86,7 +91,7 @@ public class AdviceController : MonoBehaviour
         while (routine != null) {
             yield return wait1;
         }
-        SceneController.Instance.Load_Scene(16);
+        SceneController.Instance.Load_Scene(14);
 
         //Advice
         if (orderList[file] != null)
@@ -98,27 +103,27 @@ public class AdviceController : MonoBehaviour
         yield return wait1;
 
         //초기화
-        Color fade_RI = oderRI.color;
+        Color fade_RI = oderI.color;
         Color fade_T = oderT.color;
 
         //투명화
         float fade_A = 0f;
         fade_RI.a = fade_A;
         fade_T.a = fade_A;
-        oderRI.color = fade_RI;
+        oderI.color = fade_RI;
         oderT.color = fade_T;
         
         //내용 설정
         oderT.text = txt;
 
         //열기
-        order_RI.SetActive(true);
+        order_I.SetActive(true);
         while (fade_RI.a < 1)
         {
             fade_A += 0.075f;
             fade_RI.a = fade_A;
             fade_T.a = fade_A;
-            oderRI.color = fade_RI;
+            oderI.color = fade_RI;
             oderT.color = fade_T;
             yield return null;
         }
@@ -135,11 +140,11 @@ public class AdviceController : MonoBehaviour
             fade_RI.a = fade_A;
             fade_T.a = fade_A;
 
-            oderRI.color = fade_RI;
+            oderI.color = fade_RI;
             oderT.color = fade_T;
             yield return null;
         }
-        order_RI.SetActive(false);
+        order_I.SetActive(false);
         routine = null;
     }
 

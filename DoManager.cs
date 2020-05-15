@@ -11,23 +11,13 @@ using UnityEngine;
 public class DoManager : MonoBehaviour {
 
     public Button b_tap_1, b_tap_2;
-
-    Camera cmr;
-    SoundManager SM;
-    SceneController SC;
-
-    void Start()
-    {
-        SM = SoundManager.Instance;
-        SC = SceneController.Instance;
-        cmr = Camera.main;
-        cmr.cullingMask = 0;
-    }
+    public GameObject Go_Planet, Go_History;
 
     public void BE_Tap_1()
     {
-        SM.Play_effect(0);
-        SC.Load_Scene(12);
+        SoundManager.Instance.Play_effect(0);
+        Go_Planet.SetActive(true);
+        Go_History.SetActive(false);
         b_tap_1.interactable = false;
         b_tap_2.interactable = true;
         b_tap_1.transform.Translate(Vector3.left * 40);
@@ -35,17 +25,12 @@ public class DoManager : MonoBehaviour {
     }
     public void BE_Tap_2()
     {
-        SM.Play_effect(0);
-        SC.Load_Scene(13);
+        SoundManager.Instance.Play_effect(0);
+        Go_Planet.SetActive(false);
+        Go_History.SetActive(true);
         b_tap_1.interactable = true;
         b_tap_2.interactable = false;
         b_tap_1.transform.Translate(Vector3.right * 40);
         b_tap_2.transform.Translate(Vector3.left * 40);
-    }
-    public void BE_Back()
-    {
-        cmr.cullingMask = -1;
-        SM.Play_effect(0);
-        SC.Destroy_Scene();
     }
 }

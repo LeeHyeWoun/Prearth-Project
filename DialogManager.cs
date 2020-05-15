@@ -260,7 +260,7 @@ public class DialogManager : MonoBehaviour {
             Time.timeScale = 1;
 
             if (PlayerPrefs.GetInt("tmp_Clear") < (SC.GetActiveScene_num() - 1))
-                SC.Load_Scene(17);
+                SC.Load_Scene(15);
             else {
                 //메인용 배경음악으로 초기화
                 SoundManager.Instance.BGM_reset();

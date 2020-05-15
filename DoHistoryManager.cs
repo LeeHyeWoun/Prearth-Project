@@ -1,28 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
-
-[System.Serializable]
-public class ClueArray {
-    public Texture[] clues;
-}
 
 public class DoHistoryManager : MonoBehaviour {
 
     //UI
-    public Button Btn_Back, Btn_Next;
-    public RawImage RI_main;
+    public GameObject Go_Back, Go_Next;
+    public Image I_main;
     public Text T_info_name, T_info_summary;
 
     public Button[] Btns_main;  //size = 3
-    public RawImage[] RIs_clue; //size = 3
+    public Image[] Imgs_clue;   //size = 3
     public Text[] Txts_clue;    //size = 3
 
     //Resource... 스테이지 / 단서 이미지들
-    public Texture[] 
-        Textures_stage,         //size = 6
-        Textures_clue;          //size = 19
+    public SpriteAtlas Atlas;
 
     //변수
     SoundManager SM = SoundManager.Instance;
@@ -62,7 +56,9 @@ public class DoHistoryManager : MonoBehaviour {
             Road_file("09_clues");
         stage = 1;
         SetStage();
-        Btn_Back.gameObject.SetActive(false);
+        Go_Back.SetActive(false);
+        Go_Back.GetComponent<Image>().sprite = Atlas.GetSprite("icon_arrow_left");
+        Go_Next.GetComponent<Image>().sprite = Atlas.GetSprite("icon_arrow_right");
     }
 
 
@@ -90,7 +86,7 @@ public class DoHistoryManager : MonoBehaviour {
 
     bool IsClearStage()
     {
-        return stage < clear ? true : false;
+        return stage + 1 < clear ? true : false;
     }
 
     void SetInfo(int stage)
@@ -119,15 +115,16 @@ public class DoHistoryManager : MonoBehaviour {
     {
         //이미지 활성화
         for (int i = 0; i < 3; i++)
-            RIs_clue[i].gameObject.SetActive(true);
+            Imgs_clue[i].gameObject.SetActive(true);
 
         //스테이지 이미지 설정
-        RI_main.texture = Textures_stage[stage - 1];
-        RI_main.color = IsClearStage() ? Color.white : COLOR_PRIVATE;
+        I_main.sprite = Atlas.GetSprite("stage_" + stage);
+        I_main.color = IsClearStage() ? Color.white : COLOR_PRIVATE;
 
         //단서 이미지 설정
         for (int i = 0; i < 3; i++)
-            RIs_clue[i].texture = IsClearStage() ? Textures_clue[(stage - 1) * 3 + i] : Textures_clue[18];
+            Imgs_clue[i].sprite = IsClearStage() ? 
+                Atlas.GetSprite("clue"+ stage +"_" + i) : Atlas.GetSprite("clue_private");
 
     }
 
@@ -153,8 +150,8 @@ public class DoHistoryManager : MonoBehaviour {
         stage = planet * 2 - 1;
 
         SetStage();
-        Btn_Back.gameObject.SetActive(false);
-        Btn_Next.gameObject.SetActive(true);
+        Go_Back.SetActive(false);
+        Go_Next.SetActive(true);
     }
 
     public void BE_Back()
@@ -164,8 +161,8 @@ public class DoHistoryManager : MonoBehaviour {
         stage--;
 
         SetStage();
-        Btn_Back.gameObject.SetActive(false);
-        Btn_Next.gameObject.SetActive(true);
+        Go_Back.SetActive(false);
+        Go_Next.SetActive(true);
     }
     public void BE_Next()
     {
@@ -174,8 +171,8 @@ public class DoHistoryManager : MonoBehaviour {
         stage++;
 
         SetStage();
-        Btn_Back.gameObject.SetActive(true);
-        Btn_Next.gameObject.SetActive(false);
+        Go_Back.SetActive(true);
+        Go_Next.SetActive(false);
     }
 
     public void BE_clue(int num)
@@ -188,7 +185,7 @@ public class DoHistoryManager : MonoBehaviour {
 
         GameObject ri, txt;
         txt = Txts_clue[num-1].gameObject;
-        ri = RIs_clue[num - 1].gameObject;
+        ri = Imgs_clue[num - 1].gameObject;
 
         if (ri.activeSelf)
         {
