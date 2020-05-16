@@ -6,8 +6,9 @@ using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 
-    public Image color_filter, img_base, btn_skip;
-    public RawImage ri_character, ri_name_box;
+    public Image color_filter, img_base, img_name;
+    public GameObject go_skip;
+    public RawImage ri_character;
     public Text t_name, t_dialog;
     public Texture
         img_jullian, img_alien1, img_alien2, img_alien3;
@@ -138,7 +139,7 @@ public class DialogManager : MonoBehaviour {
     {
 
         t_name.color = colors[planet_num];
-        btn_skip.color = colors[planet_num];
+        go_skip.GetComponent<Image>().color = colors[planet_num];
         img_base.color = colors[planet_num];
         switch (planet_num)
         {
@@ -189,8 +190,8 @@ public class DialogManager : MonoBehaviour {
         //투명화
         color.a = 0;
         ri_character.color = color;
-        ri_name_box.color = color;
-        btn_skip.gameObject.SetActive(false);
+        img_name.color = color;
+        go_skip.SetActive(false);
 
         //아래에서 시작하기
         img_base.transform.Translate(Vector3.down * 500f);
@@ -216,10 +217,10 @@ public class DialogManager : MonoBehaviour {
         {
             color.a += 0.2f;
             ri_character.color = color;
-            ri_name_box.color = color;
+            img_name.color = color;
             yield return null;
         }
-        btn_skip.gameObject.SetActive(true);
+        go_skip.SetActive(true);
         yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
 
         //한 음절씩 출력
@@ -232,14 +233,14 @@ public class DialogManager : MonoBehaviour {
     IEnumerator Routine_disappear()
     {
         //캐릭터 및 대사 설정
-        btn_skip.gameObject.SetActive(false);
+        go_skip.SetActive(false);
         yield return StartCoroutine(WaitForUnscaledSeconds(0.5f));
 
         for (int i = 0; i < 5; i++)
         {
             color.a -= 0.2f;
             ri_character.color = color;
-            ri_name_box.color = color;
+            img_name.color = color;
             t_dialog.color = color;
             yield return null;
         }

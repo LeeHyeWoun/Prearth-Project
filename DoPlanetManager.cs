@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 /**
@@ -11,12 +12,15 @@ using UnityEngine.UI;
 public class DoPlanetManager : MonoBehaviour {
 
     //UI
-    public RawImage[] RIs_planet;       //size = 3
-    public GameObject[] Gos_cause;      //size = 3
-    public Text[] Txts_progress;        //size = 3
+    public Image[] Imgs_planet;     //size = 3
+    public GameObject[] Gos_deco;   //size = 3
+    public Text[]
+        Txts_title,                 //size = 3
+        Txts_progress;              //size = 3
 
     //Resource
-    public Texture[] Texturex_planet;   //size = 6
+    public Sprite[] Sprites_planet;
+    //public SpriteAtlas Atlas;
 
     //상수
     const string ING = "조사중인 행성";
@@ -37,15 +41,15 @@ public class DoPlanetManager : MonoBehaviour {
         {
             Txts_progress[0].text = ING;
             Txts_progress[0].color = color_ing;
-            RIs_planet[0].texture = Texturex_planet[0];
         }
         //완료
         else
         {
-            Gos_cause[0].SetActive(true);
-            RIs_planet[0].texture = Texturex_planet[1];
+            Gos_deco[0].SetActive(true);
+            Imgs_planet[0].sprite = Sprites_planet[0];//Atlas.GetSprite("do_planet1_2");
             Txts_progress[0].text = PlayerPrefs.GetString("tmp_date_soil","null") + " 조사완료";
             Txts_progress[0].color = color_done;
+            Txts_title[0].color = Color.white;
         }
 
         //두번째 이미지 설정-----------------------------------------------------------------------
@@ -57,15 +61,15 @@ public class DoPlanetManager : MonoBehaviour {
         {
             Txts_progress[1].text = ING;
             Txts_progress[1].color = color_ing;
-            RIs_planet[1].texture = Texturex_planet[2];
         }
         //완료
         else
         {
-            Gos_cause[1].SetActive(true);
-            RIs_planet[1].texture = Texturex_planet[3];
+            Gos_deco[1].SetActive(true);
+            Imgs_planet[1].sprite = Sprites_planet[1];//Atlas.GetSprite("do_planet2_2");
             Txts_progress[1].text = PlayerPrefs.GetString("tmp_date_water", "null") + " 조사완료";
             Txts_progress[1].color = color_done;
+            Txts_title[1].color = Color.white;
         }
 
         //세번째 이미지 설정-----------------------------------------------------------------------
@@ -77,15 +81,15 @@ public class DoPlanetManager : MonoBehaviour {
         {
             Txts_progress[2].text = ING;
             Txts_progress[2].color = color_ing;
-            RIs_planet[2].texture = Texturex_planet[4];
         }
         //완료
         else
         {
-            Gos_cause[2].SetActive(true);
-            RIs_planet[2].texture = Texturex_planet[5];
+            Gos_deco[2].SetActive(true);
+            Imgs_planet[2].sprite = Sprites_planet[2];//Atlas.GetSprite("do_planet3_2");
             Txts_progress[2].text = PlayerPrefs.GetString("tmp_date_air", "null") + " 조사완료";
             Txts_progress[2].color = color_done;
+            Txts_title[2].color = Color.white;
         }
     }
 }
