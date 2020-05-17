@@ -14,9 +14,6 @@ public class QuizManager : MonoBehaviour {
     public Text[] Txts_option;      //size = 4
     public Button[] Btns_option;    //size = 4
 
-    //Resource
-    public Sprite[] Sprites_option; //size = 3
-
     //변수
     char[] corrects = new char[6];
     bool wrong = false;
@@ -31,6 +28,11 @@ public class QuizManager : MonoBehaviour {
     readonly char[] corrects1 = { '1', '4', '3', '2', '2', '3' };
     readonly char[] corrects2 = { '1', '2', '4', '1', '3', '2' };
     readonly char[] corrects3 = { '3', '1', '1', '1', '2', '3' };
+    readonly Color[] colors_option = {
+        new Color(230 / 255f, 231 / 255f, 232 / 255f),
+        new Color(55 / 255f, 183 / 255f, 107 / 255f),
+        new Color(239 / 255f, 60 / 255f, 60 / 255f),
+    };
     readonly Color color_t_option = new Color(92 / 255f, 100 / 255f, 102 / 255f);
     readonly WaitForSeconds term = new WaitForSeconds(2f);
 
@@ -111,7 +113,7 @@ public class QuizManager : MonoBehaviour {
         for (int i = 0; i < 4; i++)
         {
             //버튼 색 초기화
-            Btns_option[i].GetComponent<Image>().sprite = Sprites_option[0];
+            Btns_option[i].GetComponent<Image>().color = colors_option[0];
             //클릭 활성화
             Btns_option[i].interactable = true;
         }
@@ -136,7 +138,7 @@ public class QuizManager : MonoBehaviour {
                 count++;
 
             SoundManager.Instance.Play_effect(1);
-            option.GetComponent<Image>().sprite = Sprites_option[1];
+            option.GetComponent<Image>().color = colors_option[1];
             StartCoroutine(Routine_check(true));
 
             //해설 저장
@@ -156,7 +158,7 @@ public class QuizManager : MonoBehaviour {
             wrong = true;
 
             SoundManager.Instance.Play_effect(2);
-            option.GetComponent<Image>().sprite = Sprites_option[2];
+            option.GetComponent<Image>().color = colors_option[2];
             StartCoroutine(Routine_check(false));
         }
         t_option.color = Color.white;

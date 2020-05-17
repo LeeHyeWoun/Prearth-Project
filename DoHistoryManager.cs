@@ -12,7 +12,9 @@ public class DoHistoryManager : MonoBehaviour {
     public Text T_info_name, T_info_summary;
 
     public Button[] Btns_main;  //size = 3
-    public Image[] Imgs_clue;   //size = 3
+    public Image[] 
+        imgs_clue_base,         //size = 3
+        Imgs_clue;              //size = 3
     public Text[] Txts_clue;    //size = 3
 
     //Resource... 스테이지 / 단서 이미지들
@@ -23,6 +25,7 @@ public class DoHistoryManager : MonoBehaviour {
     List<string> List_clue_txt = new List<string>();    //0~2 : 토양 stage1 단서, 3~5 : 토양  stage2 단서 ....
     StringReader stringReader;
     int clear, stage; //stage >> 1 : 토양 stage1 , 2 : 토양 stage2 , 3 : 수질 stage1 , 4 : 수질 stage2 , 5 : 대기 stage1 , 6 : 대기 stage2
+    Vector3[] pos = new Vector3[3];
 
     //상수
     const string LOCATION = "history/";
@@ -39,8 +42,11 @@ public class DoHistoryManager : MonoBehaviour {
 
 
     //초기화
-    void Start()
+    void Awake()
     {
+        for (int i = 0; i < 3; i++)
+            pos[i] = imgs_clue_base[i].transform.position;
+
         clear = PlayerPrefs.GetInt("tmp_Clear", 0);
         if (clear > 0)
             Road_file("02_clues");
@@ -54,13 +60,21 @@ public class DoHistoryManager : MonoBehaviour {
             Road_file("08_clues");
         if (clear > 7)
             Road_file("09_clues");
-        stage = 1;
-        SetStage();
-        Go_Back.SetActive(false);
+
         Go_Back.GetComponent<Image>().sprite = Atlas.GetSprite("icon_arrow_left");
         Go_Next.GetComponent<Image>().sprite = Atlas.GetSprite("icon_arrow_right");
     }
 
+    void OnEnable()
+    {
+        stage = 1;
+        Go_Back.SetActive(false);
+        Go_Next.SetActive(true);
+        Btns_main[0].interactable = false;
+        Btns_main[1].interactable = true;
+        Btns_main[2].interactable = true;
+        SetStage();
+    }
 
     //privaste 함수들---------------------------------------------------------------------------------------------------------------
     void Road_file(string filename)
@@ -133,6 +147,8 @@ public class DoHistoryManager : MonoBehaviour {
         SetTxtClue(stage);
         SetRIClue(stage);
         SetInfo(stage);
+        StopCoroutine("Appear_btn_clue");
+        StartCoroutine("Appear_btn_clue");
     }
 
 
@@ -199,4 +215,28 @@ public class DoHistoryManager : MonoBehaviour {
         }
     }
 
+    //코루틴 -----------------------------------------------------------------------------------------------------------------
+    System.Collections.IEnumerator Appear_btn_clue() {
+        //초기화
+        for (int i = 0; i < 3; i++)
+            imgs_clue_base[i].transform.position = pos[i];
+        Color color = Color.white;
+        color.a = 0.2f;
+
+        //시작 위치로 이동
+        for (int i=0; i<3; i++)
+            imgs_clue_base[i].transform.Translate(Vector3.down * 20f);
+
+        //움직임
+        for (int i = 0; i < 40; i++)
+        {
+            color.a += 0.02f;
+            for (int j = 0; j < 3; j++)
+            {
+                Imgs_clue[j].color = color;
+                imgs_clue_base[j].transform.Translate(Vector3.up * 0.5f);
+            }
+            yield return null;
+        }
+    }
 }

@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.U2D;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 /**
@@ -17,10 +17,18 @@ public class DoPlanetManager : MonoBehaviour {
     public Text[]
         Txts_title,                 //size = 3
         Txts_progress;              //size = 3
+    public Image[]
+    Imgs_ribon,                     //size = 3
+    Imgs_mskTarget;                 //size = 3
+
 
     //Resource
     public Sprite[] Sprites_planet;
-    //public SpriteAtlas Atlas;
+
+    //변수
+    int clear;
+    Vector3[] pos = new Vector3[3];
+
 
     //상수
     const string ING = "조사중인 행성";
@@ -30,7 +38,9 @@ public class DoPlanetManager : MonoBehaviour {
     //초기화
     void Awake () {
 
-        int clear = PlayerPrefs.GetInt("tmp_Clear",0);
+        clear = PlayerPrefs.GetInt("tmp_Clear",0);
+        for (int i = 0; i < 3; i++)
+            pos[i] = Imgs_mskTarget[i].transform.localPosition;
 
         //첫번째 이미지 설정-----------------------------------------------------------------------
         //미진행
@@ -91,5 +101,51 @@ public class DoPlanetManager : MonoBehaviour {
             Txts_progress[2].color = color_done;
             Txts_title[2].color = Color.white;
         }
+    }
+
+    void OnEnable()
+    {
+        for(int i = 0; i<3; i++)
+            Txts_progress[i].text = pos[i].ToString();
+
+        if (clear > 2)
+            Appear_Decos(0);
+        if (clear > 5)
+            Appear_Decos(1);
+        if (clear > 8)
+            Appear_Decos(2);
+    }
+
+    void OnDisable() {
+    }
+
+    void Appear_Decos(int num) {
+        StartCoroutine(Appear_ribon(num));
+        StartCoroutine(Appear_mskTarget(num));
+    }
+
+    //코루틴 -----------------------------------------------------------------------------------------------------------------
+    IEnumerator Appear_ribon(int num) {
+        Imgs_ribon[num].fillAmount = 0.2f;
+        for (int i = 0; i < 20; i++)
+        {
+            Imgs_ribon[num].fillAmount += 0.04f;
+            yield return null;
+        }
+    }
+
+    IEnumerator Appear_mskTarget(int num)
+    {
+        Imgs_mskTarget[num].transform.localPosition = pos[num];
+        Imgs_mskTarget[num].color = Color.white;
+        Imgs_mskTarget[num].transform.Translate(Vector3.down * 20f);
+        yield return null;
+
+        for (int i = 0; i < 39; i++)
+        {
+            Imgs_mskTarget[num].transform.Translate(Vector3.up * 0.5f);
+            yield return null;
+        }
+        Txts_progress[num].text = Imgs_mskTarget[num].transform.localPosition.ToString();
     }
 }
