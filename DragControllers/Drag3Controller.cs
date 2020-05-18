@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-public class Drag3Controller : DragController
+﻿public class Drag3Controller : DragController
 {
-    protected override void EndCheck()
+    protected override void EndCheck(string name)
     {
     }
 }

@@ -250,6 +250,8 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     }
 
     public void Drag_DisassembledClue1(string name) {
+
+        Time.timeScale = 1;
         target = GetClickedObject();
         if (target != null)
         {
@@ -283,6 +285,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
 
     public void Drag_DisassembledClue2(string name)
     {
+        Time.timeScale = 1;
         target = GetClickedObject();
         if (target != null)
         {
@@ -315,6 +318,7 @@ public class ObjManager11 : RaycastManager//ObjManager는 무조건 RaycastManag
     }
 
     public void Disassembled() {
+        Time.timeScale = 1;
         blank.SetActive(false);
         GBC.ItemBox();
         SoundManager.Instance.Play_effect(1);

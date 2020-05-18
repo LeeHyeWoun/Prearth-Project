@@ -23,7 +23,8 @@ public class DragController : RaycastManager,
     }
 
     //가상함수
-    protected virtual void EndCheck() { }
+    protected virtual void EndCheck(string name) { }
+
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -66,7 +67,7 @@ public class DragController : RaycastManager,
             transform.localScale = transform.localScale * 1.1f;
             StartCoroutine(ItemReturn());
 
-            EndCheck();
+            EndCheck(gameObject.name);
         }
     }
 
