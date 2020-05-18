@@ -40,5 +40,14 @@ UI 디자인	: 정진명
 * 토양 stage1 구현 완료  
 * 시연 영상 제작  
 
-05.05~05.12
-* 
+05.05~05.12  
+* 세팅창 GUI 수정 반영  
+* 히스토리 Scene 통합 및 리소스 / 스크립트 최적화  
+* UI 이미지를 Sliced Iamge 처리해서 용량 최적화  
+
+05.12~05.19  
+* 리소스 최적화 마무리
+* DragController 상속처리 :  
+** 가상함수 적용  
+** 각 스테이지 별 Controller에 오버라이딩 (Drag2Controller, Drag3Controller,....)
+* StgController 상속처리 : 가상함수 적용 및 종류에 따라 구분
