@@ -27,7 +27,6 @@ public class DoPlanetManager : MonoBehaviour {
 
     //변수
     int clear;
-    Vector3[] pos = new Vector3[3];
 
 
     //상수
@@ -39,8 +38,6 @@ public class DoPlanetManager : MonoBehaviour {
     void Awake () {
 
         clear = PlayerPrefs.GetInt("tmp_Clear",0);
-        for (int i = 0; i < 3; i++)
-            pos[i] = Imgs_mskTarget[i].transform.localPosition;
 
         //첫번째 이미지 설정-----------------------------------------------------------------------
         //미진행
@@ -105,18 +102,12 @@ public class DoPlanetManager : MonoBehaviour {
 
     void OnEnable()
     {
-        for(int i = 0; i<3; i++)
-            Txts_progress[i].text = pos[i].ToString();
-
         if (clear > 2)
             Appear_Decos(0);
         if (clear > 5)
             Appear_Decos(1);
         if (clear > 8)
             Appear_Decos(2);
-    }
-
-    void OnDisable() {
     }
 
     void Appear_Decos(int num) {
@@ -136,16 +127,13 @@ public class DoPlanetManager : MonoBehaviour {
 
     IEnumerator Appear_mskTarget(int num)
     {
-        Imgs_mskTarget[num].transform.localPosition = pos[num];
         Imgs_mskTarget[num].color = Color.white;
-        Imgs_mskTarget[num].transform.Translate(Vector3.down * 20f);
-        yield return null;
+        Imgs_mskTarget[num].transform.localPosition = Vector3.zero;
 
-        for (int i = 0; i < 39; i++)
+        for (float i = 1; i <= 20; i += 0.5f)
         {
-            Imgs_mskTarget[num].transform.Translate(Vector3.up * 0.5f);
+            Imgs_mskTarget[num].transform.localPosition = Vector3.up * i;
             yield return null;
         }
-        Txts_progress[num].text = Imgs_mskTarget[num].transform.localPosition.ToString();
     }
 }

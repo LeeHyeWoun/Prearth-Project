@@ -2,7 +2,7 @@
 
 public class StgController2 : StgManager {
 
-    public UnityEngine.GameObject obstacle;
+    public GameObject obstacle;
 
 #if UNITY_EDITOR
     new void Update()

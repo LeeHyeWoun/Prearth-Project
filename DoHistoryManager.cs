@@ -25,7 +25,6 @@ public class DoHistoryManager : MonoBehaviour {
     List<string> List_clue_txt = new List<string>();    //0~2 : 토양 stage1 단서, 3~5 : 토양  stage2 단서 ....
     StringReader stringReader;
     int clear, stage; //stage >> 1 : 토양 stage1 , 2 : 토양 stage2 , 3 : 수질 stage1 , 4 : 수질 stage2 , 5 : 대기 stage1 , 6 : 대기 stage2
-    Vector3[] pos = new Vector3[3];
 
     //상수
     const string LOCATION = "history/";
@@ -39,14 +38,12 @@ public class DoHistoryManager : MonoBehaviour {
         "콜록이의 집 밖으로 나온 줄리안.\n길거리에 대기오염을 발생시키는 원인들이 보인다. 줄리안은 도도행성의 문제를 해결해주고 지구로 돌아갈 수 있을까..."                     //대기2
     };
     readonly Color COLOR_PRIVATE = new Color(56 / 255f, 56 / 255f, 56 / 255f);
+    readonly Vector3[] CLUE_POS = { new Vector3(390, 315, 0), new Vector3(390, 0, 0), new Vector3(390, -315, 0) };
 
 
     //초기화
     void Awake()
     {
-        for (int i = 0; i < 3; i++)
-            pos[i] = imgs_clue_base[i].transform.position;
-
         clear = PlayerPrefs.GetInt("tmp_Clear", 0);
         if (clear > 0)
             Road_file("02_clues");
@@ -218,10 +215,10 @@ public class DoHistoryManager : MonoBehaviour {
     //코루틴 -----------------------------------------------------------------------------------------------------------------
     System.Collections.IEnumerator Appear_btn_clue() {
         //초기화
-        for (int i = 0; i < 3; i++)
-            imgs_clue_base[i].transform.position = pos[i];
         Color color = Color.white;
         color.a = 0.2f;
+        for (int i = 0; i < 3; i++)
+            imgs_clue_base[i].transform.localPosition = CLUE_POS[i];
 
         //시작 위치로 이동
         for (int i=0; i<3; i++)

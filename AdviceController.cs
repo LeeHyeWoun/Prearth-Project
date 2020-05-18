@@ -72,7 +72,7 @@ public class AdviceController : MonoBehaviour
 
         //글자 수에 따라 이미지 가로 사이즈 변경
         float width = 512 + ((order.Length > 3) ? (order.Length - 3) * 35 : 0);
-        order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 512);
+        order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 256);
 
         //조언 띄우기
         routine = Routine_Advice(order);

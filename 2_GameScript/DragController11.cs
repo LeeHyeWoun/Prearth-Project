@@ -86,7 +86,7 @@ public class DragController11 : RaycastManager,
                 Time.timeScale = 1;
                 OM.Drag_DisassembledClue2(name);
             }
-            else if (name.Equals("B_item2") && GetClickUI().Equals("RI_Blank"))
+            else if (name.Equals("B_item2") && GetClickUI().Equals("RI_clue"))
             {
                 transform.position = defaultposition;
                 Time.timeScale = 1;

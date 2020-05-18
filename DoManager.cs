@@ -22,8 +22,9 @@ public class DoManager : MonoBehaviour {
         Go_History.SetActive(false);
         b_tap_1.interactable = false;
         b_tap_2.interactable = true;
-        b_tap_1.transform.Translate(Vector3.left * 40f);
-        b_tap_2.transform.Translate(Vector3.right * 40f);
+
+        b_tap_1.transform.localPosition += Vector3.left * 40;
+        b_tap_2.transform.localPosition += Vector3.right * 40;
     }
     public void BE_Tap_2()
     {
@@ -32,8 +33,9 @@ public class DoManager : MonoBehaviour {
         Go_History.SetActive(true);
         b_tap_1.interactable = true;
         b_tap_2.interactable = false;
-        b_tap_1.transform.Translate(Vector3.right * 40f);
-        b_tap_2.transform.Translate(Vector3.left * 40f);
+
+        b_tap_1.transform.localPosition += Vector3.right * 40;
+        b_tap_2.transform.localPosition += Vector3.left * 40;
     }
 
 }
