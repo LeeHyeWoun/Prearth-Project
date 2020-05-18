@@ -48,12 +48,12 @@ UI 디자인	: 정진명
 05.12~05.19  
 * 리소스 최적화 마무리
 * DragController 상속처리 :  
-** 가상함수 적용  
-** 각 스테이지 Controller에 오버라이딩 (Drag2Controller, Drag3Controller,....)
+    * 가상함수 적용  
+    * 각 스테이지 Controller에 오버라이딩 (Drag2Controller, Drag3Controller,....)
 * StgController 상속처리 :  
-** 가상함수 적용  
-** 종류에 따라 구분  
-*** StgRotationController : 가장 기본적인 스테이지를 회전시키는 기능을 제공하는 컴포넌트  
+    * 가상함수 적용  
+    * 종류에 따라 구분  
+        * StgRotationController : 가장 기본적인 스테이지를 회전시키는 기능을 제공하는 컴포넌트  
 *** StgVertexController (StgRotationController 상속): 스테이지의 꼭짓점에 존재하는 오브젝트 활성화를 다루며, 시야 확보를 위해 가장 앞쪽 꼭짓점에 있는 오브젝트들을 숨겨주는 컴포넌트  
 *** StgEdgeController (StgRotationController 상속): 시야 확보를 위해 앞에 있는 두개의 벽을 숨김으로서 가장 뒤쪽 모서리만 보이게 해주는 컴포넌트  
 
