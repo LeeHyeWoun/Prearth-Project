@@ -46,7 +46,11 @@ UI 디자인	: 정진명
 * UI 이미지를 Sliced Iamge 처리해서 용량 최적화  
 
 05.13~05.20  
-* 리소스 최적화 마무리
+* 리소스 최적화 마무리  
+    * Scene"11_Do"의 History 캔버스는 사용할 이미지 리소스가 많으므로 아틀라스 사용
+    * 배경 및 오브젝트 이미지를 제외한 모든 UI Resource image는 Slice Image로 처리
+    * 액자와 사진처럼 테두리는 Slice Image로 늘려 사용하고 가운데 이미지만 바꾸는 식으로 용량을 절반가까이 줄임.
+    * <span style="color:red">가운데 이미지를 RGB compressed ETC2 4bit로 압축하니 용량을 절반으로 줄이는 건 좋은데, 손실로 인한 색상 변형으로 RGBA compressed ETC2 8bit로 압축한 테두리 이미지 색상과 차이가 나서 포기함.</span>  
 * DragController 상속처리 :  
     * 가상함수 적용  
     * 각 스테이지 Controller에 오버라이딩 (Drag2Controller, Drag3Controller,....)
@@ -62,6 +66,6 @@ UI 디자인	: 정진명
             * StgRotationController 상속  
             * 시야 확보를 위해 앞에 있는 두개의 벽을 숨김으로서 가장 뒤쪽 모서리만 보이게 해주는 컴포넌트  
 
-05.19~  
-* 
+05.20~  
+* 진행중  
 
