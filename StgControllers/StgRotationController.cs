@@ -1,33 +1,33 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
-
 
 /**
- * Date     : 2019.11.18
+ * Date     : 2020.05.18
  * Manager  : 이혜원
  * 
  * The function of this script :
- *  스테이지에 관한 다양한 이벤트를 다루는 스크립트
- *  
- *  Applied Location :
- *  -> cube
+ *  스테이지 오브젝트의 회전을 담당하는 스크립트
  */
-
-public class StgManager : MonoBehaviour{
-
-    public GameObject c1, c2, c3, c4;   //벽 오브젝트
+public class StgRotationController : MonoBehaviour {
 
     //상수
-    const float ROT_SPEED = 80;
+    private const float ROT_SPEED = 80;
 
     //변수
-    protected float angle = 0f;                   //스테이지 회전 각도
+    private float angle = 0f;                   //스테이지 회전 각도
+
+    //접근자
+    protected float Angle {
+        get { return angle;  }
+    }
+
+    //가상함수
+    protected virtual void Active() { }
 
 #if UNITY_EDITOR
     //회전 이벤트....PC환경에서 회전 테스트 용
     protected void Update()
     {
-        if(Time.timeScale.Equals(1))
+        if (Time.timeScale.Equals(1))
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 transform.Rotate(Vector3.up, 0.3f);
@@ -35,7 +35,7 @@ public class StgManager : MonoBehaviour{
                 if (angle < 0) angle += 360;
                 angle %= 360;
 
-                Visible();
+                Active();
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
@@ -44,7 +44,7 @@ public class StgManager : MonoBehaviour{
                 if (angle < 0) angle += 360;
                 angle %= 360;
 
-                Visible();
+                Active();
             }
     }
 
@@ -65,35 +65,8 @@ public class StgManager : MonoBehaviour{
             if (angle < 0) angle += 360;
             angle %= 360;
 
-            Visible();
+            Active();
         }
     }
 #endif
-
-    void Visible()
-    {
-        //벽이 없더라도 StgManager 작동 가능
-        if (c1 == null || c2 == null || c3 == null || c4 == null)
-            return;
-
-        //안쪽 벽만 보이게 하기
-        if (angle > 45 && angle < 135)
-            Inside(c1, c2, c3, c4);
-        else if (angle > 135 && angle < 225)
-            Inside(c2, c3, c4, c1);
-        else if (angle > 225 && angle < 315)
-            Inside(c3, c4, c1, c2);
-        else if (angle > 315 || angle < 45)
-            Inside(c4, c1, c2, c3);
-    }
-
-    void Inside(GameObject f1, GameObject f2, GameObject b1, GameObject b2) {
-        if (!b1.activeSelf || !b2.activeSelf) {
-            f1.SetActive(false);
-            f2.SetActive(false);
-            b1.SetActive(true);
-            b2.SetActive(true);
-        }
-    }
-
 }

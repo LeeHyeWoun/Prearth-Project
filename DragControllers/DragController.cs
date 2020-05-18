@@ -3,34 +3,27 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-/**
- * Date     : 2019.12.08
- * Manager  : 이혜원
- * 
- * The function of this script :
- *  아이템에 관한 다양한 이벤트를 다루는 스크립트
- *  
- *  Applied Location :
- *  -> item1,item2,item3, clue1, clue2, clue3
- */
-public class DragController11 : RaycastManager, 
+public class DragController : RaycastManager,
     IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler
 {
     //할당 받을 객체들
-    public GameObject gameDirector,stg;
+    public GameObject gameDirector, stg;
 
     //변수
     Vector3 defaultposition;
-    readonly WaitForEndOfFrame wait = new WaitForEndOfFrame();
     bool isInteractable = false;
 
-    //커스텀 클래스 인스턴스
-    ObjManager11 OM;
+    //상수
+    readonly WaitForEndOfFrame wait = new WaitForEndOfFrame();
 
-    private void Start()
-    {
-        OM = gameDirector.GetComponent<ObjManager11>();
+    //접근자
+    protected Vector3 Defaultposition {
+        get { return defaultposition; }
+        set { defaultposition = value; }
     }
+
+    //가상함수
+    protected virtual void EndCheck() { }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -52,7 +45,7 @@ public class DragController11 : RaycastManager,
     {
         if (isInteractable)
         {
-            defaultposition = transform.position;
+            Defaultposition = transform.position;
         }
     }
 
@@ -73,27 +66,7 @@ public class DragController11 : RaycastManager,
             transform.localScale = transform.localScale * 1.1f;
             StartCoroutine(ItemReturn());
 
-            string name = gameObject.name;
-            if (name.Length > 5 && name.Substring(2, 4).Equals("Clue"))
-                OM.Select_Trash(name);
-            else if (name.Equals("B_Vinyl") || name.Equals("B_Pet"))
-            {
-                Time.timeScale = 1;
-                OM.Drag_DisassembledClue1(name);
-            }
-            else if (name.Equals("B_icepack_vinyl") || name.Equals("B_icepack_water"))
-            {
-                Time.timeScale = 1;
-                OM.Drag_DisassembledClue2(name);
-            }
-            else if (name.Equals("B_item2") && GetClickUI().Equals("RI_clue"))
-            {
-                transform.position = defaultposition;
-                Time.timeScale = 1;
-                transform.localScale = transform.localScale / 1.1f;
-                OM.Disassembled();
-            }
-
+            EndCheck();
         }
     }
 
@@ -106,7 +79,7 @@ public class DragController11 : RaycastManager,
         yield return wait;
 
         //아이템을 원래상태로 복귀
-        transform.position = defaultposition;
+        transform.position = Defaultposition;
         Time.timeScale = 1;
         transform.localScale = transform.localScale / 1.1f;
     }
