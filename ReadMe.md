@@ -51,6 +51,7 @@ UI 디자인	: 정진명
     * 배경 및 오브젝트 이미지를 제외한 모든 UI Resource image는 Slice Image로 처리
     * 액자와 사진처럼 테두리는 Slice Image로 늘려 사용하고 가운데 이미지만 바꾸는 식으로 용량을 절반가까이 줄임.
     * <span style="color:red">가운데 이미지를 RGB compressed ETC2 4bit로 압축하니 용량을 절반으로 줄이는 건 좋은데, 손실로 인한 색상 변형으로 RGBA compressed ETC2 8bit로 압축한 테두리 이미지 색상과 차이가 나서 포기함.</span>  
+* Scene "11_Do"의 코루틴을 이용한 애니메이션 효과  
 * DragController 상속처리 :  
     * 가상함수 적용  
     * 각 스테이지 Controller에 오버라이딩 (Drag2Controller, Drag3Controller,....)
