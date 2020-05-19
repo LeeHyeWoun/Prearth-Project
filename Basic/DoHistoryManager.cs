@@ -97,7 +97,7 @@ public class DoHistoryManager : MonoBehaviour {
 
     bool IsClearStage()
     {
-        return stage + 1 < clear ? true : false;
+        return (stage - 1) / 2 * 3 + (stage - 1) % 2 + 1 <= clear ? true : false;
     }
 
     void SetInfo(int stage)
@@ -141,6 +141,7 @@ public class DoHistoryManager : MonoBehaviour {
 
     void SetStage()
     {
+        print("stage : " + stage +" / clear : " + clear + " / " + IsClearStage());
         SetTxtClue(stage);
         SetRIClue(stage);
         SetInfo(stage);

@@ -40,7 +40,5 @@
                     OM.Select_Trash(name);
                 break;
         }
-
-
     }
 }

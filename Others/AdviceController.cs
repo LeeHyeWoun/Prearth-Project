@@ -42,7 +42,11 @@ public class AdviceController : MonoBehaviour
                 orderList.Add("3_clear", null);
                 break;
             case 5: //05_Water_1
-                orderList.Add("5_start", null);
+                orderList.Add("5_start", "뿌직이의 집에서 문제의 단서를 찾아보세요.");
+                orderList.Add("5_play1", "폐기름을 올바르게 분리수거해주세요.");
+                orderList.Add("5_play2_1", "남은 약품들을 올바르게 분리수거해주세요.");
+                orderList.Add("5_play2_2", "컨택트 렌즈를 올바르게 분리수거해주세요.");
+                orderList.Add("5_play2_3", null);
                 orderList.Add("5_clear", null);
                 break;
             case 6: //06_Water_2
@@ -50,7 +54,11 @@ public class AdviceController : MonoBehaviour
                 orderList.Add("6_clear", null);
                 break;
             case 8: //08_Air_1
-                orderList.Add("8_start", null);
+                orderList.Add("8_start", "콜록이의 집에서 문제의 단서를 찾아보세요.");
+                orderList.Add("8_play1", "사용하지 않는 가전제품의 코드를 뽑아주세요.");
+                orderList.Add("8_play2_1", "겨울철 적정온도를 맞춰주세요.");
+                orderList.Add("8_play2_2", "에어캡을 이용해 집 온도를 높여주세요.");
+                orderList.Add("8_play2_3", null);
                 orderList.Add("8_clear", null);
                 break;
             case 9: //09_Air_2
@@ -69,10 +77,6 @@ public class AdviceController : MonoBehaviour
     {
         if(routine!=null)
             StopCoroutine(routine);
-
-        //글자 수에 따라 이미지 가로 사이즈 변경
-        float width = 512 + ((order.Length > 3) ? (order.Length - 3) * 35 : 0);
-        order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 256);
 
         //조언 띄우기
         routine = Routine_Advice(order);
@@ -115,6 +119,10 @@ public class AdviceController : MonoBehaviour
         
         //내용 설정
         oderT.text = txt;
+
+        //글자 수에 따라 이미지 가로 사이즈 변경
+        float width = 512 + ((txt.Length > 3) ? (txt.Length - 3) * 35 : 0);
+        order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 256);
 
         //열기
         order_I.SetActive(true);

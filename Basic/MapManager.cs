@@ -152,7 +152,7 @@ public class MapManager : MonoBehaviour
             if (num == 0)
             {
                 SoundManager.Instance.Play_effect(0);
-                SC.Load_Scene(14);
+                SC.Load_Scene(12);
                 clear_num = 0;
             }
             else {

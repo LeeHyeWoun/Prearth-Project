@@ -26,11 +26,13 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
         Particles_clue_object;  //size = 3
 
     //Resource
-    public Sprite clue_full, clue_clear;
+    public Sprite[] Sprites_clue;                           //size = 5
+
+    //상수
+    readonly Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
 
     //변수
     AdviceController AC;
-    Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
     bool[] clear_clue = new bool[3] { false, false, false };//단서 클리어 정도
 
 
@@ -87,6 +89,7 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
 
         //단서 박스애 채우기 및 이펙트 효과
         Btns_clue[i - 1].interactable = true;
+        Btns_clue[i - 1].GetComponent<Image>().sprite = Sprites_clue[i];
         Particles_clue_btn[i - 1].transform.localScale = effectScale * Camera.main.orthographicSize / 5;
         Particles_clue_btn[i - 1].Play();
         Particles_clue_object[i - 1].Play();
@@ -151,9 +154,8 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
                 if (trash_num == 0)
                 {
                     success = true;
-                    Btns_clue[0].GetComponent<Image>().sprite = clue_full;
                     Clear_clue(1);
-                    AC.Dialog_and_Advice("Play2_1");
+                    AC.Dialog_and_Advice("play2_1");
                 }
                 break;
 
@@ -162,9 +164,8 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
                 if (trash_num == 1)
                 {
                     success = true;
-                    Btns_clue[1].GetComponent<Image>().sprite = clue_full;
                     Clear_clue(2);
-                    AC.Dialog_and_Advice("Play2_2");
+                    AC.Dialog_and_Advice("play2_2");
                 }
 
                 break;
@@ -174,9 +175,8 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
                 if (trash_num == 2)
                 {
                     success = true;
-                    Btns_clue[2].GetComponent<Image>().sprite = clue_full;
                     Clear_clue(3);
-                    AC.Dialog_and_Advice("Play2_3");
+                    AC.Dialog_and_Advice("play2_3");
                 }
                 break;
 
@@ -187,7 +187,7 @@ public class ObjectManager5 : RaycastManager//ObjManager는 무조건 RaycastMan
     public void Clear_clue(int num)
     {
         clear_clue[num - 1] = true;
-        Btns_clue[num - 1].GetComponent<Image>().sprite = clue_clear;
+        Btns_clue[num - 1].GetComponent<Image>().sprite = Sprites_clue[4];
 
         if (clear_clue[0] && clear_clue[1] && clear_clue[2])
             Invoke("Ending", 3f);

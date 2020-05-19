@@ -34,7 +34,7 @@ public class ClearManager : MonoBehaviour {
     void SettingScene(int game_num) {
 
         //행성별 이미지 설정
-        if (game_num > 7)       //air
+        if (game_num > 6)       //air
         {
             //배경 설정
             clearbase.sprite = base3;
@@ -42,7 +42,7 @@ public class ClearManager : MonoBehaviour {
             RI_gem_base.texture = texture_gem_base_3;
             I_gem_fill.sprite = sprite_gem_fill3;
         }
-        else if (game_num > 4)  //water
+        else if (game_num > 3)  //water
         {
             //배경 설정
             clearbase.sprite = base2;
