@@ -2,20 +2,20 @@
 {
 
     //커스텀 클래스 인스턴스
-    ObjManager8 OM;
+    Game8Controller GC;
 
     private void Start()
     {
-        OM = gameDirector.GetComponent<ObjManager8>();
+        GC = gameDirector.GetComponent<Game8Controller>();
     }
 
     protected override void EndCheck(string name)
     {
         if (name.Substring(2, 4) == "Clue")
-            OM.Select_Trash(name);
+            GC.Select_Trash(name);
 
         else if (name.Equals("B_item2"))
-            OM.Item_knife();
+            GC.Item_knife();
 
     }
 }

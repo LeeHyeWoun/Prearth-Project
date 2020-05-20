@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 956ad5c2999a9e94eb46f8af0ac1d4fc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - Go_itemBox: {instanceID: 0}
+  - blank: {instanceID: 0}
+  - blank_RI: {instanceID: 0}
+  - B_Pet: {instanceID: 0}
+  - B_Vinyl: {instanceID: 0}
+  - B_icepack_vinyl: {instanceID: 0}
+  - B_icepack_water: {instanceID: 0}
+  - fridge_L: {instanceID: 0}
+  - fridge_R: {instanceID: 0}
+  - blank_pat: {fileID: 2800000, guid: 41ead03241cbe0848807fa6e2884d777, type: 3}
+  - blank_icepack: {fileID: 2800000, guid: 1be56d944db847942940bbbd2fba77ba, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
