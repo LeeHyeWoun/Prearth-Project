@@ -66,14 +66,15 @@ public class Game8Controller : GameController {
         }
     }
 
-    public void Item_knife()
+    public void KnifeEvent()
     {
-        string name = GetClickUI();
-        if (name != null && name.Equals("RI_Blank"))
-        {
-            blank.SetActive(false);
-            ItemBox();
-        }
+        Time.timeScale = 1;
+        blank.SetActive(false);
+        ItemBox();
+        SoundManager.Instance.Play_effect(1);
+
+        blank.SetActive(false);
+        ItemBox();
     }
 
     //private 함수---------------------------------------------------------------------------------

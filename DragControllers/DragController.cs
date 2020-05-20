@@ -3,11 +3,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DragController : RaycastManager,
+public class DragController : MonoBehaviour,
     IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerUpHandler
 {
     //할당 받을 객체들
     public GameObject gameDirector, stg;
+    public Camera cmr;
 
     //변수
     Vector3 defaultposition;
@@ -24,7 +25,6 @@ public class DragController : RaycastManager,
 
     //가상함수
     protected virtual void EndCheck(string name) { }
-
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -91,5 +91,15 @@ public class DragController : RaycastManager,
         {
             transform.localScale = transform.localScale / 1.2f;
         }
+    }
+
+    //클릭한 UI 이름 반환
+    protected string GetClickUI()
+    {
+        Vector2 touchPosition = cmr.ScreenToWorldPoint(Input.mousePosition);
+        Ray2D ray = new Ray2D(touchPosition, Vector2.zero);
+        RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+
+        return hit ? hit.collider.name : "";
     }
 }

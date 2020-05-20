@@ -14,8 +14,8 @@
         if (name.Substring(2, 4) == "Clue")
             GC.Select_Trash(name);
 
-        else if (name.Equals("B_item2"))
-            GC.Item_knife();
+        else if (name.Equals("B_item2") && GetClickUI().Equals("RI_Blank"))
+            GC.KnifeEvent();
 
     }
 }
