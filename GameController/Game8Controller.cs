@@ -18,29 +18,52 @@ public class Game8Controller : GameController {
     clue1, clue2, clue3,                                //단서
     fridge_L, fridge_R;                              //냉장고 문
 
+    public GameObject[] Elec_true, Elec_false;
+
     //변수
     int[] angle_fridge = new int[2] { 0, 0 };               //냉장고 문 열림 정도
+    int elec_count = 0;
 
+    void Start() {
+        Disappear_Clue[0] = false;
+        Disappear_Clue[1] = false;
+    }
 
     //Overriding-----------------------------------------------------------------------------------
     protected override void SetObjectEvent(string name)
     {
         switch (name)
         {
-            case "fan_plug":
-                Collect(1, "선풍기 플러그");
+            case "fan":
+                Collect(1, "사용하지 않는 선풍기");
                 break;
             case "temperature":
                 Collect(2, "난방 설정 온도");
                 break;
             case "aircap":
-                Collect(3, "에어캡(뽁뽁이)");
+                Collect(3, "에어캡");
                 break;
             case "fridge_left":
                 Motion_Fridge(fridge_L, 0);
                 break;
             case "fridge_right":
                 Motion_Fridge(fridge_R, 1);
+                break;
+            case "fan_plug":
+                if (Movable_Clue[0]&& Movable_Clue[1]&& Movable_Clue[2])
+                { Motion_elec(0); }
+                break;
+            case "ligth1_plug":
+                if (Movable_Clue[0] && Movable_Clue[1] && Movable_Clue[2])
+                { Motion_elec(1); }
+                break;
+            case "ligth2_plug":
+                if (Movable_Clue[0] && Movable_Clue[1] && Movable_Clue[2])
+                { Motion_elec(2); }
+                break;
+            case "tv_plug":
+                if (Movable_Clue[0]&& Movable_Clue[1]&& Movable_Clue[2])
+                { Motion_elec(3); }
                 break;
         }
     }
@@ -122,7 +145,7 @@ public class Game8Controller : GameController {
                     success = true;
                     Btns_clue[0].GetComponent<Image>().sprite = Sprites_clue[0];
                     blank.SetActive(true);
-                    AC.Dialog_and_Advice("Play2_1");
+                    AC.Dialog_and_Advice("play2_1");
                 }
                 break;
 
@@ -132,7 +155,7 @@ public class Game8Controller : GameController {
                 {
                     success = true;
                     Clear_Clue(2);
-                    AC.Dialog_and_Advice("Play2_2");
+                    AC.Dialog_and_Advice("play2_2");
                 }
 
                 break;
@@ -144,12 +167,45 @@ public class Game8Controller : GameController {
                     success = true;
                     Btns_clue[2].GetComponent<Image>().sprite = Sprites_clue[0];
                     blank.SetActive(true);
-                    AC.Dialog_and_Advice("Play2_3");
+                    AC.Dialog_and_Advice("play2_3");
                 }
                 break;
 
         }
         return success;
+    }
+
+    // 코드 뽑기 이벤트 
+    void Motion_elec(int num)
+    {
+        Elec_false[num].SetActive(true);
+        Elec_true[num].SetActive(false);
+        switch (num)
+        {
+            case 0:
+                SoundManager.Instance.Play_effect(1);
+                elec_count++;
+                break;
+            case 1:
+                SoundManager.Instance.Play_effect(1);
+                elec_count++;
+                break;
+            case 2:
+                SoundManager.Instance.Play_effect(1);
+                elec_count++;
+                break;
+            case 3:
+                SoundManager.Instance.Play_effect(1);
+                elec_count++;
+                break;
+
+        }
+
+        if (elec_count == 4)
+        {
+            Clear_Clue(1);
+            AC.Dialog_and_Advice("play2_1");
+        }
     }
 
     //루틴+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

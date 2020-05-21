@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: ee43510755ac47e42afe683be91e6b13
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - blank: {instanceID: 0}
+  - blank_RI: {instanceID: 0}
+  - B_Pet: {instanceID: 0}
+  - B_Vinyl: {instanceID: 0}
+  - clue1: {instanceID: 0}
+  - clue2: {instanceID: 0}
+  - clue3: {instanceID: 0}
+  - fridge_L: {instanceID: 0}
+  - fridge_R: {instanceID: 0}
+  - eff_clue1: {instanceID: 0}
+  - eff_clue2: {instanceID: 0}
+  - eff_clue3: {instanceID: 0}
+  - clueBox1: {instanceID: 0}
+  - clueBox2: {instanceID: 0}
+  - clueBox3: {instanceID: 0}
+  - clue_empty: {fileID: 21300000, guid: 499400c6781d93a49b358d6af007e9fb, type: 3}
+  - clue_clear: {fileID: 21300000, guid: 0fba527c6361dd447b11640feef5a5d1, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

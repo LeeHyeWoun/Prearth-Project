@@ -26,6 +26,7 @@ public class GameController : MonoBehaviour
     AdviceController AController;
     protected GameObject target;                                      //레이케스트 충돌 오브젝트
     bool[] movable_clue = new bool[3] { false, false, false };//단서 클리어 정도
+    bool[] disappear_clue = new bool[3] { true, true, true };
 
     //접근자
     protected AdviceController AC { get { return AController; } }
@@ -33,6 +34,10 @@ public class GameController : MonoBehaviour
     {
         get { return movable_clue; }
         set { movable_clue = value; }
+    }
+    protected bool[] Disappear_Clue {
+        get { return disappear_clue; }
+        set { disappear_clue = value; }
     }
 
     //가상함수
@@ -69,14 +74,15 @@ public class GameController : MonoBehaviour
 
     //potected 함수들----------------------------------------------------------------------------------
     //단서 발견 시 이벤트...클릭
-    protected void Collect(int num, string name)
+    protected virtual void Collect(int num, string name)
     {
         Btns_clue[num - 1].GetComponent<Image>().sprite = Sprites_clue[num];
         Movable_Clue[num - 1] = true;
         particles_clue_object[num - 1].Play();
 
         SoundManager.Instance.Play_effect(1);
-        target.SetActive(false);
+        if(Disappear_Clue[num - 1])
+            target.SetActive(false);
         AC.Advice(name);
 
         //모든 단서를 찾았다면
