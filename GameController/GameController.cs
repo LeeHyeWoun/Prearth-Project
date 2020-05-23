@@ -23,17 +23,16 @@ public class GameController : MonoBehaviour
     readonly Vector3 effectScale = new Vector3(1.2f, 1.2f, 1.2f);
 
     //변수
-    AdviceController AController;
+    protected AdviceController AC;
     protected GameObject target;                                      //레이케스트 충돌 오브젝트
-    bool[] movable_clue = new bool[3] { false, false, false };//단서 클리어 정도
+    bool[] activation = new bool[3] { false, false, false };
     bool[] disappear_clue = new bool[3] { true, true, true };
 
     //접근자
-    protected AdviceController AC { get { return AController; } }
-    protected bool[] Movable_Clue
+    protected bool[] Activation
     {
-        get { return movable_clue; }
-        set { movable_clue = value; }
+        get { return activation; }
+        set { activation = value; }
     }
     protected bool[] Disappear_Clue {
         get { return disappear_clue; }
@@ -44,9 +43,9 @@ public class GameController : MonoBehaviour
     protected virtual void SetObjectEvent(string name) { }
 
     //초기화
-    void Start()
+    void Awake()
     {
-        AController = GetComponent<AdviceController>();
+        AC = GetComponent<AdviceController>();
     }
 
     //업데이트
@@ -74,10 +73,10 @@ public class GameController : MonoBehaviour
 
     //potected 함수들----------------------------------------------------------------------------------
     //단서 발견 시 이벤트...클릭
-    protected virtual void Collect(int num, string name)
+    protected void Collect(int num, string name)
     {
         Btns_clue[num - 1].GetComponent<Image>().sprite = Sprites_clue[num];
-        Movable_Clue[num - 1] = true;
+        Activation[num - 1] = true;
         particles_clue_object[num - 1].Play();
 
         SoundManager.Instance.Play_effect(1);
@@ -86,11 +85,11 @@ public class GameController : MonoBehaviour
         AC.Advice(name);
 
         //모든 단서를 찾았다면
-        if (Movable_Clue[0] && Movable_Clue[1] && Movable_Clue[2])
+        if (Activation[0] && Activation[1] && Activation[2])
         {
             //초기화
             for (int i = 0; i < 3; i++)
-                Movable_Clue[i] = false;
+                Activation[i] = false;
 
             //다음 명령 내리기
             AC.Dialog_and_Advice("play1");
@@ -117,7 +116,7 @@ public class GameController : MonoBehaviour
     //게임 마무리 대사
     void Ending()
     {
-        GetComponent<AdviceController>().Dialog_and_Advice("clear");
+        AC.Dialog_and_Advice("clear");
     }
 
     //클릭한 오브젝트를 반환
@@ -150,7 +149,7 @@ public class GameController : MonoBehaviour
     protected void Enable_drag(bool b)
     {
         for (int i = 0; i < 3; i++)
-            if (!Movable_Clue[i])
+            if (!Activation[i])
             {
                 Btns_clue[i].interactable = b;
                 if (b)

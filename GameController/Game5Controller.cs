@@ -82,7 +82,7 @@ public class Game5Controller : GameController {
                 if (trash_num == 0)
                 {
                     success = true;
-                    Movable_Clue[0] = true;
+                    Activation[0] = true;
                     Clear_Clue(1);
                     AC.Dialog_and_Advice("play2_1");
                 }
@@ -93,7 +93,7 @@ public class Game5Controller : GameController {
                 if (trash_num == 1)
                 {
                     success = true;
-                    Movable_Clue[1] = true;
+                    Activation[1] = true;
                     Clear_Clue(2);
                     AC.Dialog_and_Advice("play2_2");
                 }
@@ -105,7 +105,7 @@ public class Game5Controller : GameController {
                 if (trash_num == 2)
                 {
                     success = true;
-                    Movable_Clue[2] = true;
+                    Activation[2] = true;
                     Clear_Clue(3);
                     AC.Dialog_and_Advice("play2_3");
                 }
