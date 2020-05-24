@@ -39,6 +39,11 @@ public class AdviceController : MonoBehaviour
                 break;
             case 3: //02_Soil_2
                 orderList.Add("3_start", "공원에서 문제의 단서를 찾아보세요.");
+                orderList.Add("3_play1_1", "3개의 컵을 저울을 이용하여 환경 부담이 적은 순으로 나열하세요.");
+                orderList.Add("3_play1_2", null);
+                orderList.Add("3_play2", null);
+                orderList.Add("3_play3_1", "돗자리에 엎질러진 물을 닦기위해 휴지나무에서 얻은 휴지를 전달해주세요.");
+                orderList.Add("3_play3_2", null);
                 orderList.Add("3_clear", null);
                 break;
             case 5: //05_Water_1

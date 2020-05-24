@@ -5,8 +5,9 @@ using UnityEngine.UI;
 public class Game2Controller : GameController {
 
     //3D Object
+    public RawImage blank_RI;
     public GameObject
-        blank, blank_RI, B_Pet, B_Vinyl, B_icepack_vinyl, B_icepack_water;
+        blank, B_Pet, B_Vinyl, B_icepack_vinyl, B_icepack_water;
 
     //Resource
     public Texture blank_pat, blank_icepack;
@@ -71,7 +72,7 @@ public class Game2Controller : GameController {
             {
                 SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
                 Btns_clue[0].GetComponent<Image>().sprite = Sprites_clue[0];
-                blank_RI.GetComponent<RawImage>().texture = blank_pat;
+                blank_RI.texture = blank_pat;
                 blank.SetActive(true);
                 Enable_drag(false);  //잠금
 
@@ -101,7 +102,7 @@ public class Game2Controller : GameController {
             {
                 SoundManager.Instance.Play_effect(1);  //적절하다는 효과음 내기
                 Btns_clue[2].GetComponent<Image>().sprite = Sprites_clue[0];
-                blank_RI.GetComponent<RawImage>().texture = blank_icepack;
+                blank_RI.texture = blank_icepack;
                 blank.SetActive(true);
                 Enable_drag(false);  //잠금
 

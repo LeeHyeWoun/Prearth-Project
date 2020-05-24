@@ -152,6 +152,7 @@ public class Game8Controller : GameController {
                 win_aircap.SetActive(true);
                 B_aircap.SetActive(false);
                 Clear_Clue(3);
+                AC.Dialog_and_Advice("play2_3");
             }
         }
     }

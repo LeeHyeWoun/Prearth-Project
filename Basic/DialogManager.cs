@@ -44,7 +44,7 @@ public class DialogManager : MonoBehaviour {
         planet_num = SceneController.Instance.Planet_num;
     }
 
-    private void Start () {
+    void Start () {
         Time.timeScale = 0;
 
 #if DEV_TEST
@@ -80,7 +80,7 @@ public class DialogManager : MonoBehaviour {
         PlayerPrefs.SetString("DIALOG", null);
     }
 
-
+    #region FormatCheck : 문장의 형식을 확인
     bool FormatCheck() {
         // ':'를 기준으로 캐릭터 코드와 대사 분리
         string[] split_Line = fileLine.Split(':');
@@ -109,7 +109,9 @@ public class DialogManager : MonoBehaviour {
 
         return true;
     }
+    #endregion
 
+    #region ChangeCharacter : 화자 설정
     void ChangeCharacter() {
 
         //파일 형식 체크
@@ -133,8 +135,9 @@ public class DialogManager : MonoBehaviour {
             ri_character.texture = img_alien;
         }
     }
+    #endregion
 
-    //기본 이미지 및 색상 등을 설정
+    #region SettingScene : 기본 이미지 및 색상 등을 설정
     void SettingScene()
     {
 
@@ -156,13 +159,16 @@ public class DialogManager : MonoBehaviour {
                 break;
         }
     }
+    #endregion
 
-    //버튼 이벤트 >> 빠르게 보기
+    //public 함수---------------------------------------------------------------------------------
+    #region 버튼 이벤트 - Fast : 빠르게 보기
     public void Fast() {
         fast = true;
     }
+    #endregion
 
-    //버튼 이벤트 >> 넘어가기
+    #region 버튼 이벤트 - Skip : 넘어가기
     public void Skip()
     {
         SoundManager.Instance.Play_effect(0);
@@ -171,8 +177,10 @@ public class DialogManager : MonoBehaviour {
         //창 사라지기
         StartCoroutine("Routine_disappear");
     }
+    #endregion
 
-    //코루틴 >> 대화창 등장하기
+    //코루틴--------------------------------------------------------------------------------------
+    #region 코루틴 - Routine_appear : 대화창 등장하기
     IEnumerator Routine_appear()
     {
 
@@ -228,8 +236,9 @@ public class DialogManager : MonoBehaviour {
 
 
     }
+    #endregion
 
-    //코루틴 >> 대화창 사라지기
+    #region 코루틴 - Routine_disappear : 대화창 사라지기
     IEnumerator Routine_disappear()
     {
         //캐릭터 및 대사 설정
@@ -288,8 +297,9 @@ public class DialogManager : MonoBehaviour {
         }
 
     }
+    #endregion
 
-    //코루틴 >> 한 문장씩 출력
+    #region 코루틴 - Routine_talking : 한 문장씩 출력
     IEnumerator Routine_talking() {
 
         //창 나타내기
@@ -323,8 +333,9 @@ public class DialogManager : MonoBehaviour {
         yield return StartCoroutine(Routine_disappear());
 
     }
+    #endregion
 
-    //코루틴 >> 한 음절씩 출력
+    #region 코루틴 - Routine_wording : 한 음절씩 출력
     IEnumerator Routine_wording()
     {
 
@@ -347,8 +358,9 @@ public class DialogManager : MonoBehaviour {
 
         yield return StartCoroutine(WaitForUnscaledSeconds(1.5f));
     }
+    #endregion
 
-    //코루틴 >> WaitforSecond를 대체
+    #region 코루틴 - WaitForUnscaledSeconds : WaitforSecond를 대체
     IEnumerator WaitForUnscaledSeconds(float how)
     {
         float current = 0f;
@@ -358,4 +370,5 @@ public class DialogManager : MonoBehaviour {
             current += Time.unscaledDeltaTime;
         }
     }
+    #endregion
 }
