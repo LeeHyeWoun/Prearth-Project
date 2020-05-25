@@ -43,7 +43,8 @@ public class AdviceController : MonoBehaviour
                 orderList.Add("3_play1_2", null);
                 orderList.Add("3_play2", null);
                 orderList.Add("3_play3_1", "돗자리에 엎질러진 물을 닦기위해 휴지나무에서 얻은 휴지를 전달해주세요.");
-                orderList.Add("3_play3_2", null);
+                orderList.Add("3_play3_2", "더 찾아주세요.");
+                orderList.Add("3_play3_3", null);
                 orderList.Add("3_clear", null);
                 break;
             case 5: //05_Water_1
