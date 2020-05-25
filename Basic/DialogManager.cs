@@ -2,19 +2,19 @@
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class DialogManager : MonoBehaviour {
 
-    public Image color_filter, img_base, img_name;
+    public Image color_filter, img_base, img_name, img_character;
     public GameObject go_skip;
-    public RawImage ri_character;
     public Text t_name, t_dialog;
-    public Texture
-        img_jullian, img_alien1, img_alien2, img_alien3;
+    public Sprite[] sprite_character;
+    public SpriteAtlas bitPart_characters;
 
     //변수
-    Texture img_alien;
+    Sprite img_alien;
     StringReader stringReader;
     StringBuilder sentence = new StringBuilder("");
     Color color = Color.white;
@@ -92,11 +92,6 @@ public class DialogManager : MonoBehaviour {
             print("Error : 파일<" + file_name + "> 파일 형식을 다시 체크해주세요.\n " + lineCount + "번째 줄에':'가 없거나 오용되었습니다.");
             return false;
         }
-        if (split_Line[0] != "0" && split_Line[0] != "1")
-        {//캐릭터 코드 체크
-            print("Error : 파일<" + file_name + "> 파일 형식을 다시 체크해주세요.\n " + lineCount + "번째 줄 첫 글자로 '" + split_Line[0] + "가 들어왔습니다.");
-            return false;
-        }
 #endif
 
         //변경 여부 설정
@@ -126,13 +121,17 @@ public class DialogManager : MonoBehaviour {
         if (previous_code.Equals("0"))
         {
             t_name.text = names[0];
-            ri_character.texture = img_jullian;
+            img_character.sprite = sprite_character[3];
         }
         //외계인 이미지로 변경
-        else
+        else if (previous_code.Equals("1"))
         {
-            t_name.text = names[planet_num+1];
-            ri_character.texture = img_alien;
+            t_name.text = names[planet_num + 1];
+            img_character.sprite = img_alien;
+        }
+        else {
+            t_name.text = previous_code;
+            img_character.sprite = bitPart_characters.GetSprite("img_alien" +(planet_num+1)+"_"+ file_name.Substring(6,1));
         }
     }
     #endregion
@@ -144,20 +143,7 @@ public class DialogManager : MonoBehaviour {
         t_name.color = colors[planet_num];
         go_skip.GetComponent<Image>().color = colors[planet_num];
         img_base.color = colors[planet_num];
-        switch (planet_num)
-        {
-            case 1:
-                img_alien = img_alien2;
-                break;
-
-            case 2:
-                img_alien = img_alien3;
-                break;
-
-            default:
-                img_alien = img_alien1;
-                break;
-        }
+        img_alien = sprite_character[planet_num];
     }
     #endregion
 
@@ -197,7 +183,7 @@ public class DialogManager : MonoBehaviour {
 
         //투명화
         color.a = 0;
-        ri_character.color = color;
+        img_character.color = color;
         img_name.color = color;
         go_skip.SetActive(false);
 
@@ -224,7 +210,7 @@ public class DialogManager : MonoBehaviour {
         for (int i = 0; i < 5; i++)
         {
             color.a += 0.2f;
-            ri_character.color = color;
+            img_character.color = color;
             img_name.color = color;
             yield return null;
         }
@@ -248,7 +234,7 @@ public class DialogManager : MonoBehaviour {
         for (int i = 0; i < 5; i++)
         {
             color.a -= 0.2f;
-            ri_character.color = color;
+            img_character.color = color;
             img_name.color = color;
             t_dialog.color = color;
             yield return null;
