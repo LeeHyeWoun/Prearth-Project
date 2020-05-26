@@ -38,7 +38,7 @@ public class AdviceController : MonoBehaviour
                 orderList.Add("2_clear", null);
                 break;
             case 3: //02_Soil_2
-                orderList.Add("3_start", "공원에서 문제의 단서를 찾아보세요.");
+                orderList.Add("3_start", "공원에서 꼬륵이의 이웃주민을 찾아 문제를 해결하세요.");
                 orderList.Add("3_play1_1", "3개의 컵을 저울을 이용하여 환경 부담이 적은 순으로 나열하세요.");
                 orderList.Add("3_play1_2", null);
                 orderList.Add("3_play2", null);
@@ -68,7 +68,11 @@ public class AdviceController : MonoBehaviour
                 orderList.Add("8_clear", null);
                 break;
             case 9: //09_Air_2
-                orderList.Add("9_start", null);
+                orderList.Add("9_start", "도시에서 도움이 필요한 곳을 찾아 문제를 해결하세요.");
+                orderList.Add("9_play1_1", "도시에 있는 5등급 차량을 단속하세요.");
+                orderList.Add("9_play1_2", null);
+                orderList.Add("9_play2", null);
+                orderList.Add("9_play3", "배출가스 저감장치를 설치하여 연기를 없애주세요.");
                 orderList.Add("9_clear", null);
                 break;
             default:

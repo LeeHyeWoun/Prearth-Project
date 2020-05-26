@@ -9,7 +9,8 @@ public class Game3Controller : GameController {
         blank, balance_lever, balance_A, balance_B, tissueTree;
     public Image cup_A, cup_B;
 
-    public GameObject[] plains;//size = 3
+    public GameObject[] 
+        mask, plains; //size = 3
     public Image[] results; //size = 3
     public Button[] cups;   //size = 3
 
@@ -27,17 +28,32 @@ public class Game3Controller : GameController {
     {
         switch (name)
         {
-            case "npc1":
-                if (play && Btns_clue[0].interactable)
-                    StartCoroutine(Game1(true));
+            case "Npc1_1":
+                if (play)
+                {
+                    if(Btns_clue[0].interactable)
+                        StartCoroutine(Game1(true));
+                    else
+                        AC.Advice("다른 꼬륵이입니다!");
+                }
                 break;
-            case "npc2":
-                if (play && Btns_clue[1].interactable)
-                    StartCoroutine(Game2());
+            case "Npc1_2":
+                if (play)
+                {
+                    if (Btns_clue[1].interactable)
+                        StartCoroutine(Game2());
+                    else
+                        AC.Advice("다른 꼬륵이입니다!");
+                }
                 break;
-            case "npc3":
-                if (play && Btns_clue[2].interactable)
-                    StartCoroutine(Game3(true));
+            case "Npc1_3":
+                if (play)
+                {
+                    if (Btns_clue[2].interactable)
+                        StartCoroutine(Game3(true));
+                    else
+                        AC.Advice("다른 꼬륵이입니다!");
+                }
                 break;
             case "Plane_2":
                 Find_Tissue(0);
@@ -152,6 +168,17 @@ public class Game3Controller : GameController {
             AC.Advice("더 찾아주세요!");
     }
 
+    void GameEnd(int num)
+    {
+        play = true;
+        Clear_Clue(num + 1);
+        mask[num].SetActive(false);
+        Btns_clue[num].interactable = false;
+        if(num < 2)
+            Btns_clue[num + 1].interactable = true;
+    }
+
+    //코루틴 -----------------------------------------------------------------------------------
     IEnumerator Game1(bool start)
     {
         if (start)
@@ -171,9 +198,7 @@ public class Game3Controller : GameController {
         else
         {
             cmr.cullingMask = -1;
-            play = true;
-            Btns_clue[0].interactable = false;
-            Clear_Clue(1);
+            GameEnd(0);
         }
     }
     IEnumerator Game2()
@@ -181,8 +206,7 @@ public class Game3Controller : GameController {
         AC.Dialog_and_Advice("play2");
         yield return wait;
 
-        Btns_clue[1].interactable = false;
-        Clear_Clue(2);
+        GameEnd(1);
     }
     IEnumerator Game3(bool start)
     {
@@ -201,13 +225,7 @@ public class Game3Controller : GameController {
         yield return wait;
 
         if (!start)
-        {
-            Btns_clue[2].interactable = false;
-            Clear_Clue(3);
-            play = true;
-        }
+            GameEnd(2);
     }
-
-
 
 }

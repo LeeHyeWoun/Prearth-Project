@@ -40,17 +40,8 @@ public class SceneController : MonoBehaviour {
     //주의 사항 : 빌드세팅의 인덱스 설정
     public void Load_Scene(int num) {
 
-        //Scene 존재 여부 체크
-        if (num == 9) //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
-        {
-            TM.ShowToast("아직 준비되지 않은 Scene입니다.");
-            return;
-        }
-        else if (num > 9)
-            num--;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //Activitiy Scene 00~10
-        if (num < 11 - 1/*게임 씬 추가 후  수정 바람*/)
+        if (num < 11)
         {
             //코루틴 삭제
             StopAllCoroutines();
@@ -98,12 +89,7 @@ public class SceneController : MonoBehaviour {
     }
 
     public int GetActiveScene_num() {
-        //return SceneManager.GetActiveScene().buildIndex;
-        int num = SceneManager.GetActiveScene().buildIndex;//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!게임 씬 추가 후 삭제 혹은 수정 바람
-        if (num > 8)
-            num++;
-        return num;
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return SceneManager.GetActiveScene().buildIndex;
     }
 
     //MapManager에서 사용

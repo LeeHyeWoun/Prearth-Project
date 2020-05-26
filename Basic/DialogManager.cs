@@ -131,7 +131,12 @@ public class DialogManager : MonoBehaviour {
         }
         else {
             t_name.text = previous_code;
-            img_character.sprite = bitPart_characters.GetSprite("img_alien" +(planet_num+1)+"_"+ file_name.Substring(6,1));
+            string img_name = "img_alien" + (planet_num + 1) + "_";
+            if (file_name.Substring(2,5).Equals("clear"))
+                img_name += "3";
+            else
+                img_name += file_name.Substring(6, 1);
+            img_character.sprite = bitPart_characters.GetSprite(img_name);
         }
     }
     #endregion
