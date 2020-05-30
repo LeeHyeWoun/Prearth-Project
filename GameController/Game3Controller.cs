@@ -2,26 +2,22 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Game3Controller : GameController {
+public class Game3Controller : Stage2Controller
+{
 
     //3D Object
     public GameObject
         blank, balance_lever, balance_A, balance_B, tissueTree;
     public Image cup_A, cup_B;
 
-    public GameObject[] 
-        mask, plains; //size = 3
+    public GameObject[] plains; //size = 3
     public Image[] results; //size = 3
     public Button[] cups;   //size = 3
 
     //변수
     bool[] clear = new bool[3] { false, false, false };
-    bool play = true;
     int weight_A, weight_B = -1;
     int count = -1;
-
-    //상수
-    WaitForSeconds wait = new WaitForSeconds(0.1f);
 
     //Overriding-----------------------------------------------------------------------------------
     protected override void SetObjectEvent(string name)
@@ -131,22 +127,6 @@ public class Game3Controller : GameController {
     }
     #endregion
 
-    public void BE_clue(int num) {
-        string advice="";
-        switch (num) {
-            case 1:
-                advice = "카페 사장 꼬륵이를 찾아가세요.";
-                break;
-            case 2:
-                advice = "마트에서 나온 꼬륵이를 찾아가세요.";
-                break;
-            case 3:
-                advice = "소풍 나온 꼬륵이를 찾아가세요.";
-                break;
-        }
-        AC.Advice(advice);
-    }
-
     //private 함수-----------------------------------------------------------------------------------
     void Balancing(int rot) {
         balance_lever.transform.localRotation = Quaternion.Euler(Vector3.forward * rot);
@@ -166,16 +146,6 @@ public class Game3Controller : GameController {
             AC.Dialog_and_Advice("play3_2");
         else
             AC.Advice("더 찾아주세요!");
-    }
-
-    void GameEnd(int num)
-    {
-        play = true;
-        Clear_Clue(num + 1);
-        mask[num].SetActive(false);
-        Btns_clue[num].interactable = false;
-        if(num < 2)
-            Btns_clue[num + 1].interactable = true;
     }
 
     //코루틴 -----------------------------------------------------------------------------------

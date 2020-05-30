@@ -1,29 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Game6Controller : GameController
+public class Game6Controller : Stage2Controller
 {
 
     //3D Object
     public GameObject
-        blank, blank_R1;  
+        blank, blank_R1;
 
     //Resource
     public Texture blank_turtle, blank_netturtle, blank_fish, blank_gfish, blank_plastic; //blank_fish = 물고기, blank_gfish = 째진 물고기
 
-    //변수
-   // bool[] clear = new bool[3] { false, false, false };
-    bool play = true;
-
-    //상수
-    WaitForSeconds wait = new WaitForSeconds(5f);
-
     //Overriding-----------------------------------------------------------------------------------
     protected override void SetObjectEvent(string name)
     {
-        print(name);
         switch (name)
         {
             case "turtle":
@@ -107,24 +98,6 @@ public class Game6Controller : GameController
     //}
 
     //public 함수-----------------------------------------------------------------------------------
-    public void BE_clue(int num)
-    {
-        string advice = "";
-        switch (num)
-        {
-            case 1:
-                advice = "그물에 묶인 거북이를 찾아가세요.";
-                break;
-            case 2:
-                advice = "배가 아픈 뿌직이를 찾아가세요.";
-                break;
-            case 3:
-                advice = "물놀이 하고 있는 뿌직이를 찾아가세요.";
-                break;
-        }
-        AC.Advice(advice);
-    }
-
     //도구 칼 사용
     public void KnifeEvent()
     {
@@ -133,12 +106,12 @@ public class Game6Controller : GameController
         SoundManager.Instance.Play_effect(1);
 
         //거북이랑 그물 분리
-        if (Btns_clue[0].GetComponent<Image>().sprite.Equals(Sprites_clue[1]))
+        if (Btns_clue[0].interactable)
         {
             blank_R1.GetComponent<RawImage>().texture = blank_turtle;
-            StartCoroutine(Game1_1(true));
+            StartCoroutine(Game1(false));
         }
-        else if (Btns_clue[1].GetComponent<Image>().sprite.Equals(Sprites_clue[2]) && blank_R1.GetComponent<RawImage>().texture.name.Equals("6_fish"))
+        else if (blank_R1.GetComponent<RawImage>().texture.name.Equals("6_fish"))
         {
             blank_R1.GetComponent<RawImage>().texture = blank_gfish;
             AC.Dialog_and_Advice("play2_1");
@@ -163,29 +136,24 @@ public class Game6Controller : GameController
 
     }
     //private 함수---------------------------------------------------------------------------------
-    //거북이 이벤트 시작 진행
+    //거북이 이벤트
     IEnumerator Game1(bool start)
     {
-        if(start)
+        if (start)
+        {
+            blank_R1.GetComponent<RawImage>().texture = blank_netturtle;
             AC.Dialog_and_Advice("play1");
+        }
+        else
+            AC.Dialog_and_Advice("play1_1");
 
         yield return wait;
 
-        blank_R1.GetComponent<RawImage>().texture = blank_netturtle;
         blank.SetActive(start);
-    }
-    //거북이와 금루 분리 후 진행 내용
-    IEnumerator Game1_1(bool start)
-    {
-        AC.Dialog_and_Advice("play1_1");
-
-        yield return wait;
-
-        blank.SetActive(false);
-
-        Btns_clue[0].interactable = false;
-        Clear_Clue(1);
-
+        if (!start) {
+            Btns_clue[0].interactable = false;
+            Clear_Clue(1);
+        }
     }
     //물고기 이벤트 시작
     IEnumerator Game2(bool start)

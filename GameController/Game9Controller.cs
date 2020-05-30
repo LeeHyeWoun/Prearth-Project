@@ -2,17 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game9Controller : GameController {
+public class Game9Controller : Stage2Controller
+{
 
     public GameObject car_red;
-    public GameObject[]
-        mask;
-
-    //변수
-    bool play = true;
-
-    //상수
-    WaitForSeconds wait = new WaitForSeconds(0.1f);
 
     //Overriding-----------------------------------------------------------------------------------
     protected override void SetObjectEvent(string name)
@@ -57,37 +50,6 @@ public class Game9Controller : GameController {
         }
     }
 
-    //public 함수-----------------------------------------------------------------------------------
-    public void BE_clue(int num)
-    {
-        string advice = "";
-        switch (num)
-        {
-            case 1:
-                advice = "경찰 콜록이를 찾아가세요.";
-                break;
-            case 2:
-                advice = "안경 콜록이를 찾아가세요.";
-                break;
-            case 3:
-                advice = "마스크 콜록이를 찾아가세요.";
-                break;
-        }
-        AC.Advice(advice);
-    }
-
-    //private 함수-----------------------------------------------------------------------------------
-    void GameEnd(int num)
-    {
-        play = true;
-        Clear_Clue(num + 1);
-        mask[num].SetActive(false);
-        Btns_clue[num].interactable = false;
-        if (num < 2)
-            Btns_clue[num + 1].interactable = true;
-    }
-
-
     //코루틴 -----------------------------------------------------------------------------------
     IEnumerator Game1(bool start)
     {
@@ -106,7 +68,7 @@ public class Game9Controller : GameController {
         else
             GameEnd(0);
     }
-    IEnumerator Game2()
+     IEnumerator Game2()
     {
         AC.Dialog_and_Advice("play2");
         yield return wait;

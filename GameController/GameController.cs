@@ -105,11 +105,12 @@ public class GameController : MonoBehaviour
     //단서 해결 이벤트
     protected void Clear_Clue(int num)
     {
-        Btns_clue[num - 1].GetComponent<Image>().sprite = Sprites_clue[4];
+        int last = Sprites_clue.Length - 1;
+        Btns_clue[num - 1].GetComponent<Image>().sprite = Sprites_clue[last];
 
-        if (Btns_clue[0].GetComponent<Image>().sprite.Equals(Sprites_clue[4]) &&
-            Btns_clue[1].GetComponent<Image>().sprite.Equals(Sprites_clue[4]) &&
-            Btns_clue[2].GetComponent<Image>().sprite.Equals(Sprites_clue[4]))
+        if (Btns_clue[0].GetComponent<Image>().sprite.Equals(Sprites_clue[last]) &&
+            Btns_clue[1].GetComponent<Image>().sprite.Equals(Sprites_clue[last]) &&
+            Btns_clue[2].GetComponent<Image>().sprite.Equals(Sprites_clue[last]))
             Invoke("Ending", 1f);
     }
 

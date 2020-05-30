@@ -56,7 +56,13 @@ public class AdviceController : MonoBehaviour
                 orderList.Add("5_clear", null);
                 break;
             case 6: //06_Water_2
-                orderList.Add("6_start", null);
+                orderList.Add("6_start", "해변에서 도움이 필요한 곳을 찾아 문제를 해결해주세요.");
+                orderList.Add("6_play1", "거북이를 그물에서 분리해주세요.");
+                orderList.Add("6_play1_1", null);
+                orderList.Add("6_play2", "뿌직족이 먹은 물고기를 조사하여 문제점을 찾아주세요");
+                orderList.Add("6_play2_1", "도구를 이용해 물고기를 조사해주세요.");
+                orderList.Add("6_play2_2", null);
+                orderList.Add("6_play3", null);
                 orderList.Add("6_clear", null);
                 break;
             case 8: //08_Air_1
