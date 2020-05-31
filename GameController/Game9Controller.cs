@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Game9Controller : Stage2Controller
 {
 
     public GameObject car_red;
+    public ParticleSystem Smog;
 
     //Overriding-----------------------------------------------------------------------------------
     protected override void SetObjectEvent(string name)
@@ -34,7 +34,7 @@ public class Game9Controller : Stage2Controller
                 if (play)
                 {
                     if (Btns_clue[2].interactable)
-                        StartCoroutine(Game3());
+                        AC.Dialog_and_Advice("play3");
                     else
                         AC.Advice("다른 콜록이입니다!");
                 }
@@ -48,6 +48,19 @@ public class Game9Controller : Stage2Controller
                 }
                 break;
         }
+    }
+
+    public bool DE_Item1()
+    {
+        target = GetClickedObject();
+        if (target == null)
+            return false;
+
+        if (target.name.Equals("Chimney") == false)
+            return false;
+
+        StartCoroutine(End());
+        return true;
     }
 
     //코루틴 -----------------------------------------------------------------------------------
@@ -68,6 +81,7 @@ public class Game9Controller : Stage2Controller
         else
             GameEnd(0);
     }
+
      IEnumerator Game2()
     {
         AC.Dialog_and_Advice("play2");
@@ -75,10 +89,12 @@ public class Game9Controller : Stage2Controller
 
         GameEnd(1);
     }
-    IEnumerator Game3()
+
+    IEnumerator End()
     {
-        AC.Dialog_and_Advice("play3");
-        yield return wait;
+        SoundManager.Instance.Play_effect(1);
+        Smog.Stop();
+        yield return new WaitForSeconds(2f);
 
         GameEnd(2);
     }

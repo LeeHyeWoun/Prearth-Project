@@ -9,8 +9,8 @@
         GC = gameDirector.GetComponent<Game8Controller>();
     }
 
-    protected override void EndCheck(string name)
+    protected override bool EndCheck(string name)
     {
-        GC.Patch_Aircap();
+        return GC.DE_Aircap();
     }
 }

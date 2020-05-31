@@ -10,7 +10,7 @@ public class Drag3Controller : DragController
         GC = gameDirector.GetComponent<Game3Controller>();
     }
 
-    protected override void EndCheck(string name)
+    protected override bool EndCheck(string name)
     {
         string target = GetClickUI();
         transform.position = Defaultposition;
@@ -18,26 +18,24 @@ public class Drag3Controller : DragController
         if (target.Equals("I_cupA") || target.Equals("I_cupB"))
             switch (name)
             {
-                case "B_cup_Paper":
-                    GC.Balance(target, 1);
-                    break;
-                case "B_cup_Plastic":
-                    GC.Balance(target, 2);
-                    break;
                 case "B_cup_Tumbler":
-                    GC.Balance(target, 0);
-                    break;
+                    GC.DE_Balance(target, 0);
+                    return true;
+                case "B_cup_Paper":
+                    GC.DE_Balance(target, 1);
+                    return true;
+                case "B_cup_Plastic":
+                    GC.DE_Balance(target, 2);
+                    return true;
                 default:
-                    SoundManager.Instance.Play_effect(2);
-                    break;
+                    return false;
             }
 
-        else if ( 
-            (target.Equals("I_cup_1") || target.Equals("I_cup_2") || target.Equals("I_cup_3")) &&
-            (name.Equals("B_cup_Paper") || name.Equals("B_cup_Plastic") || name.Equals("B_cup_Tumbler")))
-            GC.Cup_Position(target, gameObject.GetComponent<Image>().sprite);
-
+        else if (target.Substring(0, 6).Equals("I_cup_") && name.Substring(0, 6).Equals("B_cup_")) {
+            GC.DE_Result(target, gameObject.GetComponent<Image>().sprite);
+            return true;
+        }
         else
-            SoundManager.Instance.Play_effect(2);
+            return false;
     }
 }

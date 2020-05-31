@@ -30,7 +30,7 @@ public class Game6Controller : Stage2Controller
                 if (play)
                 {
                     if (Btns_clue[1].interactable)
-                        StartCoroutine(Game2(true));
+                        StartCoroutine(Game2());
                     //Collect(2, "배가 아픈 뿌직이");
                     else
                         AC.Advice("다른 NPC입니다!");
@@ -52,87 +52,49 @@ public class Game6Controller : Stage2Controller
         }
     }
 
-    //protected override void Collect(int num, string name)
-    //{
-    //    Btns_clue[num - 1].GetComponent<Image>().sprite = Sprites_clue[num];
-    //    Movable_Clue[num - 1] = true;
-    //    particles_clue_object[num - 1].Play();
-
-    //    SoundManager.Instance.Play_effect(1);
-    //    AC.Advice(name);
-       
-    //    // 거북이 단서를 찾았을 때
-    //    if (Movable_Clue[0])
-    //    {
-    //        target.SetActive(false);
-
-    //        // 코루틴 Game1 호출
-    //        StartCoroutine(Game1(true));
-
-    //        //드래그해야할 단서 표시하기
-    //        Effect_clue(particles_clue_btn[0]);
-
-    //    }
-    //    // 미세플라스틱
-    //    else if (Movable_Clue[1])
-    //    {
-    //        blank_R1.GetComponent<RawImage>().texture = blank_fish;
-    //        //다음 명령 내리기
-    //        StartCoroutine(Game2(true));
-
-    //        //드래그해야할 단서 표시하기
-    //        Effect_clue(particles_clue_btn[1]);
-
-    //    }
-    //    // 선크림 
-    //    else if (Movable_Clue[2])
-    //    {
-    //        StartCoroutine(Game3());
-
-    //        //드래그해야할 단서 표시하기
-    //        Effect_clue(particles_clue_btn[2]);
-
-    //    }
-        
-
-    //}
-
     //public 함수-----------------------------------------------------------------------------------
     //도구 칼 사용
-    public void KnifeEvent()
+    public bool DE_Item2()
     {
         Time.timeScale = 1;
-        ItemBox();
-        SoundManager.Instance.Play_effect(1);
 
         //거북이랑 그물 분리
-        if (Btns_clue[0].interactable)
+        if (blank_R1.GetComponent<RawImage>().texture.name.Equals("clue4_0"))
         {
+            ItemBox();
+            SoundManager.Instance.Play_effect(1);
             blank_R1.GetComponent<RawImage>().texture = blank_turtle;
             StartCoroutine(Game1(false));
+            return true;
         }
-        else if (blank_R1.GetComponent<RawImage>().texture.name.Equals("6_fish"))
+        else if (blank_R1.GetComponent<RawImage>().texture.name.Equals("clue4_1"))
         {
+            ItemBox();
+            SoundManager.Instance.Play_effect(1);
             blank_R1.GetComponent<RawImage>().texture = blank_gfish;
             AC.Dialog_and_Advice("play2_1");
+            return true;
         }
+        else
+            return false;
     }
 
     //도구 돋보기 사용
-    public void DodbogiEvent()
+    public bool DE_Item3()
     {
         Time.timeScale = 1;
-        ItemBox();
-        SoundManager.Instance.Play_effect(1);
 
         //물고기 확대
-        if (Btns_clue[1].GetComponent<Image>().sprite.Equals(Sprites_clue[2]) && blank_R1.GetComponent<RawImage>().texture.name.Equals("6_gfish"))
+        if (blank_R1.GetComponent<RawImage>().texture.name.Equals("6_gfish"))
         {
-                blank_R1.GetComponent<RawImage>().texture = blank_plastic;
-                StartCoroutine(Game2_1(true));
-    
+            ItemBox();
+            SoundManager.Instance.Play_effect(1);
+            blank_R1.GetComponent<RawImage>().texture = blank_plastic;
+            StartCoroutine(Game2_1());
+            return true;
         }
-
+        else
+            return false;
 
     }
     //private 함수---------------------------------------------------------------------------------
@@ -150,13 +112,12 @@ public class Game6Controller : Stage2Controller
         yield return wait;
 
         blank.SetActive(start);
-        if (!start) {
-            Btns_clue[0].interactable = false;
-            Clear_Clue(1);
-        }
+
+        if (!start)
+            GameEnd(0);
     }
     //물고기 이벤트 시작
-    IEnumerator Game2(bool start)
+    IEnumerator Game2()
     {
             AC.Dialog_and_Advice("play2");
 
@@ -168,15 +129,14 @@ public class Game6Controller : Stage2Controller
         
     }
     //물고기 돋보기 이벤트 후 진행
-    IEnumerator Game2_1(bool start)
+    IEnumerator Game2_1()
     {
         AC.Dialog_and_Advice("play2_2");
 
             yield return wait;
 
         blank.SetActive(false);
-        Clear_Clue(2);
-
+        GameEnd(1);
     }
     //선크림 이벤트 진행 (대화로만)
     IEnumerator Game3()
@@ -185,9 +145,7 @@ public class Game6Controller : Stage2Controller
 
             yield return wait;
 
-        blank.SetActive(false);
-        Clear_Clue(3);
-
+        GameEnd(2);
     }
 
 }

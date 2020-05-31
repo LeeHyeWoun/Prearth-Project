@@ -72,8 +72,8 @@ public class Game3Controller : Stage2Controller
     }
 
     //public 함수-----------------------------------------------------------------------------------
-    #region Balance : 컵을 저울에 올렸을 때의 이벤트
-    public void Balance(string target, int weight)
+    #region DE_Balance : 컵을 저울에 올렸을 때의 이벤트
+    public void DE_Balance(string target, int weight)
     {
         if (target.Equals("I_cupA"))
         {
@@ -99,8 +99,8 @@ public class Game3Controller : Stage2Controller
     }
     #endregion
 
-    #region Cup_Position : 컵의 순서를 정할 때의 이벤트
-    public void Cup_Position(string target, Sprite sprite_cup)
+    #region DE_Result : 컵의 순서를 정할 때의 이벤트
+    public void DE_Result(string target, Sprite sprite_cup)
     {
         switch (target)
         {

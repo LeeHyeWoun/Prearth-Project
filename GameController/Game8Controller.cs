@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 /**
 * Date     : 2020.05.01
@@ -11,15 +10,14 @@ using UnityEngine.UI;
 *  Applied Location :
 *  -> GameDirector
 */
-public class Game8Controller : GameController {
+public class Game8Controller : Stage1Controller {
 
-    public Text temperature; //온도 표시 text
+    public ParticleSystem[] PS_Elec;                    //size = 4
+    public GameObject[] Elec_true, Elec_false;          //size = 4
     public GameObject
     clue1, clue2, clue3,                                //단서
     blank, win_aircap, B_aircap;
-
-    public GameObject[] Elec_true, Elec_false;          //size = 4
-    public ParticleSystem[] PS_Elec;                    //size = 4
+    public Text temperature; //온도 표시 text
 
     //변수
     MotionFridgeController MF;
@@ -142,19 +140,19 @@ public class Game8Controller : GameController {
             AC.Advice("차례대로 진행해주세요.");
     }
     //창문에 뽁뽁이 붙이기
-    public void Patch_Aircap() {
+    public bool DE_Aircap() {
         target = GetClickedObject();
-        if (target != null)
-        {
-            string target_name = target.name;
-            if (target_name.Equals("window"))
-            {
-                win_aircap.SetActive(true);
-                B_aircap.SetActive(false);
-                Clear_Clue(3);
-                AC.Dialog_and_Advice("play2_3");
-            }
-        }
+        if (target == null)
+            return false;
+
+        if (target.name.Equals("window") == false)
+            return false;
+
+        win_aircap.SetActive(true);
+        B_aircap.SetActive(false);
+        Clear_Clue(3);
+        AC.Dialog_and_Advice("play2_3");
+        return true;
     }
 
     //private 함수---------------------------------------------------------------------------------

@@ -8,37 +8,36 @@
         GC = gameDirector.GetComponent<Game2Controller>();
     }
 
-    protected override void EndCheck(string name) {
+    protected override bool EndCheck(string name) {
         switch (name) {
             case "B_Vinyl":
-                GC.Drag_DisassembledClue1(name);
-                break;
+                return GC.DE_Parts(name);
 
             case "B_Pet":
-                GC.Drag_DisassembledClue1(name);
-                break;
+                return GC.DE_Parts(name);
 
             case "B_icepack_vinyl":
-                GC.Drag_DisassembledClue2(name);
-                break;
+                return GC.DE_Parts(name);
 
             case "B_icepack_water":
-                GC.Drag_DisassembledClue2(name);
-                break;
+                return GC.DE_Parts(name);
 
             case "B_item2":
                 if (GetClickUI().Equals("RI_clue"))
                 {
                     transform.position = Defaultposition;
                     transform.localScale = transform.localScale / 1.1f;
-                    GC.KnifeEvent();
+                    GC.DE_Item2();
+                    return true;
                 }
-                break;
+                else
+                    return false;
 
             default:
                 if (name.Substring(2, 4).Equals("Clue"))
-                    GC.Select_Trash(name);
-                break;
+                    return GC.DE_Select_Trash(name);
+                else
+                    return false;
         }
     }
 }

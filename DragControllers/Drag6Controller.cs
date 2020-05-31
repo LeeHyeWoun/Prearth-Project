@@ -9,31 +9,25 @@
         GC = gameDirector.GetComponent<Game6Controller>();
     }
 
-    protected override void EndCheck(string name)
+    protected override bool EndCheck(string name)
     {
+        if (!GetClickUI().Equals("RI_clue"))
+            return false;
+
         switch (name)
         {
             case "B_item2":
-                if (GetClickUI().Equals("RI_clue"))
-                {
-                    transform.position = Defaultposition;
-                    transform.localScale = transform.localScale / 1.1f;
-                    GC.KnifeEvent();
-                }
-                break;
-            case "B_item3":
-                if (GetClickUI().Equals("RI_clue"))
-                {
-                    transform.position = Defaultposition;
-                    transform.localScale = transform.localScale / 1.1f;
-                    GC.DodbogiEvent();
-                }
-                break;
+                transform.position = Defaultposition;
+                transform.localScale = transform.localScale / 1.1f;
+                return GC.DE_Item2();
 
-            /*default:
-                if (name.Substring(2, 4).Equals("Clue"))
-                    GC.Select_Trash(name);
-                break;*/
+            case "B_item3":
+                transform.position = Defaultposition;
+                transform.localScale = transform.localScale / 1.1f;
+                return GC.DE_Item3();
+
+            default:
+                return false;
         }
     }
 }

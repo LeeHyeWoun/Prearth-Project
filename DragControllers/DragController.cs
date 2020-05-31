@@ -24,7 +24,7 @@ public class DragController : MonoBehaviour,
     }
 
     //가상함수
-    protected virtual void EndCheck(string name) { }
+    protected virtual bool EndCheck(string name) { return false; }
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -67,7 +67,8 @@ public class DragController : MonoBehaviour,
             transform.localScale = transform.localScale * 1.1f;
             StartCoroutine(ItemReturn());
 
-            EndCheck(gameObject.name);
+            if(EndCheck(gameObject.name)==false)
+                SoundManager.Instance.Play_effect(2);
         }
     }
 
