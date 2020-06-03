@@ -111,12 +111,12 @@ public class DoPlanetManager : MonoBehaviour {
     }
 
     void Appear_Decos(int num) {
-        StartCoroutine(Appear_ribon(num));
-        StartCoroutine(Appear_mskTarget(num));
+        StartCoroutine(routine_ribon(num));
+        StartCoroutine(routine_Appear(num));
     }
 
     //코루틴 -----------------------------------------------------------------------------------------------------------------
-    IEnumerator Appear_ribon(int num) {
+    IEnumerator routine_ribon(int num) {
         Imgs_ribon[num].fillAmount = 0.2f;
         for (int i = 0; i < 20; i++)
         {
@@ -125,7 +125,7 @@ public class DoPlanetManager : MonoBehaviour {
         }
     }
 
-    IEnumerator Appear_mskTarget(int num)
+    IEnumerator routine_Appear(int num)
     {
         Imgs_mskTarget[num].color = Color.white;
         Imgs_mskTarget[num].transform.localPosition = Vector3.zero;

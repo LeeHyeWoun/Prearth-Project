@@ -5,7 +5,9 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class DialogManager : MonoBehaviour {
+public class DialogManager : MonoBehaviour{//CaptureController
+
+    //MonoBehaviour{
 
     public Image color_filter, img_base, img_name, img_character;
     public GameObject go_skip;
@@ -39,13 +41,15 @@ public class DialogManager : MonoBehaviour {
     SceneController SC = SceneController.Instance;
 
 
-    void Awake() {
+    void Start () {
+        //Capture_Set();
+
+        //데이터 설정
         file_name = PlayerPrefs.GetString("DIALOG");
         planet_num = SceneController.Instance.Planet_num;
-    }
-
-    void Start () {
         Time.timeScale = 0;
+
+        //Capture();
 
 #if DEV_TEST
         //전달 값 체크
@@ -284,6 +288,7 @@ public class DialogManager : MonoBehaviour {
                 yield return null;
             }
             Time.timeScale = 1;
+            //Reset_Culling();
             SC.Destroy_Scene();
         }
 

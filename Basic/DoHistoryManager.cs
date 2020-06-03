@@ -141,7 +141,6 @@ public class DoHistoryManager : MonoBehaviour {
 
     void SetStage()
     {
-        print("stage : " + stage +" / clear : " + clear + " / " + IsClearStage());
         SetTxtClue(stage);
         SetRIClue(stage);
         SetInfo(stage);

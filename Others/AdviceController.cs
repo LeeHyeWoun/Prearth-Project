@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class AdviceController : MonoBehaviour
 {
     //할당받을 객체
+    public Camera cmr_main;
     public GameObject order_I, order_T;
 
     //변수
@@ -18,7 +19,6 @@ public class AdviceController : MonoBehaviour
     //상수
     readonly WaitForSeconds wait1 = new WaitForSeconds(0.3f);
     readonly WaitForSeconds wait2 = new WaitForSeconds(3f);
-
 
     void Start()
     {
@@ -103,19 +103,30 @@ public class AdviceController : MonoBehaviour
     {
         file = sceneNum + "_" + file;
         //Dialog
-        StartCoroutine(Routine_Dialog(file));
-    }
-
-    IEnumerator Routine_Dialog(string file) {
         PlayerPrefs.SetString("DIALOG", file);
-        while (routine != null) {
-            yield return wait1;
-        }
-        SceneController.Instance.Load_Scene(14);
+        StartCoroutine(WaitForAdvice(true));
 
+        SceneController.Instance.Load_Scene(14);
         //Advice
         if (orderList[file] != null)
             Advice(orderList[file]);
+
+    }
+
+    IEnumerator WaitForAdvice(bool wait)
+    {
+        if (wait)
+        {
+            while (routine == null)
+                yield return wait1;
+            StopCoroutine(routine);
+        }
+        else {
+            if (routine == null)
+                yield break;
+            StopCoroutine(routine);
+            order_I.SetActive(false);
+        }
     }
 
     IEnumerator Routine_Advice(string txt)
@@ -137,7 +148,7 @@ public class AdviceController : MonoBehaviour
         oderT.text = txt;
 
         //글자 수에 따라 이미지 가로 사이즈 변경
-        float width = 512 + ((txt.Length > 3) ? (txt.Length - 3) * 35 : 0);
+        float width = 512 + ((txt.Length > 3) ? (txt.Length - 3) * 40 : 0);
         order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 256);
 
         //열기

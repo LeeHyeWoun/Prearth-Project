@@ -7,8 +7,9 @@ using UnityEngine.UI;
 public class QuizManager : MonoBehaviour {
 
     //UI
+    public SuperBlur.SuperBlur blur_mainCmr;
     public GameObject 
-        go_blur, go_result, go_commentary, go_correct, go_wrong, 
+        go_clear, go_commentary, go_correct, go_wrong, 
         go_btn_back, go_btn_next;
     public Text t_question, t_count, t_page, t_q, t_a;
     public Text[] Txts_option;      //size = 4
@@ -91,8 +92,8 @@ public class QuizManager : MonoBehaviour {
     void Open_Result()
     {
         t_count.text = count.ToString();
-        go_blur.SetActive(true);
-        go_result.SetActive(true);
+        blur_mainCmr.enabled = true;
+        go_clear.SetActive(true);
     }
 
     void SetQuiz() {
@@ -167,18 +168,19 @@ public class QuizManager : MonoBehaviour {
     public void Open_Commentary(bool open) {
         SoundManager.Instance.Play_effect(0);
         go_commentary.SetActive(open);
-        go_result.SetActive(!open);
         if (open) {
             page = 0;
             t_q.text = commentationList[0];
             t_a.text = commentationList[1];
+            go_btn_next.SetActive(true);
+            go_btn_back.SetActive(false);
         }
     }
 
     public void Close_Quiz() {
         SoundManager.Instance.Play_effect(0);
-        go_blur.SetActive(false);
-        go_result.SetActive(false);
+        blur_mainCmr.enabled = false;
+        go_clear.SetActive(false);
         PlayerPrefs.SetString("DIALOG", SC.GetActiveScene_num()+"_clear");
         SC.Load_Scene(14);
     }

@@ -29,10 +29,10 @@ public class MainManager : MonoBehaviour
 
     //초기화----------------------------------------------------------------------------------------------
     void Awake() {
-        stage_num = PlayerPrefs.GetInt("tmp_Clear", -2);
+        stage_num = PlayerPrefs.GetInt("tmp_Clear", -3);
 
-        if (stage_num.Equals(-2))
-            SceneController.Instance.Load_Scene(12);
+        if (stage_num == -3)
+            SceneController.Instance.Load_Scene(16);
     }
 
     void Start()

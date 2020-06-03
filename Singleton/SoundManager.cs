@@ -21,6 +21,9 @@ public class SoundManager : MonoBehaviour {
     bgm_game, bgm_main,
     effect_no, effect_ok, effect_select;
 
+    public object Value_Effect { get; internal set; }
+    public object Value_BGM { get; internal set; }
+
 
     //싱글톤 구현
     private void Awake()

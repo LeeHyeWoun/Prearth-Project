@@ -1,16 +1,18 @@
-﻿/**
- * Date     : 2020.03.27
- * Manager  : 여연진
- * 
- * Date     : 2020.05.14
- * Modify   : 이혜원
- * 
- * The function of this script :
- *  Scene'05_Water_1의 오브젝트에 관한 다양한 이벤트를 다루는 스크립트
- *  
- *  Applied Location :
- *  -> GameDirector
- */
+﻿using UnityEngine;
+using UnityEngine.UI;
+/**
+* Date     : 2020.03.27
+* Manager  : 여연진
+* 
+* Date     : 2020.05.14
+* Modify   : 이혜원
+* 
+* The function of this script :
+*  Scene'05_Water_1의 오브젝트에 관한 다양한 이벤트를 다루는 스크립트
+*  
+*  Applied Location :
+*  -> GameDirector
+*/
 public class Game5Controller : Stage1Controller {
 
     //Overriding-----------------------------------------------------------------------------------

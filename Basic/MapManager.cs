@@ -43,6 +43,10 @@ public class MapManager : MonoBehaviour
 
         //데이터 불러오기
         clear_num = PlayerPrefs.GetInt("tmp_Clear");
+
+        if (clear_num == 9)
+            SceneController.Instance.Load_Scene(16);
+
         int planet_num = SC.Planet_num;
 
         //행성 디자인 설정

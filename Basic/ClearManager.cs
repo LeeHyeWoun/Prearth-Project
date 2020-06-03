@@ -21,6 +21,9 @@ public class ClearManager : MonoBehaviour {
 
 
     void Start () {
+
+        Camera.main.GetComponent<SuperBlur.SuperBlur>().enabled = true;
+
         game_num = SceneController.Instance.GetActiveScene_num() - 1;
 
         //이미지 세팅

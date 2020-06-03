@@ -77,13 +77,12 @@ public class GameController : MonoBehaviour
         RaycastHit[] hits;
         GameObject target = null;
         float MaxDistance = 30f;
-
         //마우스 포인트 근처 좌표를 만든다.
         Ray ray = cmr.ScreenPointToRay(Input.mousePosition);
 
         //RaycastNonAlloc로 최적화하기
         // Raycast : 터치한 위치의 일직선 상(z축)으로 있는 콜라이더 인식 + 거리 순으로 배열에 입력
-        hits = Physics.RaycastAll(ray.origin, ray.direction * 10, MaxDistance).OrderBy(h => h.distance).ToArray();
+        hits = Physics.RaycastAll(ray.origin, ray.direction * 10, MaxDistance, cmr.cullingMask).OrderBy(h => h.distance).ToArray();
 
         //스테이지 회전을 위해 스테이지가 가장 먼저 콜라이더에 닿으므로 2개 이상이 잡힐 때 작동해야함 
         if (hits.Length > 1)

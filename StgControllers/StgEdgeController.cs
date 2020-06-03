@@ -9,34 +9,26 @@
  */
 public class StgEdgeController : StgRotationController {
 
-    public GameObject
-        objects1, objects2, objects3, objects4; //벽
+    public Camera cmr_main;
 
+    //변수
+    int culling;
+    
     //안쪽 벽만 보이게 하기
     protected override void Active()
     {
         if (Angle > 45 && Angle < 135)
-            WallActive(objects1, objects4, objects3, objects2);
+            culling = (1 << 12) | (1 << 13);
 
         else if (Angle > 135 && Angle < 225)
-            WallActive(objects4, objects3, objects2, objects1);
+            culling = (1 << 11) | (1 << 12);
 
         else if (Angle > 225 && Angle < 315)
-            WallActive(objects3, objects2, objects1, objects4);
+            culling = (1 << 14) | (1 << 11);
 
-        else if (Angle > 315 || Angle < 45)
-            WallActive(objects2, objects1, objects4, objects3);
+        else
+            culling = (1 << 13) | (1 << 14);
+
+        cmr_main.cullingMask = culling + 1847;
     }
-
-    void WallActive(GameObject f1, GameObject f2, GameObject b1, GameObject b2)
-    {
-        if (!b1.activeSelf || !b2.activeSelf)
-        {
-            f1.SetActive(false);
-            f2.SetActive(false);
-            b1.SetActive(true);
-            b2.SetActive(true);
-        }
-    }
-
 }

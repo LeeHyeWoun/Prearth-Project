@@ -1,6 +1,5 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
-using System.Collections;
 
 /**
  * Date     : 2020.04.25
@@ -12,30 +11,28 @@ using System.Collections;
 public class DoManager : MonoBehaviour {
 
     //UI
-    public Button b_tap_1, b_tap_2;
-    public GameObject Go_Planet, Go_History;
+    public Button[] b_taps;
+    public GameObject[] Go_contents;
 
-    public void BE_Tap_1()
+    public void BE_Tap(int num)
     {
         SoundManager.Instance.Play_effect(0);
-        Go_Planet.SetActive(true);
-        Go_History.SetActive(false);
-        b_tap_1.interactable = false;
-        b_tap_2.interactable = true;
+        for (int i = 0; i < b_taps.Length; i++)
+        {
+            if (i != num)
+            {
+                if (!b_taps[i].interactable)
+                    b_taps[i].transform.localPosition += Vector3.right * 40;
 
-        b_tap_1.transform.localPosition += Vector3.left * 40;
-        b_tap_2.transform.localPosition += Vector3.right * 40;
+                b_taps[i].interactable = true;
+                Go_contents[i].SetActive(false);
+            }
+            else
+            {
+                b_taps[i].interactable = false;
+                b_taps[i].transform.localPosition += Vector3.left * 40;
+                Go_contents[i].SetActive(true);
+            }
+        }
     }
-    public void BE_Tap_2()
-    {
-        SoundManager.Instance.Play_effect(0);
-        Go_Planet.SetActive(false);
-        Go_History.SetActive(true);
-        b_tap_1.interactable = true;
-        b_tap_2.interactable = false;
-
-        b_tap_1.transform.localPosition += Vector3.right * 40;
-        b_tap_2.transform.localPosition += Vector3.left * 40;
-    }
-
 }

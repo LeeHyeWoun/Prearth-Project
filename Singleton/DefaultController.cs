@@ -4,11 +4,14 @@ public class DefaultController : MonoBehaviour {
 
     public GameObject Go_diary, Go_setting, Go_back;
 
+    int culling;
+
     public void BE_Diary() {
         Go_diary.SetActive(false);
         Go_setting.SetActive(false);
         Go_back.SetActive(true);
-        Camera.main.cullingMask = 512;
+        culling = Camera.main.cullingMask;
+        Camera.main.cullingMask = (1<<9);
     }
 
     public void BE_Back()
@@ -16,6 +19,6 @@ public class DefaultController : MonoBehaviour {
         Go_diary.SetActive(true);
         Go_setting.SetActive(true);
         Go_back.SetActive(false);
-        Camera.main.cullingMask = -1;
+        Camera.main.cullingMask = culling;
     }
 }

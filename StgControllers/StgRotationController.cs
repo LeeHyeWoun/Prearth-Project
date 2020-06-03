@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
  * The function of this script :
  *  스테이지 오브젝트의 회전을 담당하는 스크립트
  */
+[RequireComponent(typeof(SphereCollider))]
 public class StgRotationController : MonoBehaviour {
 
     //상수
