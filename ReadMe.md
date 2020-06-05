@@ -70,5 +70,16 @@ UI 디자인	: 정진명
             * StgEdgeController 상속 -> 회전 기능 O, 시야확보(모서리)O  
             * 기본 기능을 유지한 채 Scene "02_Soil_1"에서 특정 각도에서 시야를 가리는 장애물을 숨기기 위한 추가적인 기능을 추가한 컴포넌트  
 
-05.20~  
+05.20~05.27
 * ObjManager -> GameController (상속 처리)
+* 대기 stage1 통합 완료
+* 토양 stage2 구현 완료
+* 대기 stage2 구현
+* stgae2에 맞춰 대사 이벤트 업그레이드
+
+05.27~06.03
+* video player 기능 구현 : intro, outro, 조사일지의 ‘다시보기’에 적용
+* 메모리 효율이 좋은 Super blur 적용
+* sub Camera, Render texture, culling을 이용한 거울 구현
+* Draw call을 효과적으로 잡기 위한 Capture 구현
+* 오류 수정 및 최종 빌드
