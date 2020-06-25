@@ -91,12 +91,15 @@ public class AdviceController : MonoBehaviour
 
     public void Advice(string order)
     {
-        if(routine!=null)
+        if (routine != null) {
             StopCoroutine(routine);
+            print("1");
+        }
 
         //조언 띄우기
         routine = Routine_Advice(order);
         StartCoroutine(routine);
+        print(order);
     }
 
     public void Dialog_and_Advice(string file)
@@ -104,7 +107,7 @@ public class AdviceController : MonoBehaviour
         file = sceneNum + "_" + file;
         //Dialog
         PlayerPrefs.SetString("DIALOG", file);
-        StartCoroutine(WaitForAdvice(true));
+        //StartCoroutine(WaitForAdvice(true));
 
         SceneController.Instance.Load_Scene(14);
         //Advice
@@ -131,8 +134,8 @@ public class AdviceController : MonoBehaviour
 
     IEnumerator Routine_Advice(string txt)
     {
-        yield return wait1;
-
+        yield return new WaitUntil(() => Time.timeScale > 0);
+        print("waitUntil : "+txt);
         //초기화
         Color fade_RI = oderI.color;
         Color fade_T = oderT.color;
@@ -152,9 +155,11 @@ public class AdviceController : MonoBehaviour
         order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 256);
 
         //열기
+        print("열기");
         order_I.SetActive(true);
-        while (fade_RI.a < 1)
+        while (fade_A < 1)
         {
+            print(fade_RI.a);
             fade_A += 0.075f;
             fade_RI.a = fade_A;
             fade_T.a = fade_A;
@@ -162,12 +167,13 @@ public class AdviceController : MonoBehaviour
             oderT.color = fade_T;
             yield return null;
         }
-
+        print(fade_RI.a);
+        print("대기");
         //대기
         yield return wait2;
 
         //닫기
-        while (fade_RI.a > 0)
+        while (fade_A > 0)
         {
             fade_A *= 0.94f;
             if (fade_A < 0.2)
