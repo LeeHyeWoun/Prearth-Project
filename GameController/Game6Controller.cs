@@ -119,14 +119,11 @@ public class Game6Controller : Stage2Controller
     //물고기 이벤트 시작
     IEnumerator Game2()
     {
-            AC.Dialog_and_Advice("play2");
+        blank_R1.GetComponent<RawImage>().texture = blank_fish;
+        AC.Dialog_and_Advice("play2");
 
-            yield return wait;
-
-            blank_R1.GetComponent<RawImage>().texture = blank_fish;
-            blank.SetActive(true);
-
-        
+        yield return wait;
+        blank.SetActive(true);
     }
     //물고기 돋보기 이벤트 후 진행
     IEnumerator Game2_1()
