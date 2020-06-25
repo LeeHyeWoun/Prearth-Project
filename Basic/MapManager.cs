@@ -58,12 +58,12 @@ public class MapManager : MonoBehaviour
                 break;
 
             case 1:
-                str_origin = "도도행성";
+                str_origin = "라라행성";
                 RI_map.texture = texture_map_water;
                 break;
 
             default:
-                str_origin = "라라행성";
+                str_origin = "도도행성";
                 RI_map.texture = texture_map_air;
                 break;
         }
