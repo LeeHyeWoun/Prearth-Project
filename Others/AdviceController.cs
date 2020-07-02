@@ -93,13 +93,11 @@ public class AdviceController : MonoBehaviour
     {
         if (routine != null) {
             StopCoroutine(routine);
-            print("1");
         }
 
         //조언 띄우기
         routine = Routine_Advice(order);
         StartCoroutine(routine);
-        print(order);
     }
 
     public void Dialog_and_Advice(string file)
@@ -135,7 +133,6 @@ public class AdviceController : MonoBehaviour
     IEnumerator Routine_Advice(string txt)
     {
         yield return new WaitUntil(() => Time.timeScale > 0);
-        print("waitUntil : "+txt);
         //초기화
         Color fade_RI = oderI.color;
         Color fade_T = oderT.color;
@@ -155,11 +152,9 @@ public class AdviceController : MonoBehaviour
         order_I.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(width, 256);
 
         //열기
-        print("열기");
         order_I.SetActive(true);
         while (fade_A < 1)
         {
-            print(fade_RI.a);
             fade_A += 0.075f;
             fade_RI.a = fade_A;
             fade_T.a = fade_A;
@@ -167,8 +162,6 @@ public class AdviceController : MonoBehaviour
             oderT.color = fade_T;
             yield return null;
         }
-        print(fade_RI.a);
-        print("대기");
         //대기
         yield return wait2;
 

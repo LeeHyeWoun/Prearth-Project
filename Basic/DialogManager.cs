@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class DialogManager : MonoBehaviour{//CaptureController
+public class DialogManager : CaptureController{
 
     //MonoBehaviour{
 
@@ -42,14 +42,10 @@ public class DialogManager : MonoBehaviour{//CaptureController
 
 
     void Start () {
-        //Capture_Set();
-
         //데이터 설정
         file_name = PlayerPrefs.GetString("DIALOG");
         planet_num = SceneController.Instance.Planet_num;
         Time.timeScale = 0;
-
-        //Capture();
 
 #if DEV_TEST
         //전달 값 체크
@@ -182,6 +178,7 @@ public class DialogManager : MonoBehaviour{//CaptureController
 #if DEV_TEST
         lineCount++;
 #endif
+        Capture();
 
         //첫 대사 입력
         fileLine = stringReader.ReadLine();
@@ -287,6 +284,7 @@ public class DialogManager : MonoBehaviour{//CaptureController
                 img_base.transform.Translate(Vector3.down * 10);
                 yield return null;
             }
+            Reset_Culling();
             Time.timeScale = 1;
             //Reset_Culling();
             SC.Destroy_Scene();
